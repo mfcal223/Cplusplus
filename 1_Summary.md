@@ -74,7 +74,9 @@ https://www.geeksforgeeks.org/cpp/difference-between-c-and-c/
 | **`using std::cout;` (importing single symbol)** | ⚠️ Risky         | Not explicitly forbidden, but evaluators often consider it same as `using namespace std;`. Best to avoid. |
 | **Qualified calls (e.g., `std::vector<int>`)**   | ✅ **Allowed**   | Always safe. (Note: STL containers allowed only in CPP08–CPP09)                                           |
 
+---
 
+<details>
+<summary>Click to expand information about file structure </summary>
 
-constructuros
-https://cplusplus.com/doc/tutorial/classes/
+</details>

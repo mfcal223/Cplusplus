@@ -1,6 +1,6 @@
 # C++ BASIC CONCEPTS AND SYNTAX
 
-## 🧠 **Fundamental Concepts to Understand**
+## 🧠 ***Fundamental Concepts to Understand***
 
 | Concept                     | What It Is                                                                                       | In C++ Terms                                                |
 | --------------------------- | ------------------------------------------------------------------------------------------------ | ----------------------------------------------------------- |
@@ -15,7 +15,7 @@
 | **Operator Overloading**    | You can redefine operators for your classes.                                                     | Example: `Fixed operator+(const Fixed &other);` (Module 02) |
 | **Orthodox Canonical Form** | A class with 4 key functions: default constructor, copy constructor, copy assignment, destructor | Enforced from Module 02 onward                              |
 
-## Basic syntax  
+## ***Basic syntax***
 
 ### Header file
 
@@ -48,7 +48,6 @@ int main () { std::cout << "Hello World!"; }
 ```
 
 >  "std::cout" identifies the **st**andar**d** **c**haracter **out**put device.  
-
 ---
 
 ### Semicolons 
@@ -87,6 +86,7 @@ In order to refer to the elements in the std namespace a program shall either qu
 The above declaration allows all elements in the std namespace to be accessed in an unqualified manner (without the std:: prefix).
 
 As explicit qualification is the only way to guarantee that name collisions never happen, I will not use declaration in my projects.
+This habit of explicitly writing std:: will actually make the later modules (inheritance, polymorphism) much easier to debug because I'll always know where each symbol comes from.
 
 ---
 
@@ -98,6 +98,8 @@ C++ uses a number of keywords to identify operations and data descriptions; ther
 
 For more information about the different fundamental data types go to:
 https://cplusplus.com/doc/tutorial/variables/
+
+---
 
 ### Declaration of variables
 
@@ -115,6 +117,7 @@ If declaring more than one variable of the same type, they can all be declared i
 2 int b;  
 3 int c;  
 ```
+---
 
 ### Initialization of variables 
 When the variables in the example above are declared, they have an undetermined value until they are assigned a value for the first time. But it is possible for a variable to have a specific value from the moment it is declared. This is called the initialization of the variable.  
@@ -171,6 +174,7 @@ int main ()
   return 0;
 }
 ```
+
 #### Basic std::string usage
 Much easier than C strings. Provides built-in methods like .length(), .substr(), etc.
 
@@ -194,26 +198,18 @@ std::cout << "Enter your name: ";
 std::string name;
 std::cin >> name;
 ```
+---
 
-### Initialization lists
-Used to initialize member variables in constructors.
-Example:
-```cpp
-class Person {
-private:
-    std::string name;
-public:
-    Person(std::string n) : name(n) {} // initializer list
-};
-```
+
 
 ### Const keyword
 Similar to C but used even more often:
 ```cpp
-const std::string& → read-only reference (avoid copies).
+const std::string& //→ read-only reference (avoid copies).
 
-int getValue() const; → promise not to modify the object.
+int getValue() const; //→ promise not to modify the object.
 ```
+---
 
 ### Static class members
 Belong to the class, not to any instance.
