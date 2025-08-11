@@ -1,0 +1,17 @@
+# Object files
+*.o
+
+# Executables (no extension on Linux/macOS)
+phonebook
+megaphone
+harl
+harlFilter
+zombie
+account
+# Add other executable names here if needed
+
+# Backup files
+*~
+
+# macOS Finder files
+.DS_Store
