@@ -6,7 +6,7 @@
 /*   By: mcalciat <mcalciat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 14:04:17 by mcalciat          #+#    #+#             */
-/*   Updated: 2025/08/07 14:34:53 by mcalciat         ###   ########.fr       */
+/*   Updated: 2025/08/11 14:08:13 by mcalciat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,5 @@ void Contact::displayFullInfo() const
 
 Contact::~Contact()
 {
-    std::cout << "Contact destroyed" << std::endl;
+    //std::cout << "Contact destroyed" << std::endl;
 }

@@ -6,7 +6,7 @@
 /*   By: mcalciat <mcalciat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 14:06:51 by mcalciat          #+#    #+#             */
-/*   Updated: 2025/08/07 14:08:44 by mcalciat         ###   ########.fr       */
+/*   Updated: 2025/08/11 14:17:35 by mcalciat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,6 @@ int main()
         else
             std::cout << "Unknown command." << std::endl;
     }
-    std::cout << "Goodbye!" << std::endl;
+    std::cout << "All contacts will be deleted. Goodbye!" << std::endl;
     return 0;
 }

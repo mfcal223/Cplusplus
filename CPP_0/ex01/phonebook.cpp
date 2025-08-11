@@ -6,53 +6,41 @@
 /*   By: mcalciat <mcalciat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 14:05:02 by mcalciat          #+#    #+#             */
-/*   Updated: 2025/08/07 14:07:19 by mcalciat         ###   ########.fr       */
+/*   Updated: 2025/08/11 14:09:51 by mcalciat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "phonebook.hpp"
 #include <iomanip>
+#include <cctype>
+#include <iostream>
 
 PhoneBook::PhoneBook() : contactCount(0), nextIndex(0) {}
 
 void PhoneBook::addContact()
 {
-    Contact c;
-    std::string input;
+	Contact c;
 
-    std::cout << "Enter first name: ";
-    std::getline(std::cin, input);
-    c.setFirstName(input);
+	c.setFirstName(getNonEmptyInput("Enter first name: "));
+	c.setLastName(getNonEmptyInput("Enter last name: "));
+	c.setNickname(getNonEmptyInput("Enter nickname: "));
+	c.setPhoneNumber(getPhoneNumberInput("Enter phone number: "));
+	c.setDarkestSecret(getNonEmptyInput("Enter darkest secret: "));
 
-    std::cout << "Enter last name: ";
-    std::getline(std::cin, input);
-    c.setLastName(input);
+	contacts[nextIndex] = c;
+	nextIndex = (nextIndex + 1) % 8;
+	if (contactCount < 8)
+		contactCount++;
 
-    std::cout << "Enter nickname: ";
-    std::getline(std::cin, input);
-    c.setNickname(input);
-
-    std::cout << "Enter phone number: ";
-    std::getline(std::cin, input);
-    c.setPhoneNumber(input);
-
-    std::cout << "Enter darkest secret: ";
-    std::getline(std::cin, input);
-    c.setDarkestSecret(input);
-
-    contacts[nextIndex] = c;
-    nextIndex = (nextIndex + 1) % 8;
-    if (contactCount < 8)
-        contactCount++;
-
-    std::cout << "Contact saved." << std::endl;
+	std::cout << "Contact saved." << std::endl;
 }
+/* at the end of addContact(), contact c goes out of scope so it is destroyed */
 
 static std::string truncate(const std::string &str)
 {
-    if (str.length() > 10)
-        return str.substr(0, 9) + ".";
-    return str;
+	if (str.length() > 10)
+		return str.substr(0, 9) + ".";
+	return str;
 }
 
 void PhoneBook::searchContacts() const
@@ -76,5 +64,8 @@ void PhoneBook::searchContacts() const
     if (index >= 0 && index < contactCount)
         contacts[index].displayFullInfo();
     else
-        std::cout << "Invalid index." << std::endl;
+	{
+        std::cout << "Invalid index. Use SEARCH to check valid index" << std::endl;
+		std::cout << "Available commands: ADD, SEARCH, EXIT" << std::endl;
+	}
 }
