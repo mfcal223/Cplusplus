@@ -120,3 +120,74 @@ To fix this, it is necessary to use static_char()
 Source:
 https://www.geeksforgeeks.org/cpp/static_cast-in-cpp/  
 https://www.ibm.com/docs/en/i/7.4.0?topic=expressions-static-cast-operator-c-only
+
+---
+
+## Vectors
+
+std::vector is a container from the C++ Standard Template Library (STL) that acts like a dynamic array — meaning it stores elements in a contiguous block of memory (like a C array) but can grow or shrink in size automatically as you add or remove elements.
+
+> std::vector is like a resizable array — it behaves like a C array that can grow and shrink.
+
+Here’s the breakdown:
+
+1. What it is
+Type: Template class (std::vector<T>) — you specify the element type.
+
+Namespace: std (you must #include <vector>).
+
+Memory: Stores elements contiguously for fast random access (like T arr[]).
+
+Resizing: Can automatically allocate more memory when needed.
+
+2. Key features
+Dynamic resizing: Unlike a fixed-size array, std::vector grows when you push_back() new elements.
+
+Random access: You can access elements in O(1) time using the [] operator or .at().
+
+Iterator support: Works with STL algorithms (std::sort, std::find, etc.).
+
+Automatic memory management: Frees its memory when destroyed (no need to delete[]).
+
+Type safety: No need for manual casting or size tracking.
+
+3. Common operations
+cpp
+Copiar
+Editar
+#include <iostream>
+#include <vector>
+
+int main() {
+    std::vector<int> numbers;        // Empty vector of ints
+
+    numbers.push_back(10);           // Add elements
+    numbers.push_back(20);
+    numbers.push_back(30);
+
+    std::cout << numbers[1] << "\n"; // Access element at index 1 (20)
+
+    numbers.pop_back();              // Remove last element (30)
+
+    std::cout << "Size: " << numbers.size() << "\n"; // Current size
+    return 0;
+}
+4. Complexity
+Access by index: O(1)
+
+Add/remove at end (push_back, pop_back): Amortized O(1)
+
+Insert/erase in middle: O(n) (elements after the position must shift)
+
+5. When to use
+You need a dynamic list of elements that allows fast random access.
+
+You expect frequent additions/removals at the end rather than in the middle.
+
+You want something safer and easier than raw arrays.  
+
+Compared to the other dynamic sequence containers (deques, lists and forward_lists), vectors are very efficient accessing its elements (just like arrays) and relatively efficient adding or removing elements from its end. For operations that involve inserting or removing elements at positions other than the end, they perform worse than the others, and have less consistent iterators and references than lists and forward_lists.  
+
+https://cplusplus.com/reference/vector/vector/
+
+---

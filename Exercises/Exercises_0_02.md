@@ -29,7 +29,7 @@ It is not part of c++98 but this is a given file.
 class Account {
 ```
 
-$### $Declarations:  
+### Declarations:  
 - static (class-wide) members  
 	- variables and functions shared by all accounts:  
     	- _nbAccounts, _totalAmount, _totalNbDeposits, _totalNbWithdrawals  
@@ -99,46 +99,53 @@ In practice, this is rarely needed here — it’s just part of the original giv
 
 #### headers included
 
-1) <vector>
-Needed because the tests use std::vector containers:
-
-cpp
-Copiar
-Editar
+1) **<vector>**
+Needed because the tests use `std::vector` containers:  
+```cpp
 std::vector<Account> accounts;
 std::vector<int> deposits;
 std::vector<int> withdrawals;
-std::vector is a dynamic array that can grow/shrink automatically.
+```
 
-Here, it’s used to store:
+`std::vector` is a dynamic array that can grow/shrink automatically.  
 
-All the Account objects (so we can loop over them easily),
+Here, it’s used to store:  
+- All the Account objects (so we can loop over them easily),  
+- Parallel lists of deposits and withdrawals to apply to each account.  
 
-Parallel lists of deposits and withdrawals to apply to each account.
+Without <vector>, the compiler wouldn’t know the definition of `std::vector.`  
 
-Without <vector>, the compiler wouldn’t know the definition of std::vector.
+2) **<algorithm>**
+Needed because the tests use `std::for_each:`  
+**std::for_each** is similar to a loop. 
 
-2) <algorithm>
-Needed because the tests use std::for_each:
-
-cpp
-Copiar
-Editar
+```cpp
 std::for_each(acc_begin, acc_end,
               std::mem_fun_ref(&Account::displayStatus));
-std::for_each is a standard algorithm that applies a function to each element in a range [first, last).
+```
+**std::for_each** is a standard algorithm that applies a function to each element in a range [first, last).
 
-Here, it’s used to call displayStatus() on each account in the accounts vector.
-
+Here, it’s used to call **displayStatus()** on each account in the accounts vector.  
 Without <algorithm>, the compiler wouldn’t know about std::for_each.
 
-3) <functional>
+Using `std::for_each` is equivalent to:
+```c
+for (int i = 0; i < size; ++i) {
+    accounts[i].displayStatus();
+}
+```
+So yes — it's looping over the array accounts[] and calling the displayStatus() method for each Account object.
+
+It’s just a more functional-style way of writing a loop. But behind the scenes, it iterates like a regular loop.
+
+
+3) **<functional>**
 Needed because the tests use std::mem_fun_ref:
 
-cpp
-Copiar
-Editar
+```
 std::mem_fun_ref(&Account::displayStatus)
+```
+
 std::mem_fun_ref is a C++98 utility that converts a pointer to a member function into a callable object that can be passed to algorithms like std::for_each.
 
 In this case, it adapts &Account::displayStatus so for_each can call it on each Account in the vector.
@@ -167,57 +174,51 @@ Three parallel arrays:
 - deposits → one deposit per account,
 - withdrawals → one withdrawal per account.
 
-cpp
-Copiar
-Editar
+```cpp
     size_t const amounts_size     = sizeof(amounts)     / sizeof(amounts[0]);
     size_t const deposits_size    = sizeof(deposits)    / sizeof(deposits[0]);
     size_t const withdrawals_size = sizeof(withdrawals) / sizeof(withdrawals[0]);
+```
 Classic C++98 way to compute array lengths (no range helpers yet).
 
-Typedefs (aliases)
-cpp
-Copiar
-Editar
+#### Typedefs (aliases)
+```cpp
     typedef std::vector<Account> accounts_t;
     typedef std::vector<int>     ints_t;
+```
 Short names for vectors of accounts and ints (just readability).
 
-Build vectors
-cpp
-Copiar
-Editar
+#### Build vectors
+```cpp
     accounts_t accounts(amounts, amounts + amounts_size);
+```  
+
 Range constructor that builds a std::vector<Account> by calling
 Account(int) on each value in amounts.
 This works even though Account’s default constructor is private, because this constructor uses the int constructor, not the default one.
 
-cpp
-Copiar
-Editar
+```cpp
     ints_t     deposits_v(deposits, deposits + deposits_size);
     ints_t     withdrawals_v(withdrawals, withdrawals + withdrawals_size);
+```
 Copies the integer arrays into std::vector<int> for easy iteration.
 
-cpp
-Copiar
-Editar
+```cpp
     accounts_t::iterator acc_begin = accounts.begin();
     accounts_t::iterator acc_end   = accounts.end();
+```
 Store the account range iterators once; reused in displays below.
 
-Initial snapshot
-cpp
-Copiar
-Editar
+#### Initial snapshot
+```cpp
     Account::displayAccountsInfos();
+```
 Calls the static function that prints global totals
 (accounts count, total amount, total deposits, total withdrawals).
 
-cpp
-Copiar
-Editar
+```cpp
     std::for_each(acc_begin, acc_end, std::mem_fun_ref(&Account::displayStatus));
+```
 Calls displayStatus() on each account:
 
 std::for_each comes from <algorithm>.
@@ -227,21 +228,19 @@ std::mem_fun_ref comes from <functional> and adapts a pointer-to-member
 
 Output here shows each account’s index, amount, deposits, and withdrawals.
 
-Deposits (zipping two ranges)
-cpp
-Copiar
-Editar
+#### Deposits (zipping two ranges)
+```cpp
     typedef std::pair<accounts_t::iterator, ints_t::iterator> acc_int_zip;
+```
 C++98 doesn’t have zip iterators, so we roll our own: a pair of iterators that we advance together.
 
-cpp
-Copiar
-Editar
+```cpp
     for (acc_int_zip it(accounts.begin(), deposits_v.begin());
          it.first != accounts.end(); ++(it.first), ++(it.second))
     {
         it.first->makeDeposit(*(it.second));
     }
+```
 it.first walks the accounts, it.second walks the deposits.
 
 On each iteration, we call makeDeposit(deposit_value) on the current account.
@@ -252,22 +251,20 @@ print a line with p_amount, deposit, new amount, and nb_deposits,
 
 update both per-account and global counters.
 
-cpp
-Copiar
-Editar
+```cpp
     Account::displayAccountsInfos();
     std::for_each(acc_begin, acc_end, std::mem_fun_ref(&Account::displayStatus));
+```
 Show the updated global totals and each account’s status after deposits.
 
-Withdrawals (same zip trick)
-cpp
-Copiar
-Editar
+#### Withdrawals (same zip trick)
+```cpp
     for (acc_int_zip it(accounts.begin(), withdrawals_v.begin());
          it.first != accounts.end(); ++(it.first), ++(it.second))
     {
         it.first->makeWithdrawal(*(it.second));
     }
+```
 For each account, attempt a withdrawal with the corresponding value.
 
 Your Account.cpp must either:
@@ -276,15 +273,14 @@ refuse (if withdrawal > amount) and print withdrawal:refused, or
 
 perform the withdrawal (update per-account and global counters and print detailed line).
 
-Final snapshot and exit
-cpp
-Copiar
-Editar
+#### Final snapshot and exit
+```cpp
     Account::displayAccountsInfos();
     std::for_each(acc_begin, acc_end, std::mem_fun_ref(&Account::displayStatus));
 
     return 0;
 }
+```
 One last global + per-account display.
 When main() returns, the std::vector<Account> goes out of scope and destroys all accounts; your destructor prints a closing line for each one.
 
@@ -299,154 +295,235 @@ Why those headers are necessary
 
 "Account.hpp" → the class API used everywhere above.
 
-
 ---
 
 ## in the Account.cpp file to be created
 
-- Constructors / destructor
-	- Account(int initial_deposit) must:
-		- assign _accountIndex,
-		- set _amount = initial_deposit,
-		- zero _nbDeposits/_nbWithdrawals,
-		- update global counters (_nbAccounts++, _totalAmount += initial_deposit),
-		- print a “created” line with timestamp.
-	- ~Account() prints a “closed” line with timestamp (don’t change globals in the stock version).
+### Headers
+- #include "Account.hpp": Includes the header file with the class definition.
+- #include <iostream>: Brings in C++'s standard input/output stream library for std::cout.
+- #include <ctime>: Used for time functions (std::time, std::localtime, std::strftime).
 
-Printing format
-All output is very strictly formatted (exact separators, order, and words). Timestamps are printed by _displayTimestamp().
+### Static members 
+```cpp
+int Account::_nbAccounts = 0;
+int Account::_totalAmount = 0;
+int Account::_totalNbDeposits = 0;
+int Account::_totalNbWithdrawals = 0;
+```
+These variables are static members of the class.  
+Shared by all instances (like global variables for the class).  
+In C, you’d use global variables; in C++ you attach them to classes for organization.  
+
+### Utility Function: Display Timestamp
+```cpp
+void Account::_displayTimestamp(void)
+{
+    std::time_t now = std::time(NULL);
+    std::tm *tm = std::localtime(&now);
+    char buf[20];
+
+    if (tm && std::strftime(buf, sizeof(buf), "[%Y%m%d_%H%M%S]", tm))
+        std::cout << buf << " ";
+    else
+        std::cout << "[00000000_000000] ";
+}
+```
+This is a static member function (does not depend on any instance).  
+It prints a timestamp in a specific format.  
+Uses C-style time functions, but prints with C++'s std::cout.  
+
+### Constructors / destructor  
+(1) Public Constructor  
+- Member initializer list (: ...) sets member variables before entering the body.  
+- The constructor updates static counters and prints creation info.  
+- In C, you’d write a function to initialize a struct; in C++ the constructor automates this.  
+(2) Destructor  
+This is called automatically when an object goes out of scope. Prints account closure info.  
+(3) Default (Private) Constructor
+Private, so you can't accidentally construct an Account with no deposit.  
+
+✅ 1) What is the ":" after the constructor declaration?
+```cpp
+Account::Account(int initial_deposit)
+    : _accountIndex(_nbAccounts),
+      _amount(initial_deposit),
+      _nbDeposits(0),
+      _nbWithdrawals(0)
+```
+This is called an initializer list.
+
+It is used to initialize member variables before the constructor body runs.
+
+It's more efficient than assigning values inside the constructor body (especially for const or reference members).
+
+In C++, all members are initialized before the constructor body is executed — even if you don’t use the initializer list. Using : allows explicit and optimized control.
+
+Example use:
+
+```cpp
+: _amount(initial_deposit)
+```
+This initializes _amount directly with initial_deposit, avoiding default construction followed by reassignment.
+
+✅ 2) What is the list of variables in the initializer list?
+
+```cpp
+: _accountIndex(_nbAccounts),
+  _amount(initial_deposit),
+  _nbDeposits(0),
+  _nbWithdrawals(0)
+```
+These are the member variables of the Account class being initialized:
+
+_accountIndex(_nbAccounts)
+→ _accountIndex is set to the current value of the static variable _nbAccounts.
+This gives each account a unique index.
+
+_amount(initial_deposit)
+→ sets the starting amount of money in the account.
+
+_nbDeposits(0) and _nbWithdrawals(0)
+→ both start at zero for a new account.
+
+✅ 3) Is _nbAccounts += 1; similar to i++?
+Yes — but with a specific purpose:
+
+```cpp
+_nbAccounts += 1;
+```
+
+This is incrementing the total number of accounts created, using a static class variable. Each time a new Account is constructed:
+
+_accountIndex is set to the current _nbAccounts value.
+
+Then _nbAccounts is increased by one.
+
+This means:
+Account 0 → index 0
+Account 1 → index 1
+etc.
+
+You can think of it as:
+
+```c
+i = 0;
+array[i] = something;
+i++; // prepare for next element
+```
+But in C++, it's used to assign a unique ID to each account.
+
+### Static Getter Functions
+Return the values of static members.  
+Called as Account::getNbAccounts() (no need for an object).  
+```cpp
+int Account::getNbAccounts(void)   { return _nbAccounts; }
+int Account::getTotalAmount(void)  { return _totalAmount; }
+int Account::getNbDeposits(void)   { return _totalNbDeposits; }
+int Account::getNbWithdrawals(void){ return _totalNbWithdrawals; }
+```
+
+### Displaying Account Information
+Static method for printing overall stats.  
+
+### Per-Account Operations
+#### Make Deposit
+```cpp
+void Account::makeDeposit(int deposit)
+```
+Updates the account and global stats.  
+Prints info for the log.  
+
+#### Make Withdrawal
+```cpp
+bool Account::makeWithdrawal(int withdrawal)
+```
+If withdrawal > balance: print "refused" and return false.  
+Else: update stats and print info.  
+
+#### Balance & Status
+
+```cpp
+int Account::checkAmount(void) const
+void Account::displayStatus(void) const
+```
+- Const functions (can’t modify object).  
+- Prints balance and current status of the account.
 
 ---
 
-GPT explanation (needs reviwe)
+## Deduction process
 
-tests.cpp — the driver that exercises your class
-This file builds a small scenario to validate the class. It uses some pre‑STL11 idioms (because we compile with -std=c++98), so a couple of constructs may look old‑school.
+### How Each File is Used
+| File          |	Role in Deduction |
+|---------------|---------------------|
+| Account.hpp	| Specifies required functions and variables; defines the interface. |
+| tests.cpp     |	Shows how the functions are used and in what order; indicates what should be printed and when. |
+| log file      |	Shows the required output format and sequence. Used to match your implementation’s behavior. |
 
-Here’s what it does, step by step:
 
-1) Includes and typedefs
-cpp
-Copiar
-Editar
-#include <vector>
-#include <algorithm>
-#include <functional>
-#include "Account.hpp"
-<vector>: stores accounts and integer sequences (amounts, deposits, withdrawals).
+### Typical Deduction Path
+1. Read Account.hpp: List all required methods and variables.
+2. Read tests.cpp: See how methods are called, what is expected to happen.
+3. Read the log: Note the output format for each operation.
+4. Implement Account.cpp: Ensure every function prints/logs what’s needed using correct variable updates.
 
-<algorithm>: uses std::for_each to call functions over ranges.
 
-<functional>: uses adaptors like std::mem_fun_ref (C++98) to call member functions in algorithms.
+**Step 1: Analyze the Interface (Account.hpp)**
+This header defines all the functions, variables, and signatures your implementation must provide.
+It tells you which data members exist (static and per-account), which methods need to be implemented (constructors, destructors, makeDeposit, makeWithdrawal, etc.), and their parameters.
+Example:
+```cpp
+void makeDeposit(int deposit);
+bool makeWithdrawal(int withdrawal);
+void displayStatus(void) const;
+static void displayAccountsInfos(void);
+```
 
-Often you’ll see these typedefs (names can vary slightly):
+It also tells you about static members (shared among all accounts) and non-static members (per account).
 
-cpp
-Copiar
-Editar
-typedef std::vector<Account>       accounts_t;
-typedef std::vector<int>           ints_t;
-// a zipped iterator pair: one for accounts, one for ints
-typedef std::pair<accounts_t::iterator, ints_t::iterator> acc_int_t;
-2) Seed data (arrays of ints)
-It defines three arrays:
+**Step 2: Examine the Test Code (tests.cpp)**
+The test code shows exactly how the Account class is used.
+It creates accounts, performs deposits and withdrawals, and calls display functions.
+Key deductions:
+How accounts are constructed: accounts_t accounts( amounts, amounts + amounts_size );
+→ Calls Account(int initial_deposit) for each amount.
+How deposits/withdrawals are performed:
+makeDeposit and makeWithdrawal are called in order for each account.
+Which display functions are called, and when:
+displayAccountsInfos() (static, for summary)
+displayStatus() (per-account, for details)  
 
-cpp
-Copiar
-Editar
-int const amounts[]     = { 42, 54, 957, 432, 1234, 0, 754, 16576 };
-int const deposits[]    = { 5, 765, 564, 2, 87, 23, 9, 20 };
-int const withdrawals[] = { 321, 34, 657, 4, 76, 87, 23, 21 };
-amounts → initial balance for each account (8 accounts).
+**Step 3: Match Output to the Log File**
+The log file shows the exact output format and the order in which information is printed.
+You must ensure that your implementation prints lines that match the log—except for the timestamp, which is dynamically generated.
+Every operation (creation, deposit, withdrawal, closure, status display, summary info) corresponds to a log line.
+Examples:
+Account Creation:
+[timestamp] index:0;amount:42;created
 
-deposits → one deposit per account.
+This means the constructor must print this line.
+Account Closure:
+[timestamp] index:0;amount:47;closed
 
-withdrawals → one withdrawal per account.
+The destructor prints this when the account is destroyed.
+Deposit/Withdrawal:
+[timestamp] index:0;p_amount:42;deposit:5;amount:47;nb_deposits:1
 
-These arrays are usually copied into std::vector<int> for convenience:
+The deposit function must print this line. [timestamp] index:1;p_amount:819;withdrawal:34;amount:785;nb_withdrawals:1
+The withdrawal function must print this line, but only if successful. [timestamp] index:0;p_amount:47;withdrawal:refused
+If the withdrawal is refused, print as above.
+Status Display:
+[timestamp] index:0;amount:47;deposits:1;withdrawals:0
 
-cpp
-Copiar
-Editar
-accounts_t accounts(amounts, amounts + amounts_size); // constructs N accounts
-ints_t     deposits_v(deposits, deposits + deposits_size);
-ints_t     withdrawals_v(withdrawals, withdrawals + withdrawals_size);
-Note: that constructor of std::vector<Account> uses the range (amounts, amounts + amounts_size) to build Account objects by calling Account(int) for each value — that’s why your Account(int) constructor must exist and work.
+The displayStatus() method must print this format.
+Summary Display:
+[timestamp] accounts:8;total:12442;deposits:8;withdrawals:6
 
-3) Display global info and per-account status
-cpp
-Copiar
-Editar
-Account::displayAccountsInfos();
-std::for_each(acc_begin, acc_end, std::mem_fun_ref(&Account::displayStatus));
-displayAccountsInfos() prints global totals (number of accounts, total money, total deposits/withdrawals so far).
+The displayAccountsInfos() static method prints this.
 
-Then we call displayStatus() on each account using std::for_each + std::mem_fun_ref (the C++98 way to say “call this member function on each element”).
-
-4) Apply one deposit per account
-Because C++98 didn’t have std::zip or range‑for, the code often “zips” two iterators manually:
-
-cpp
-Copiar
-Editar
-for (acc_int_t it(accounts.begin(), deposits_v.begin());
-     it.first != accounts.end(); ++(it.first), ++(it.second))
-{
-    it.first->makeDeposit(*(it.second));
-}
-it.first walks the accounts vector.
-
-it.second walks the deposits_v vector.
-
-Each iteration calls makeDeposit(deposit_for_this_account).
-
-After that, tests usually print the updated global info and per-account status again:
-
-cpp
-Copiar
-Editar
-Account::displayAccountsInfos();
-std::for_each(acc_begin, acc_end, std::mem_fun_ref(&Account::displayStatus));
-5) Apply one withdrawal per account
-Same “zipped” technique:
-
-cpp
-Copiar
-Editar
-for (acc_int_t it(accounts.begin(), withdrawals_v.begin());
-     it.first != accounts.end(); ++(it.first), ++(it.second))
-{
-    it.first->makeWithdrawal(*(it.second));
-}
-Then finalize with one last global display and per-account display:
-
-cpp
-Copiar
-Editar
-Account::displayAccountsInfos();
-std::for_each(acc_begin, acc_end, std::mem_fun_ref(&Account::displayStatus));
-6) Program exit
-When main() returns, each Account in the std::vector is destroyed.
-Your destructor runs for each object, printing the closing line for that account.
-
-Why the output must match exactly
-The subject gives you a log file with expected lines (except timestamps). The peer test compares your program’s output to that log. That’s why all prints must follow the exact format (order, separators ;, keys like index:, amount:, nb_deposits:…).
-
-Quick mental model
-Think of static members as the “bank dashboard”: totals across all accounts.
-
-Think of per-object members as “this one account’s statement”.
-
-The tests:
-
-Create 8 accounts with initial balances,
-
-Show totals and each account,
-
-Make one deposit per account, show again,
-
-Make one withdrawal per account, show again,
-
-End (destructors print “closed”).
-
-If you want, I can annotate a sample run line-by-line so you can map each printed number back to the exact code path (constructor, deposit, withdrawal, status, or destructor).
+**Step 4: Implement to Match Interface and Log**
+You implement each function from Account.hpp, using the data members and static variables as needed.
+Ensure every function that causes output prints lines in the format and sequence the log file shows.
+Step 5: Validate with the Test Code
+Run the tests (tests.cpp). If your output matches the log file (minus timestamp), your implementation is correct.

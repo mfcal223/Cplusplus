@@ -164,3 +164,281 @@ You temporarily make a new Contact c → copy its values into contacts[nextIndex
 
 Program end
 PhoneBook object is destroyed → its contacts[8] array is destroyed → each element calls ~Contact() destructor
+
+---
+
+# tests.cpp explanation
+
+awesome — here’s a clear, line‑by‑line walkthrough of the **typical 42 `tests.cpp`** for CPP00/ex02. Your copy may have tiny cosmetic differences (whitespace, variable names), but the structure and calls are the same. I’ll show a representative version first, then explain each block.
+
+---
+
+# A representative `tests.cpp`
+
+```cpp
+#include <vector>
+#include <algorithm>
+#include <functional>
+#include <iostream>
+#include "Account.hpp"
+
+int main()
+{
+    // ---- seed data --------------------------------------------------------
+    int const amounts[]     = { 42, 54, 957, 432, 1234, 0, 754, 16576 };
+    int const deposits[]    = { 5, 765, 564, 2, 87, 23, 9, 20 };
+    int const withdrawals[] = { 321, 34, 657, 4, 76, 87, 23, 21 };
+
+    size_t const amounts_size     = sizeof(amounts)     / sizeof(amounts[0]);
+    size_t const deposits_size    = sizeof(deposits)    / sizeof(deposits[0]);
+    size_t const withdrawals_size = sizeof(withdrawals) / sizeof(withdrawals[0]);
+
+    // ---- convenient aliases (C++98 style) --------------------------------
+    typedef std::vector<Account> accounts_t;
+    typedef std::vector<int>     ints_t;
+
+    // ---- build vectors ----------------------------------------------------
+    accounts_t accounts(amounts, amounts + amounts_size);   // constructs Accounts from ints
+    ints_t     deposits_v(deposits, deposits + deposits_size);
+    ints_t     withdrawals_v(withdrawals, withdrawals + withdrawals_size);
+
+    // handy iterators for the accounts range
+    accounts_t::iterator acc_begin = accounts.begin();
+    accounts_t::iterator acc_end   = accounts.end();
+
+    // ---- initial snapshot -------------------------------------------------
+    Account::displayAccountsInfos();
+    std::for_each(acc_begin, acc_end, std::mem_fun_ref(&Account::displayStatus));
+
+    // ---- apply one deposit per account (zipping two ranges) --------------
+    typedef std::pair<accounts_t::iterator, ints_t::iterator> acc_int_zip;
+
+    for (acc_int_zip it(accounts.begin(), deposits_v.begin());
+         it.first != accounts.end(); ++(it.first), ++(it.second))
+    {
+        it.first->makeDeposit(*(it.second));
+    }
+
+    Account::displayAccountsInfos();
+    std::for_each(acc_begin, acc_end, std::mem_fun_ref(&Account::displayStatus));
+
+    // ---- apply one withdrawal per account --------------------------------
+    for (acc_int_zip it(accounts.begin(), withdrawals_v.begin());
+         it.first != accounts.end(); ++(it.first), ++(it.second))
+    {
+        it.first->makeWithdrawal(*(it.second));
+    }
+
+    // ---- final snapshot ---------------------------------------------------
+    Account::displayAccountsInfos();
+    std::for_each(acc_begin, acc_end, std::mem_fun_ref(&Account::displayStatus));
+
+    return 0;
+}
+```
+
+---
+
+# Explanation, line by line
+
+## Includes
+
+```cpp
+#include <vector>
+```
+
+Brings in **`std::vector`**, used to store:
+
+* all `Account` objects, and
+* the parallel lists of deposits and withdrawals.
+
+```cpp
+#include <algorithm>
+```
+
+Provides **`std::for_each`** to apply a function to every element in a range.
+
+```cpp
+#include <functional>
+```
+
+Provides **`std::mem_fun_ref`** (C++98 adapter) that turns a pointer-to-member (`&Account::displayStatus`) into a callable function object for algorithms.
+
+```cpp
+#include <iostream>
+```
+
+Some `tests.cpp` versions print blank lines with `std::cout`; safe to include.
+
+```cpp
+#include "Account.hpp"
+```
+
+Declares the `Account` class and its API used below.
+
+---
+
+## `main()` and seed data
+
+```cpp
+int main()
+{
+    int const amounts[]     = { 42, 54, 957, 432, 1234, 0, 754, 16576 };
+    int const deposits[]    = { 5, 765, 564, 2, 87, 23, 9, 20 };
+    int const withdrawals[] = { 321, 34, 657, 4, 76, 87, 23, 21 };
+```
+
+Three **parallel arrays**:
+
+* `amounts` → initial balances (8 accounts),
+* `deposits` → one deposit per account,
+* `withdrawals` → one withdrawal per account.
+
+```cpp
+    size_t const amounts_size     = sizeof(amounts)     / sizeof(amounts[0]);
+    size_t const deposits_size    = sizeof(deposits)    / sizeof(deposits[0]);
+    size_t const withdrawals_size = sizeof(withdrawals) / sizeof(withdrawals[0]);
+```
+
+Classic C++98 way to compute array lengths (no range helpers yet).
+
+---
+
+## Typedefs (aliases)
+
+```cpp
+    typedef std::vector<Account> accounts_t;
+    typedef std::vector<int>     ints_t;
+```
+
+Short names for vectors of accounts and ints (just readability).
+
+---
+
+## Build vectors
+
+```cpp
+    accounts_t accounts(amounts, amounts + amounts_size);
+```
+
+**Range constructor** that builds a `std::vector<Account>` by calling
+`Account(int)` on each value in `amounts`.
+This works even though `Account`’s default constructor is **private**, because this constructor uses the **int** constructor, not the default one.
+
+```cpp
+    ints_t     deposits_v(deposits, deposits + deposits_size);
+    ints_t     withdrawals_v(withdrawals, withdrawals + withdrawals_size);
+```
+
+Copies the integer arrays into `std::vector<int>` for easy iteration.
+
+```cpp
+    accounts_t::iterator acc_begin = accounts.begin();
+    accounts_t::iterator acc_end   = accounts.end();
+```
+
+Store the account range iterators once; reused in displays below.
+
+---
+
+## Initial snapshot
+
+```cpp
+    Account::displayAccountsInfos();
+```
+
+Calls the **static** function that prints **global totals**
+(accounts count, total amount, total deposits, total withdrawals).
+
+```cpp
+    std::for_each(acc_begin, acc_end, std::mem_fun_ref(&Account::displayStatus));
+```
+
+Calls `displayStatus()` **on each account**:
+
+* `std::for_each` comes from `<algorithm>`.
+* `std::mem_fun_ref` comes from `<functional>` and adapts a pointer-to-member
+  `&Account::displayStatus` into a functor callable by `for_each`.
+
+Output here shows each account’s `index`, `amount`, `deposits`, and `withdrawals`.
+
+---
+
+## Deposits (zipping two ranges)
+
+```cpp
+    typedef std::pair<accounts_t::iterator, ints_t::iterator> acc_int_zip;
+```
+
+C++98 doesn’t have zip iterators, so we roll our own: a pair of iterators that we advance together.
+
+```cpp
+    for (acc_int_zip it(accounts.begin(), deposits_v.begin());
+         it.first != accounts.end(); ++(it.first), ++(it.second))
+    {
+        it.first->makeDeposit(*(it.second));
+    }
+```
+
+* `it.first` walks the accounts, `it.second` walks the deposits.
+* On each iteration, we call `makeDeposit(deposit_value)` on the current account.
+* Your `Account.cpp` must:
+
+  * print a line with `p_amount`, `deposit`, new `amount`, and `nb_deposits`,
+  * update both **per-account** and **global** counters.
+
+```cpp
+    Account::displayAccountsInfos();
+    std::for_each(acc_begin, acc_end, std::mem_fun_ref(&Account::displayStatus));
+```
+
+Show the **updated** global totals and each account’s status after deposits.
+
+---
+
+## Withdrawals (same zip trick)
+
+```cpp
+    for (acc_int_zip it(accounts.begin(), withdrawals_v.begin());
+         it.first != accounts.end(); ++(it.first), ++(it.second))
+    {
+        it.first->makeWithdrawal(*(it.second));
+    }
+```
+
+* For each account, attempt a withdrawal with the corresponding value.
+* Your `Account.cpp` must either:
+
+  * **refuse** (if `withdrawal > amount`) and print `withdrawal:refused`, or
+  * perform the withdrawal (update per-account and global counters and print detailed line).
+
+---
+
+## Final snapshot and exit
+
+```cpp
+    Account::displayAccountsInfos();
+    std::for_each(acc_begin, acc_end, std::mem_fun_ref(&Account::displayStatus));
+
+    return 0;
+}
+```
+
+One last global + per-account display.
+When `main()` returns, the `std::vector<Account>` goes out of scope and destroys all accounts; your **destructor** prints a closing line for each one.
+
+---
+
+# Why those headers are necessary
+
+* **`<vector>`** → `std::vector<Account>`, `std::vector<int>`.
+* **`<algorithm>`** → `std::for_each`.
+* **`<functional>`** → `std::mem_fun_ref`.
+* **`<iostream>`** → sometimes used for spacing/blank lines; harmless to include.
+* **`"Account.hpp"`** → the class API used everywhere above.
+
+---
+
+If you want, paste your exact `tests.cpp` here and I’ll annotate *your* lines verbatim so you have a defense-ready script.
+
+---

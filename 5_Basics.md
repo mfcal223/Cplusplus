@@ -99,7 +99,30 @@ C++ uses a number of keywords to identify operations and data descriptions; ther
 For more information about the different fundamental data types go to:
 https://cplusplus.com/doc/tutorial/variables/
 
----
+#### Why use _ for member variables?
+The use of a leading underscore (_) in variable names, especially for member variables in C++, is a widely used style convention.   
+- Distinguish member variables from parameters/local variables:
+In functions (especially constructors), you often have parameters with the same name as class members. The underscore helps tell them apart.  
+
+```cpp
+class Example {
+    int _value;
+    Example(int value) : _value(value) { /* ... */ }
+};
+```
+Here, _value is the member variable, and value is the parameter.  
+
+- Convention for readability:  
+Many coding standards (including those used at 42 School and in professional C++ environments) use a leading underscore for private members. It immediately signals: "this is a member variable, not a local variable or parameter."  
+
+- Not required by C++ syntax:  
+It's just a convention, not a language rule. Some teams use other styles (m_value, value_, just value), but _ is common.  
+
+#### Is there any restriction?
+Leading double underscores (__) or underscore followed by a capital letter (_X) are reserved for the compiler/standard library.  
+So, _value is fine, but __value or _Value should be avoided.  
+
+---  
 
 ### Declaration of variables
 
