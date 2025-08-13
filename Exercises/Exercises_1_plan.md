@@ -46,21 +46,29 @@ Deciding between reference (always valid) vs pointer (nullable)
 - Practice constructors/destructors with std::cout debug output.
 - Refresh on heap vs stack allocation in C++.
 
+--- 
+
 ### Phase 2 – Exercises 00–02
+
+---
+
 **(1) Ex00:**
 - Create Zombie with announce()
 - Implement newZombie() (heap) and randomChump() (stack)
 - Understand when to delete
 
+--- 
+
 **(2) Ex01:**
 - Allocate N zombies in one go with new[]
 - Loop to set their names
 
-Ex02:
-
+**(3) Ex02:**
 Practice with pointers & references, printing addresses and values
 
-Phase 3 – Exercises 03–04
+--- 
+
+### Phase 3 – Exercises 03–04
 Ex03:
 
 Weapon class with getType() returning const std::string&
@@ -98,3 +106,7 @@ Run valgrind to check for leaks
 Write minimal but clear Makefile
 
 Add debug prints to constructors/destructors to trace object lifetimes
+
+---
+
+

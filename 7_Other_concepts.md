@@ -77,6 +77,28 @@ Output
 `3.1416`  
 `3.141598`
 
+### The invisible parameter "this"
+Every non-static member function in C++ has an invisible parameter called this.  
+This is a pointer to the current object the function is operating on.  
+
+Example:
+If you have:
+
+```cpp
+Zombie z("Bob");
+z.announce();
+```
+Inside announce(), this points to z.  
+
+Since this is a **pointer**, to access a member variable you use the arrow operator `->`.  
+`this->_name`
+Meaning “Access the member _name of the object that this pointer points to.”
+
+`this->` is often used when:  
+- You want to be explicit that _name is a member.  
+- You have a local variable or parameter with the same name as the member, and you want to distinguish between them.  
+- You’re in a template class and need to help the compiler understand the name lookup.  
+
 ---
 
 SourcE:  
