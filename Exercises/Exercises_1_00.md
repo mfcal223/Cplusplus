@@ -1,16 +1,24 @@
 # Exercise Level 01 - Nr 00 - Zombieland
 
-**(1) Ex00:**
-- Create Zombie with announce().  
-- Implement newZombie() (heap) and randomChump() (stack).  
-- Understand when to delete.  
-- "Determine in what case it’s better to allocate the zombies on the stack or heap".  
+## Objectives: 
+- Create a class called "Zombie" with a private attribute to store its name.
+- Class needs a member function to announce a message: by using "announce()" they will say "BraiiiiiiinnnzzzZ...".
+- Implement 2 other functions: newZombie() that creates a zombie, name it, and return it so you can use it outside of the function scope,  and randomChump() that creates a zombie, name it, and the zombie announces itself.  
+- "Determine in what case it’s better to allocate the zombies on the stack or heap"
+- Understand when/how to delete each.  
 
-***Plan:  ***
-1. Create header.
-- Class declaration. 
 
-2. Create source file
+## Plan: 
+1. Create header for Zombie
+- Class declaration that includes:
+* No `using namespace`.
+* Private `std::string name`.
+* Ctor, Dtor, and `announce()`.
+
+2. Create source file for "Zombie"
+* Constructor initializes `name` via initializer list.
+* Destructor prints a debug line with the zombie’s name.
+* `announce()` prints the required message.
 
 Constructor syntax Recap:  
 
@@ -35,28 +43,7 @@ This list runs before the constructor body { ... }.
 This means *“Initialize the member variable name with the parameter name.”*
 
 
----
-
-
-Awesome — here’s a complete, defense‑ready plan for **Module 01 — ex00** with file list, minimal code, and what to test.  
-
-
-# Implementation plan (with minimal code)
-
-## 1 `Zombie.hpp`
-
-* No `using namespace`.
-* Private `std::string name`.
-* Ctor, Dtor, and `announce()`.
-
-
-## 2 `Zombie.cpp`
-
-* Constructor initializes `name` via initializer list.
-* Destructor prints a debug line with the zombie’s name.
-* `announce()` prints the required message.
-
-## 3 `newZombie.cpp`
+3. Create file for `newZombie`
 
 * free function (no ClassName::)  
 * Heap allocation, return pointer (caller must `delete`).
@@ -68,12 +55,21 @@ Zombie* newZombie(std::string name) {
     return new Zombie(name);
 }
 ```
+> KEY WORD HERE IS ***"NEW"***
+> **"new"** allocates memory on the heap and calls the constructor.  
+> It returns a pointer to the object created.  
+> Without new, you’d just be making a stack object that vanishes at the end of the function.  
+> Every new should be paired with a delete, otherwise you **leak memory**.
+
+
 **newZombie** is a free function, not a member of Zombie. That’s why there’s no `Zombie::`.  
 The `*` is part of the return type: it returns a pointer to Zombie.   
 
-> The **::** scope operator is only used when you’re defining a member function (e.g., void Zombie::announce()).
+> The **::** scope operator is only used when you’re defining a member function (e.g., void Zombie::announce()).  
 
-## 4 `randomChump.cpp`
+Calling `announce()` can be done in main.cpp or elsewhere, as this new zombie is created on the heap and is returned as a pointer that survivs after the function ends.   
+
+4. Create file for  `randomChump`
 
 * free function (no ClassName::)  
 * Stack allocation, announce immediately, auto‑destroy at function end.
@@ -86,17 +82,23 @@ void randomChump(std::string name) {
     z.announce();
 }
 ```
+The `Zombie object z` is created on the stack.  
+Since it exists only inside this function, if you don’t call `announce()` in here, you’ll never be able to use it outside.
 
-> Note: declare the two free functions in a shared header is optional for this module; the subject doesn’t require it. Since each `.cpp` includes `Zombie.hpp` (for the class) and defines one free function, `main.cpp` can forward‑declare them or include a small extra header if you prefer.
+---
 
-If you like the forward‑declare approach, add at the top of `main.cpp`:
+> Note: declare the two free functions in a shared header is optional for this module; the subject doesn’t require it. Since each `.cpp` includes `Zombie.hpp` (for the class) and defines one free function, `main.cpp` can forward‑declare them.
 
 ```cpp
 Zombie* newZombie(std::string name);
 void randomChump(std::string name);
 ```
 
-## 5) `main.cpp` (simple tests that show both stack & heap usage)
+(Original exercise demanded specific files, so no extra headers were allowed. But that would be an alternative to declare them in main.cpp)
+
+---
+
+5. Create `main.cpp` (simple tests that show both stack & heap usage)
 
 * Demonstrates lifetime differences and destructor prints.
 
@@ -125,20 +127,9 @@ int main() {
 }
 ```
 
-## 6) `Makefile`
+--- 
 
-
-# What the evaluator will look for
-
-* ✅ Correct class split (`.hpp` + `.cpp`).
-* ✅ Constructor initializes name; **no `using namespace std;`**.
-* ✅ `announce()` output exactly: `Foo: BraiiiiiiinnnzzzZ...`
-* ✅ `newZombie()` returns a heap zombie; you `delete` it in `main`.
-* ✅ `randomChump()` uses a stack zombie; auto‑destruction triggers destructor message.
-* ✅ All outputs end with `\n`.
-* ✅ Compiles with `-Wall -Wextra -Werror -std=c++98`.
-
-# Quick self‑tests
+## Quick self‑tests
 
 * Run your program; check you see:
 
@@ -146,9 +137,7 @@ int main() {
   * `Jim: BraiiiiiiinnnzzzZ...`
   * destruction messages for `Bob`, `Jim`, `Ana` (names should match).
 * (If you can) run under Valgrind: **no leaks** (all heap zombies are deleted).
-
-If you want, I can also add a tiny **README.md** with build/run instructions and a short explanation of **stack vs heap** tailored to your repo.
-
+* You can try commenting the "delete Jim" or "delete ana" line and check again with valgrind to notice the difference.
 
 ---
 
@@ -177,6 +166,7 @@ Zombie* z = new Zombie("Foo"); // dynamic storage
 - Lifetime: The object exists until you manually delete it with delete.
 - Pros: Lifetime is under your control; you can create objects that outlive the function where they were created.
 - Cons: Slower allocation, and you must remember to delete, or else you have a memory leak.
+
 
 1. How It Applies to This Exercise  
 The exercise gives you two functions to implement:
