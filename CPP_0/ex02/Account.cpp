@@ -6,7 +6,7 @@
 /*   By: mcalciat <mcalciat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 14:57:08 by mcalciat          #+#    #+#             */
-/*   Updated: 2025/08/11 15:02:04 by mcalciat         ###   ########.fr       */
+/*   Updated: 2025/08/18 10:53:56 by mcalciat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ Account::~Account(void)
 Account::Account(void)
     : _accountIndex(-1), _amount(0), _nbDeposits(0), _nbWithdrawals(0)
 {
-    /* Not used */
+    /* Not used. Just added just for security  */
 }
 
 /* ---------- Getters (static) --------------------------------------------- */
