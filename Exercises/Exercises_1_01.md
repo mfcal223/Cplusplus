@@ -1,4 +1,4 @@
-# Exercise Level 01 - Nr 00 - Zombie Army
+# Exercise Level 01 - Nr 01 - Zombie Army
 
 ## Goals:
 - create an army of zombies by including this function  
