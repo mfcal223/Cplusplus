@@ -95,7 +95,7 @@ Radius is: 5.5
 Area is: 94.985
 ```
 
-> Data member radius is declared as public so it could be accessed outside the class and thus was allowed access from inside main().
+> Data member "radius" is declared as public so it could be accessed outside the class and thus was allowed access from inside main().
 
 ***By default, all members of a class declared with the class keyword have private access for all its members. Therefore, any member that is declared before any other access specifier has private access automatically.***
 
