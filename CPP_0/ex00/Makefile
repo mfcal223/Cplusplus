@@ -6,13 +6,13 @@
 #    By: mcalciat <mcalciat@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/07 11:07:08 by mcalciat          #+#    #+#              #
-#    Updated: 2025/08/07 11:07:36 by mcalciat         ###   ########.fr        #
+#    Updated: 2025/08/19 12:40:45 by mcalciat         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= megaphone
 
-SRC		= megaphone.cpp
+SRC		= Megaphone.cpp
 
 OBJ		= $(SRC:.cpp=.o)
 

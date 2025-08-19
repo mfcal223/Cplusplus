@@ -6,14 +6,14 @@
 #    By: mcalciat <mcalciat@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/07 11:07:08 by mcalciat          #+#    #+#              #
-#    Updated: 2025/08/11 12:06:58 by mcalciat         ###   ########.fr        #
+#    Updated: 2025/08/19 12:42:40 by mcalciat         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= phonebook
 
-SRC		= phonebook.cpp contact.cpp main.cpp \
-			phonebook_utils.cpp
+SRC		= Phonebook.cpp Contact.cpp main.cpp \
+			Phonebook_utils.cpp
 
 OBJ		= $(SRC:.cpp=.o)
 

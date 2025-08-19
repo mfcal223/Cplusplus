@@ -7,7 +7,7 @@ Object Oriented Programming (OOP) is a programming paradigm where you organize y
 
 The main goal of OOP is to group data and the functions that work on it together, so that the data is protected and can only be changed in controlled ways.
 
-The big goals are:
+The `big goals` are:
 1) Encapsulation → Grouping related data and behavior
 2) Abstraction → Hiding unnecessary complexity
 3) Inheritance → Reusing and extending code
@@ -15,7 +15,7 @@ The big goals are:
 
 Let's use an analogy to emphasise the differences.
 
-*Imagine you are building a house*.
+> ***Imagine you are building a house***
 
 - **Procedural (C) Approach**
 
@@ -55,6 +55,12 @@ You don’t need to pass the house’s details to every function—the object kn
 
 📌  Objects are the stars, data and functions live together.
 
+---
+
+## Classes
+
+Classes are an expanded concept of data structures except that they can include not only data but also include functions and have these new things called `access specifiers`. 
+
 ## Objects
 An object is a real, usable instance of a class that has specific properties and behaviors. In C++, an object is created from a class.  
 When you define a class, no memory is used. But when you create an object from that class, memory is allocated for it and that has an associated address.   
@@ -62,8 +68,4 @@ When you define a class, no memory is used. But when you create an object from t
 
 https://www.geeksforgeeks.org/cpp/object-oriented-programming-in-cpp/  
 
----
-
-## Classes
-
-Classes are an expanded concept of data structures except that they can include not only data but also include functions and have these new things called `access specifiers`.  
+ 
