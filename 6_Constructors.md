@@ -192,6 +192,108 @@ Car(std::string b, int y) {
 ```
 ---
 
+## What does "explicit" mean?
+Sometimes when declaring the constructor in a header file, you will see the word explicit before the constructor's name:
+
+```cpp
+explicit Weapon(const std::string& type);
+```
+This prevents implicit conversions from happening. Without explicit, you could accidentally write:
+
+```cpp
+Weapon w = "club";  // implicit conversion from const char* to std::string, then Weapon
+```
+
+With explicit, you must write it explicitly:  
+
+```cpp
+Weapon w("club");
+```
+
+So explicit makes the constructor safer and avoids surprises.  
+
+Let’s do a before/after demo so you see what explicit changes.
+
+Case 1 — Constructor without explicit
+class Weapon {
+private:
+    std::string type;
+public:
+    Weapon(const std::string& t) : type(t) {}
+    const std::string& getType() const { return type; }
+};
+
+
+Now in main:
+
+int main() {
+    Weapon w1 = "club";    // ✅ works! implicit conversion
+    std::cout << w1.getType() << std::endl;
+
+    return 0;
+}
+
+
+Why does this compile?
+
+"club" is a string literal (const char*).
+
+It gets converted to a temporary std::string.
+
+That temporary is passed into Weapon(const std::string&).
+
+So the compiler automatically builds a Weapon for you.
+
+This can be convenient, but also dangerous if it happens by accident.
+
+Case 2 — Constructor with explicit
+class Weapon {
+private:
+    std::string type;
+public:
+    explicit Weapon(const std::string& t) : type(t) {}
+    const std::string& getType() const { return type; }
+};
+
+
+Now in main:
+
+int main() {
+    Weapon w1 = "club";    // ❌ ERROR: no implicit conversion allowed
+    Weapon w2("club");     // ✅ must call constructor explicitly
+    std::cout << w2.getType() << std::endl;
+
+    return 0;
+}
+
+
+Here the compiler refuses Weapon w1 = "club"; because that would require an implicit conversion from const char* → std::string → Weapon.
+Since the constructor is explicit, you must write it directly: Weapon("club").
+
+Why this matters
+
+explicit avoids surprising constructions when your class is used in bigger programs.
+
+Without it, something like this could happen silently:
+
+void fight(Weapon w);
+
+fight("rock");  // without explicit: OK, auto-converts to Weapon
+                // with explicit: ERROR, forces you to write fight(Weapon("rock"));
+
+
+✅ So the takeaway:  
+No explicit → more convenient, but implicit conversions might sneak in.  
+With explicit → safer, forces clarity in code.  
+
+Rule of thumb
+
+Always consider explicit for constructors with one argument (especially if that argument is a type the compiler could convert into easily, like const char* → std::string).
+
+For constructors with multiple arguments, explicit is usually unnecessary.
+
+---
+
 # Destructors
 
 Destructors are the natural counterpart to constructors as they are a special function in a class that gets called automatically when an object is destroyed.
