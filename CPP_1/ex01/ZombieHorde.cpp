@@ -6,7 +6,7 @@
 /*   By: mcalciat <mcalciat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 12:07:09 by mcalciat          #+#    #+#             */
-/*   Updated: 2025/08/18 14:44:55 by mcalciat         ###   ########.fr       */
+/*   Updated: 2025/08/21 14:10:10 by mcalciat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ Zombie* zombieHorde(int N, std::string baseName)
     {
         std::ostringstream oss;
         oss << baseName << "_" << i;
-        horde[i].setName(oss.str()); // set unique name
+        horde[i].setName(oss.str());
     }
     return (horde);
     

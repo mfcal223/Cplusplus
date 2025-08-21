@@ -6,7 +6,7 @@
 /*   By: mcalciat <mcalciat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 11:58:13 by mcalciat          #+#    #+#             */
-/*   Updated: 2025/08/18 14:25:01 by mcalciat         ###   ########.fr       */
+/*   Updated: 2025/08/21 14:09:57 by mcalciat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ private:
 
 public:
     Zombie();
-    Zombie(std::string name); // constructor with name
+    Zombie(std::string name);
     ~Zombie();
     
     void announce(void);

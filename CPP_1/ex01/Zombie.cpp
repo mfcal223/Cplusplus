@@ -6,7 +6,7 @@
 /*   By: mcalciat <mcalciat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 12:10:23 by mcalciat          #+#    #+#             */
-/*   Updated: 2025/08/18 12:26:32 by mcalciat         ###   ########.fr       */
+/*   Updated: 2025/08/21 14:09:50 by mcalciat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,3 @@ void Zombie::announce(void){
 void Zombie::setName(const std::string newName) {
 	this->_name = newName;
 }
-
-/*
-why there are 2 inits?
-why is the argment of setName "std::string&"??
-
-*/
