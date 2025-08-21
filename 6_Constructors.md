@@ -1,6 +1,7 @@
 # Constructors
 
-A constructor is a special function that runs automatically when an object is created. It is used to initialize the object’s data members (instead of using a separate function like set_value()).  
+A constructor is a special function that runs automatically when an object is created.   
+It is used to initialize the object’s data members (instead of using a separate function like set_value()).  
 
 `Manual initialization: ` 
 ```cpp

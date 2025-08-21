@@ -60,7 +60,7 @@ Many statements can be written in a single line, or each statement can be in its
 ---
 
 ### Adding comments
-To add comments C++ supports two ways of commenting code:
+Same as in C, to add comments C++ supports two ways of commenting code:
 ```
 // line comment
 /* block comment */

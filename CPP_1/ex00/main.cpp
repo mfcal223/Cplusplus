@@ -6,7 +6,7 @@
 /*   By: mcalciat <mcalciat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 15:00:17 by mcalciat          #+#    #+#             */
-/*   Updated: 2025/08/18 11:25:37 by mcalciat         ###   ########.fr       */
+/*   Updated: 2025/08/21 12:45:50 by mcalciat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,9 @@ int main()
     jim->announce();
     delete jim;
 
-    // Another quick check
     Zombie *ana = newZombie("Ana");
     ana->announce();
-    delete ana; // ensure destructor message prints with the correct name
+    delete ana;
 
     return (0);
 }

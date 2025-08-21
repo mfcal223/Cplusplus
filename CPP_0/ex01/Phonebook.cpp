@@ -6,7 +6,7 @@
 /*   By: mcalciat <mcalciat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 14:05:02 by mcalciat          #+#    #+#             */
-/*   Updated: 2025/08/12 16:03:17 by mcalciat         ###   ########.fr       */
+/*   Updated: 2025/08/21 11:07:23 by mcalciat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,9 @@ void PhoneBook::addContact()
 
 	std::cout << "Contact saved." << std::endl;
 }
-/* at the end of addContact(), contact c goes out of scope so it is destroyed */
+/* - at the end of addContact(), contact c goes out of scope so it is destroyed 
+    - circular indexing
+*/
 
 static std::string truncate(const std::string &str)
 {
