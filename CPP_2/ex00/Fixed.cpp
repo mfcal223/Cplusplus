@@ -1,6 +1,7 @@
 #include "Fixed.hpp"
 #include <iostream>
 
+//out-of-class definition of a static data member
 const int Fixed::_fracBits = 8;
 
 // Default constructor

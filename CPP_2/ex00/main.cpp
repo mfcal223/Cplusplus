@@ -34,12 +34,18 @@ int	main( void )
 	Fixed c;
     std::cout << "----Assign {c} to be like {b} (c = b) -----" << std::endl;
 	c = b;
-	std::cout << b.getRawBits() <<  " = c" << std::endl;
+	std::cout << b.getRawBits() <<  " = b" << std::endl;
+	std::cout << c.getRawBits() <<  " = c" << std::endl;
+
+	std::cout << "----- Change value of (c) (c = a) ------" << std::endl;
+	c = a;
+	std::cout << a.getRawBits() << " = a " << std::endl;
+	std::cout << c.getRawBits() <<  " = c" << std::endl;
 
 	std::cout << "-----Final values of a / b / c  ------" << std::endl;
 	std::cout << a.getRawBits() << " = a " << std::endl;
 	std::cout << b.getRawBits() << " = b" << std::endl;
-	std::cout << b.getRawBits() << " = c" << std::endl;
+	std::cout << c.getRawBits() << " = c" << std::endl;
 
 	std::cout << "--End of Function - a/b/c go out of scope--" << std::endl;
 
