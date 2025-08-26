@@ -9,15 +9,13 @@ private:
     static const int    _fracBits;
 
 public:
-    // Orthodox Canonical Form
     Fixed();                            // Default constructor
     Fixed(const Fixed& other);          // Copy constructor
     Fixed& operator=(const Fixed& rhs); // Copy assignment
     ~Fixed();                           // Destructor
 
-    // Accessors
     int  getRawBits(void) const;
     void setRawBits(int const raw);
 };
 
-#endif // FIXED_HPP
+#endif

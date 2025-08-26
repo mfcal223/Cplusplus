@@ -1,8 +1,6 @@
-// Fixed.cpp
 #include "Fixed.hpp"
 #include <iostream>
 
-// Define the static const member (C++98)
 const int Fixed::_fracBits = 8;
 
 // Default constructor
@@ -32,7 +30,7 @@ Fixed::~Fixed()
     std::cout << "Destructor called" << std::endl;
 }
 
-// Get raw value (with trace, as required)
+// Get raw value (with trace, as seen in subject)
 int Fixed::getRawBits(void) const
 {
     std::cout << "getRawBits member function called" << std::endl;
