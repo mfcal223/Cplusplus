@@ -86,6 +86,81 @@ Numbers > 0 will be > 127 `(max 127)`. | Numbers < 0 (negative) will be < 127 `(
 
 ---
 
+### EXAMPLES
+
+> Example 1: **fraction 9/2 => decimal 4.5**
+
+1. Represent in binary = **100.1**  
+2. Normalized (only one 1 before the point): 100.1 >>> `1.001 x 2^2`
+    - Unbiased Exponent = **2**
+3. Build IEEE-754 fields (float32)
+- Sign = **0 (positive)**
+- Biased Exponent = 2 + 127 =  129 = `10000001`
+- Fraction bits (digits after the "."): 
+    - for 1.001 = `.001`
+    - filling them in 23 bits (mantissa): `00100000000000000000000`
+- Put everything together:
+
+```r
+0 | 10000001 | 00100000000000000000000
+```
+  
+4. Convert **32-bit IEEE-754 float bit pattern** to **float32 Hexadecimal** 
+
+Method: Group into nibbles (4 bits) and map to hex to obtain a float32
+
+```yaml
+0 10000001 00100000000000000000000
+^ ^^^                              (we’ll build 8 groups of 4 bits)
+
+Nibble 1: 0100  -> 0x4 -> 4
+Nibble 2: 0000  -> 0x0 -> 0
+Nibble 3: 1001  -> 0x9 -> 9
+Nibble 4: 0000  -> 0x0 -> 0
+Nibble 5: 0000  -> 0x0 -> 0
+Nibble 6: 0000  -> 0x0 -> 0
+Nibble 7: 0000  -> 0x0 -> 0
+Nibble 8: 0000  -> 0x0 -> 0
+
+Combine: 0x 4 0 9 0 0 0 0 0 → 0x40900000 ✅
+```
+
+> IMPORTANT: DO NOT CONFUSE THE HEX **FLOAT32** TYPE WITH THE UNSIGNED INT HEXADECIMAL.     
+[IEEE-754 single -> float32 (hex)] ≠  [unsigned int hex (int -> hex)]   
+
+> Example 2: **Decimal 0.1**  
+
+1. In binary (repreating pattern):  `0.0001100110011…₂`  
+2. Normalized (only one 1 before the point): `1.100110011…₂ x 2^(-4)`  
+    - Unbised Exponent = **(-4)**
+3. Build IEEE-754 fields (float32)
+- sign = 0 (+)
+- exponent : -4 + 127 = 123  → in binary: `01111011`
+- mantissa (fill 23 bits after the leading 1): `10011001100110011001101`
+
+Put together:  
+
+```r
+sign | exponent  | fraction (23 bits)
+ 0    01111011     1001 1001 1001 1001 1001 101
+```
+
+4. Convert 32 bits to float32
+```yaml
+
+0 01111011 10011001100110011001101
+= 0011 1101 1100 1100 1100 1100 1100 1101
+=   3    D    C    C    C    C    C    D
+→ 0x3DCCCCCD
+
+Result: 0.1f (float32) = 0x3DCCCCCD.
+(As a number, that float equals approximately 0.10000000149011612.)
+```
+
+Here is a useful link to a [IEEE-754 Floating Point Converter](https://www.h-schmidt.net/FloatConverter/IEEE754.html) to check this results.
+
+---
+
 ### Special Cases in Representation  
 IEEE-754 includes special bit patterns for specific values:  
 
@@ -96,7 +171,7 @@ IEEE-754 includes special bit patterns for specific values:
 * **Not-a-Number (NaN)/ Invalid number**: Occurs when all exponent bits are set, and any mantissa bits are also set. 0x7fc00000 or 0x7ff00000 for +NaN. Used for undefined or non-sensical results (e.g., infinity times zero).  
   
 * **Denormalized Numbers (Subnormal Numbers)**: A special case for very small numbers.  
-	* When the exponent bits are all zero (meaning the encoded exponent is the minimum possible, e.g., -126 for single-precision), but mantissa bits are not all zero, the implied "1." is no longer assumed.   
+	* When the exponent bits are all zero (meaning the encoded exponent is the minimum possible, e.g., -126 for single-precision), but mantissa bits are not all zero, `the implied "1." is no longer assumed`.   
     * This allows representing numbers smaller than 2^-126.  
     * However, these "extra-small numbers" sacrifice precision, with the absolute smallest having only a single bit of precision.  
 
@@ -115,3 +190,19 @@ IEEE-754 includes special bit patterns for specific values:
 
 ---
 
+### 📌 Note — The f suffix on numeric literals (C++)
+
+In C/C++, a decimal literal like 4.5 or 0.1 is a **double** by default (64-bit).  
+
+Adding the `f suffix` (e.g., 4.5f, 0.1f) makes the literal a **float** (32-bit, IEEE-754 single precision).  
+
+This matters for:  
+- Overload resolution / constructor selection: Fixed(42.42f) clearly calls the Fixed(float) ctor in ex01.
+- Precision & rounding: float has ~7 decimal digits of precision; double has ~15–17. Many decimals (like 0.1) can’t be represented exactly, so 0.1f and 0.1 have different bit patterns (slightly different values).  
+- Downstream quantization to fixed-point: in ex01, the float you pass gets scaled and rounded to the 1/256 grid; starting from float vs double can produce minutely different _raw values.  
+
+- Examples  
+* 4.5f → float; 4.5 → double  
+* 0.1f (≈ 0.10000000149) vs 0.1 (≈ 0.10000000000000000555)  
+
+`Rule of thumb: use the f suffix in this module when you intend to call the Fixed(float) constructor explicitly.`
