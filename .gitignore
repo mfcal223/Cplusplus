@@ -1,5 +1,8 @@
 # Object files
 *.o
+*.executable
+*.exe
+*.out
 
 # Executables (no extension on Linux/macOS)
 phonebook
@@ -8,6 +11,7 @@ harl
 harlFilter
 zombie
 account
+fixed
 # Add other executable names here if needed
 
 # Backup files

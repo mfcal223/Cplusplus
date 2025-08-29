@@ -64,7 +64,7 @@ int Fixed::toInt(void) const
     return _raw >> _fracBits; // divide by 256 (truncate toward zero)
 }
 
-/* ------------ same functions as in ex00 ------------------------*/
+/* ------------ Getter - Setter: same functions as in ex00 ------------------------*/
 
 // Get raw value (with trace, as seen in subject)
 int Fixed::getRawBits(void) const
