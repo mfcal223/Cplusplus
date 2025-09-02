@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mcalciat <mcalciat@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/02 12:01:59 by mcalciat          #+#    #+#             */
+/*   Updated: 2025/09/02 12:02:00 by mcalciat         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <iostream>
 #include "Fixed.hpp"
 
@@ -44,7 +56,7 @@ int main(void)
 	Fixed e = Fixed(3.5f) - Fixed(1.25f);
 	Fixed f = Fixed(3.5f) - Fixed(4);
 	Fixed g = Fixed(2) * Fixed(4.25f);
-	Fixed h = Fixed(5) / Fixed(2);           // avoid 0 to not crash - if 0 is added crashing is allowed
+	Fixed h = Fixed(5) / Fixed(2);
 	std::cout << "10 + 0.5   = " << d << "\n";
 	std::cout << "3.5 - 1.25 = " << e << "\n";
 	std::cout << "3.5 - 4    = " << f << "\n";
@@ -53,32 +65,42 @@ int main(void)
 
 	std::cout << " ======================================================" << std::endl;
 	std::cout << "-------------- Increment & Decrement tests -------" << std::endl;
-	std::cout << "----------------- (epsilon = 1/256) --------------" << std::endl;
+	std::cout << "----- Epsilon demo: (++1 - 1) should be 1/256 ----" << std::endl;
+	Fixed one(1);
+	Fixed one_inc = one;
+	++one_inc;
+	std::cout << "epsilon = (++1 - 1) = " << (one_inc - one) << std::endl;
+	std::cout << "----------------- Prefix & postfix operators --------------" << std::endl;
 	Fixed i (1);
 	std::cout << "i = " << i << std::endl;
+	std::cout << "----Pre-increment: value is printed already updated--------" << std::endl;
     std::cout << "++i      = " << ++i  << std::endl;
 	std::cout << "i = " << i << std::endl;
-    std::cout << "i++      = " << g++  << std::endl;
+	std::cout << "----Post-increment: first prints old value, then new-------" << std::endl;
+    std::cout << "i++      = " << i++  << std::endl;
 	std::cout << "i = " << i << std::endl;
-    std::cout << "--i      = " << --g  << std::endl;
-    std::cout << "i--      = " << g--  << std::endl;
+	std::cout << "----Pre-decrement: value is printed already updated--------" << std::endl;
+    std::cout << "--i      = " << --i  << std::endl;
+	std::cout << "i = " << i << std::endl;
+	std::cout << "----Post-decrement: first prints old value, then new--------" << std::endl;
+    std::cout << "i--      = " << i--  << std::endl;
 	std::cout << "i = " << i << std::endl;
 
-	/*
-    // ---- Epsilon demo: (++1 - 1) should be 1/256 ----
-    Fixed one(1);
-    Fixed one_inc = one;
-    ++one_inc;
-    std::cout << "epsilon  = (++1 - 1) = " << (one_inc - one) << "\n";
-
-    // ---- min / max (non-const & const overloads) ----
-    Fixed x(1.5f), y(1.25f);
-    Fixed const cx(3.0f), cy(3.75f);
-    std::cout << "min(x,y) = " << Fixed::min(x, y)   << "\n"; // non-const
-    std::cout << "max(x,y) = " << Fixed::max(x, y)   << "\n";
-    std::cout << "min(cx,cy)= " << Fixed::min(cx, cy) << "\n"; // const
+	std::cout << " ======================================================" << std::endl;
+	std::cout << "---- Min / Max Helpers (non-const & const overloads) -------" << std::endl;
+	std::cout << "---- Non-const overload -------" << std::endl;
+	Fixed j(1.5f), k(1.25f);
+	std::cout << "j = " << j << std::endl;
+	std::cout << "k = " << k << std::endl;
+	std::cout << "min(j,k) = " << Fixed::min(j, k)   << "\n";
+	std::cout << "max(j,k) = " << Fixed::max(j, k)   << "\n";
+   	std::cout << "---- Const overload -------" << std::endl;
+	Fixed const cx(3.0f), cy(3.75f);
+	std::cout << "cx = " << cx << std::endl;
+	std::cout << "cy = " << cy << std::endl;
+	std::cout << "min(cx,cy)= " << Fixed::min(cx, cy) << "\n";
     std::cout << "max(cx,cy)= " << Fixed::max(cx, cy) << "\n";
-	*/
+
 	return 0; 
 
 }

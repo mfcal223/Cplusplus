@@ -1,4 +1,4 @@
-# CPP Module 2 - Ex 01 - Overloading all of it.
+# CPP Module 2 - Ex 02 - Overloading all of it.
 
 ## TASK 
 
@@ -134,26 +134,181 @@ In code, dividing by S is a right shift by _fracBits:
 r._raw = (a_raw * b_raw) >> _fracBits;
 ```
 
+### Division 
+
+In real numbers: (A / B) 
+In raw:
+```cpp
+A/B = a_raw / b_raw ≈ (A*S) / (B*S)
+```
+
+But that *loses the S scale*. To keep the result at scale S, multiply the numerator by S first:
+```cpp
+r_raw = (a_raw * S) / b_raw;
+```
+
+In code, multiplying by S is a left shift by _fracBits:
+```cpp
+r_raw = (a_raw << _fracBits) / b_raw;
+```
+
+--- 
+
 ⚠️ ***Important:***
 - `>>` n divides by 2^n,  
 - `<<` n multiplies by 2^n.
 - casting to long (or long long) is advice to reduce overflow risk. 
+- per the subject, divide-by-zero may crash; it’s acceptable in this exercise.
 
-### Division 
+---
 
-You want (A / B) in real numbers. In raw:
+## Increment & Decrement
 
-a_raw / b_raw ≈ (A*S)/(B*S) = A/B
+### What “epsilon (ϵ)” means
+
+Subject says: `"your ++/-- must change the value by the smallest representable ϵ “such that 1 + ϵ > 1.”`
+
+> How do we know what is that smallest representable ϵ ? 
+
+The least significant bit (LSB) of _raw represents exactly `1`.   
+Since the real value = _raw / 256, that LSB corresponds to `1/256`.  
+So, **epsilon = value of the LSB in real units**.  
+
+The smallest change you can make to _raw is +1 or -1.
+That corresponds to a change in real value of `1 / S = 1 / 256 ≈ 0.00390625`.  
+
+* `++_raw`; → adds 1 to raw → adds epsilon (1/256) to real value.
+* `--_raw`; → subtracts epsilon.
+
+### Pre or Post operator?
+
+Pre or postfix operator have an impact on the value of the variable at the time it is used.  
+
+Pre-increment operator (++a / --a): the prefix operator says first increment the value then use it. This means the value is increased by 1 for the operation then the value is used by the variable.
+
+Post- increment operator (a++ / a--): says that first use the value and then increment it. This means the value is first used up for the operation then the value is updated by 1.  
+
+#### Why post-increment uses a temp?
+C++ semantics require:
+- Pre-increment (++x) → increment and return the new value (by reference).
+- Post-increment (x++) → return the old value, but still increment the object.
+
+```cpp
+Fixed Fixed::operator++(int) {
+    Fixed tmp(*this);  // copy old value
+    ++_raw;            // increment current object
+    return tmp;        // return old value
+}
+```
+
+So:
+```cpp
+Fixed x(1);   // ≈ 1.0
+std::cout << x++ << std::endl;  // prints 1.0 (old)
+std::cout << x   << std::endl;  // prints 1.00390625 (incremented)
+```
+
+#### Why postfix prototypes have (int) as parameter?
+Post-fix prototypes have a dummy INT as parameter as a syntactic tag the compiler uses to differentiate between ++x and x++
+It is a tric C++ uses to distinguish the 2 overloads.
+
+```cpp
+x++;   // compiler looks for operator++(int)
+++x;   // compiler looks for operator++()
+```
+### Why prefix and postfix have different return type?
+
+- Pre-increment / decrement return by reference (`return *this;`):  
+This is because **++x means “increment x, then use x”.**
+Returning a reference allows chaining without extra copies:  
+```cpp
+(++x).toFloat();   // works directly on x
+++(++x);           // increments twice
+```
+No need to return a copy, because we want to keep working on the modified x.  
+
+- Post-increment/decrement returns by value (`return tmp;`):  
+`x++` means **“use the old value of x, but still increment x afterward”.**
+So you must return a copy (value) of the object before it changed.  
+That’s why it returns by value: you can’t safely return a reference to the old value, because that state doesn’t exist anymore after the increment.  
+
+```cpp
+Fixed a(1);
+
+// Pre-increment
+std::cout << ++a << std::endl; // prints 1.00390625
+std::cout << a    << std::endl; // also 1.00390625
+
+// Post-increment
+std::cout << a++ << std::endl; // prints 1.00390625 (old)
+std::cout << a   << std::endl; // prints 1.0078125 (new)
+```
+
+---
+
+## Max / Min Helpers
+
+As I am now allowed to use ternary conditional operators, I will use that to include the max/min helpers required by subject.
+
+### Ternary Conditional Operator
+
+The `? :` operator is constructed like this:  
+
+```yaml
+(condition) ? value_if_true : value_if_false;
+
+If condition is [true] → expression evaluates to value_if_true.
+If condition is [false] → expression evaluates to value_if_false.
+```
+
+Example in plain numbers
+```cpp
+int a = 5;
+int b = 10;
+
+int min = (a < b) ? a : b;  // condition is true → picks a (5)
+int max = (a > b) ? a : b;  // condition is false → picks b (10)
+```
+
+This is like coding :
+```cpp
+int min;
+if (a < b)
+    min = a;
+else
+    min = b;
+
+int max;
+if (a > b)
+	max = a;
+else
+	max = b;
+```
+
+### Why two overloads (non-const and const)?
+
+1. Fixed& min(Fixed& a, Fixed& b) → used when arguments are non-const (you can modify the returned object).
+2. Fixed const& min(Fixed const& a, Fixed const& b) → used when arguments are const (cannot modify).
+
+This is required so that both situations compile correctly.  
+```cpp
+Fixed x, y;
+Fixed& m = Fixed::min(x, y);  // non-const overload
+```
+
+and
+```cpp
+Fixed const cx, cy;
+Fixed const& m = Fixed::min(cx, cy);  // const overload
+```
+
+If the program would hold only the non-const version, when trying to compare a const& variable, you would get a error similar to this:
+
+```shell
+error: invalid initialization of reference of type ‘Fixed&’ from expression of type ‘const Fixed’
+note: candidate function not viable: 1st argument ('const Fixed') would lose const qualifier
+```
+
+---
 
 
-But that loses the S scale. To keep the result at scale S, multiply the numerator by S first:
-
-r_raw = (a_raw * S) / b_raw;
-
-
-In code, multiplying by S is a left shift by _fracBits:
-
-r._raw = (a_raw << _fracBits) / b_raw;
-
-
-(And yes, per the subject, divide-by-zero may crash; it’s acceptable in this exercise.)

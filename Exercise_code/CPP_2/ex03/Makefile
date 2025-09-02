@@ -6,13 +6,13 @@
 #    By: mcalciat <mcalciat@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/07 11:07:08 by mcalciat          #+#    #+#              #
-#    Updated: 2025/09/02 12:02:23 by mcalciat         ###   ########.fr        #
+#    Updated: 2025/09/02 12:13:13 by mcalciat         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME	= fixed
+NAME	= bsp
 
-SRC		= main.cpp Fixed.cpp
+SRC		= main.cpp Fixed.cpp bsp.cpp Point.cpp
 
 OBJ		= $(SRC:.cpp=.o)
 

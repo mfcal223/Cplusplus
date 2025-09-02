@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Fixed.cpp                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mcalciat <mcalciat@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/02 12:01:56 by mcalciat          #+#    #+#             */
+/*   Updated: 2025/09/02 12:01:57 by mcalciat         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 
 #include "Fixed.hpp"
 
@@ -113,9 +125,9 @@ Fixed Fixed::operator*(Fixed const& rhs) const
 {
     long a = _raw;
     long b = rhs._raw;
-    Fixed r;
-    r._raw = static_cast<int>((a * b) >> _fracBits);
-    return r;
+    Fixed res;
+    res._raw = static_cast<int>((a * b) >> _fracBits);
+    return res;
 }
 Fixed Fixed::operator/(Fixed const& rhs) const
 {
@@ -126,39 +138,79 @@ Fixed Fixed::operator/(Fixed const& rhs) const
     }
     long a = _raw;
     long b = rhs._raw;
-    Fixed r;
-    r._raw = static_cast<int>((a << _fracBits) / b);
-    return r;
+    Fixed res;
+    res._raw = static_cast<int>((a << _fracBits) / b);
+    return res;
 }
 
 /* --------------------------- Increment / Decrement -----------------------------*/
 // Epsilon is one least-significant bit in fixed representation.
 Fixed& Fixed::operator++() {         // pre
-    ++_raw; return *this;
+    ++_raw; 
+    return *this;
 }
 Fixed Fixed::operator++(int) {       // post
-    Fixed tmp(*this); ++_raw; return tmp;
+    Fixed tmp(*this); 
+    ++_raw; 
+    return tmp;
 }
 Fixed& Fixed::operator--() {
-    --_raw; return *this;
+    --_raw; 
+    return *this;
 }
 Fixed Fixed::operator--(int) {
-    Fixed tmp(*this); --_raw; return tmp;
+    Fixed tmp(*this); 
+    --_raw; 
+    return tmp;
 }
 
+/* Post-fix prototypes have and INT as parameter as a syntactic tag the compiler uses to differentiate between ++x and x++
+It is a tric C++ uses to distinguish the 2 overloads.
+*/
 
 /* --------------------------- MIN / MAX HELPERS ---------------------------------*/
 
 // --- min / max ---
-Fixed& Fixed::min(Fixed& a, Fixed& b) {
+Fixed& Fixed::min(Fixed& a, Fixed& b) 
+{
     return (a < b) ? a : b;
+}
+Fixed const& Fixed::min(Fixed const& a, Fixed const& b) 
+{
+    return (a < b) ? a : b;
+}
+Fixed& Fixed::max(Fixed& a, Fixed& b) 
+{
+    return (a > b) ? a : b;
+}
+Fixed const& Fixed::max(Fixed const& a, Fixed const& b) 
+{
+    return (a > b) ? a : b;
+}
+
+/*  // Alternative (like in the norminette days U.U')
+Fixed& Fixed::min(Fixed& a, Fixed& b) {
+    if (a < b)
+        return a;
+    else
+        return b;
 }
 Fixed const& Fixed::min(Fixed const& a, Fixed const& b) {
-    return (a < b) ? a : b;
+    if (a < b)
+        return a;
+    else
+        return b;
 }
 Fixed& Fixed::max(Fixed& a, Fixed& b) {
-    return (a > b) ? a : b;
+    if (a > b)
+        return a;
+    else
+        return b;
 }
 Fixed const& Fixed::max(Fixed const& a, Fixed const& b) {
-    return (a > b) ? a : b;
+    if (a > b)
+        return a;
+    else
+        return b;
 }
+*/

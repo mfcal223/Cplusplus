@@ -5,28 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mcalciat <mcalciat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/02 12:02:54 by mcalciat          #+#    #+#             */
-/*   Updated: 2025/09/02 12:02:57 by mcalciat         ###   ########.fr       */
+/*   Created: 2025/09/02 13:59:24 by mcalciat          #+#    #+#             */
+/*   Updated: 2025/09/02 13:59:25 by mcalciat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FIXED_HPP
-#define FIXED_HPP
-
-class Fixed
-{
-private:
-    int                 _raw;
-    static const int    _fracBits;
-
-public:
-    Fixed();                            // Default constructor
-    Fixed(const Fixed& other);          // Copy constructor
-    Fixed& operator=(const Fixed& rhs); // Copy assignment
-    ~Fixed();                           // Destructor
-
-    int  getRawBits(void) const;
-    void setRawBits(int const raw);
-};
-
-#endif
