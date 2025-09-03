@@ -6,7 +6,7 @@
 /*   By: mcalciat <mcalciat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 13:59:34 by mcalciat          #+#    #+#             */
-/*   Updated: 2025/09/03 13:26:27 by mcalciat         ###   ########.fr       */
+/*   Updated: 2025/09/03 14:59:33 by mcalciat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ Point::Point(Point const& other) : _x(other._x), _y(other._y) {}
 
 // Copy assignment: members are const, so nothing to assign
 Point& Point::operator=(Point const& rhs) {
-    (void)rhs;
-    return *this;
+    (void)rhs;									//it will not assign anything as parameter is const
+    return *this;								// so it only returns *this
 }
 
 // Construct from two floats

@@ -2,23 +2,14 @@
 
 ## Real Numbers Representation
 
-Ther is a limit at the ability for binary and fixed-point numbers to represent all possible fraction (real numbers). 
-There are multiple choices for this numbers can be represented, but the floating-point representation standardized in IEEE 754 is the most common choice.
-A float is just a number with a fractional part stored in a format that supports decimals (technically: scientific notation in base 2 with limited precision). 
-
-It is not extremely mandatory to master all the internal float representation details for CPP02, but DO watch this video to handle the basic key concepts
-
-* https://www.youtube.com/watch?v=bbkcEiUjehk
-
-Afterwards, if possible, do check the [annex I](/home/florencia/proyectos/CPP/Cplusplus/Exercises/CPP_2/cpp_2_floatnumbers.md)
----
+in this module we will work in the ways to represent real numbers.
 
 ## **Fixed-point Number Representation**  
 
 This link explains the math concept clearly: [Fixed-point Number Representation - Berkeley University](https://web.archive.org/web/20231224143018/https://inst.eecs.berkeley.edu/~cs61c/sp06/handout/fixedpt.html)
 
 Some key points:  
-1. Floating point numbers are not the only way to represent fractional numbers. Fixed point data type is a valid alternative, specially where performance is more important than precision.   
+1. Floating point numbers are a common way to represent fractional numbers. `Fixed point data type` is a valid alternative, specially where performance is more important than precision.   
    
 2. A **binary point** is like the **decimal point** in a decimal system. It acts as a divider between the integer and the fractional part of a number.
      

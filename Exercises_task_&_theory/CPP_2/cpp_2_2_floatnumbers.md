@@ -2,6 +2,16 @@
 
 ## Float number representation
 
+Ther is a limit at the ability for binary and fixed-point numbers to represent all possible fraction (real numbers). 
+There are multiple choices for this numbers can be represented, but the floating-point representation standardized in IEEE 754 is the most common choice.
+A float is just a number with a fractional part stored in a format that supports decimals (technically: scientific notation in base 2 with limited precision). 
+
+It is not extremely mandatory to master all the internal float representation details for CPP02, but DO watch this video to handle the basic key concepts
+
+* https://www.youtube.com/watch?v=bbkcEiUjehk
+
+---
+
 The information in this section was obtain from these articles. 
 - [Floating point number representation](https://www.cprogramming.com/tutorial/floating_point/understanding_floating_point_representation.html)
 - [Understanding and Using Floating Point Numbers](https://www.cprogramming.com/tutorial/floating_point/understanding_floating_point.html)
