@@ -51,8 +51,6 @@ To learn more about BSP, you can check this links:
 
 The exercise does NOT demando to build a full BSP tree. Just to decide wheter a point is inside a triangle or not. That’s the whole “BSP” idea the subject hints at.
 
-![Triangle ABC & sample points](/Exercises_task_&_theory/images/BSP_triangle2.png)
-
 Take each edge of the triangle and imagine the infinite line that contains it.  
 
 That line splits the plane into two half-planes (a binary partition).   
@@ -63,18 +61,111 @@ For a triangle ABC, define the “inside” side of each edge as the half-plane 
 - For edge BC, inside side contains A.
 - For edge CA, inside side contains B.
 
-Then a point P is inside the triangle if P lies on the “inside” side of all three edges. 
-If P falls exactly on any edge (boundary), we say "outside" for this exercise.
-
-
-
-
 ```
 	 A/
      /\
 	/  \
-   /    \
+   / .P \
 B /______\ 
  /         C
 /
+```
+
+Then a point P is inside the triangle if P lies on the “inside” side of all three edges. 
+If P falls exactly on any edge (boundary), we say "outside" for this exercise.
+
+
+#### The practical test: 2D cross products (a.k.a. “same-side” test)
+
+" Use the 2D cross product sign to tell which side of a directed edge a point is on. "
+
+1. For edge A→B and a point P:
+
+The 2D cross product of vectors AB and AP (where P is the point you're testing) gives a signed area of the parallelogram formed by those vectors.   
+The sign tells you which side of the edge the point lies on.  
+
+```cpp
+cross(AB,AP)=(Bx​−Ax​)(Py​−Ay​)−(By​−Ay​)(Px​−Ax​)
+```
+- If `cross > 0` → P is to the `left` of A→B
+- If `cross < 0` → P is to the `right`
+- If `cross = 0` → P is `collinear` with AB (on the line)
+
+![Cross side test](/Exercises_task_&_theory/images/cross_side_test.png)
+
+2. For a triangle ABC (3 vectors):
+
+Compute s1 = cross(AB, AP), s2 = cross(BC, BP), s3 = cross(CA, CP).
+
+If any si == 0 → on an edge → return false.
+
+If s1, s2, s3 are all positive or all negative → inside (return true).
+Otherwise → outside (return false).
+
+This avoids division and works beautifully with your Fixed numbers: only +, −, and ×.
+
+![Triangle ABC & sample points](/Exercises_task_&_theory/images/BSP_triangle2.png)
+
+<details> <summary> A small numeric example (with coordinates) </summary>
+
+Check the image above: 
+
+A(1, 1), B(5, 1), C(3, 4)
+
+Inside candidate: Pᵢₙ(3, 2)
+
+Edge candidate: Pₑd₉ₑ(3, 1) (on AB)
+
+Outside: Pₒᵤₜ(0, 0)
+
+2D-cross-product formula: `cross(AB,AP)=(Bx​−Ax​)(Py​−Ay​)−(By​−Ay​)(Px​−Ax​)`
+
+***Compute signs:***
+
+- **for Pᵢₙ**  
+For AB vs Pᵢₙ: (5−1)(2−1) − (1−1)(3−1) = 4·1 − 0·2 = +4  
+For BC vs Pᵢₙ: (3−5)(2−1) − (4−1)(3−5) = (−2)·1 − 3·(−2) = +4  
+For CA vs Pᵢₙ: (1−3)(2−4) − (1−4)(3−3) = (−2)(−2) − (−3)·0 = +4  
+→ all positive → `inside` 
+
+- **for Pₑd₉ₑ**  
+For AB vs Pₑd₉ₑ: (5−1)(1−1) − (1−1)(3−1) = 0 → on edge → `false as required`. 
+
+- **for Pₒᵤₜ**  
+For AB vs Pₒᵤₜ: (5−1)(0−1) − (1−1)(0−1) = −4
+For BC vs Pₒᵤₜ: (3−5)(0−1) − (4−1)(0−5) = 2 − (−15) = +17
+→ mixed signs → `outside` 
+
+</details>
+
+---
+
+##### How to Interpret the results
+
+After evaluating if any of the sides (s1, s2, s3) are 0, we now the `si` will be positive or negative.
+- hasPos = “at least one of s1,s2,s3 is > 0”
+- hasNeg = “at least one of s1,s2,s3 is < 0”
+
+| Case               | hasPos | hasNeg | hasPos && hasNeg | !(hasPos && hasNeg) | Meaning |
+| ------------------ | :----: | :----: | :--------------: | :-----------------: | ------- |
+| all three positive |  true  |  false |       false      |       **true**      | inside  |
+| all three negative |  false |  true  |       false      |       **true**      | inside  |
+| a mix of + and −   |  true  |  true  |     **true**     |      **false**      | outside |
+
+1. Inside ⇒ all the same sign
+- all positive: hasPos = true, hasNeg = false
+- all negative: hasPos = false, hasNeg = true 
+- = → exactly one of them is true.
+
+2. Outside (mixed signs) ⇒ there’s at least one [+] and at least one [−]
+- hasPos = true and hasNeg = true
+- → both true.
+
+3. Both false can’t happen (with non-degenerate triangle and after zero-check), because that would mean “no positives and no negatives” ⇒ all zeros, which we already returned on.
+
+So the condition for “inside” is “exactly one is true”:
+```cpp
+return !(hasPos && hasNeg);      
+return hasPos != hasNeg;         // XOR
+return (hasPos && !hasNeg) || (!hasPos && hasNeg);
 ```
