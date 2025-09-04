@@ -24,7 +24,7 @@ To ease the way, there are some key points:
 - All digits (or bits) to the left of the binary point carries a weight of 2^0, 2^1, 2^2, and so on. 
 - Digits (or bits) on the right of binary point carries a weight of 2^-1, 2^-2, 2^-3, and so on.
 
-![Binary: coefficient of each term](/Exercises_task_&_theory/images/binary_fraction15.png)
+![Binary: coefficient of each term](/CPP_Exercises_with_explanation/images/binary_fraction15.png)
 
 4. Given a fixed binary point position, shifting (>> 1) the bit pattern of a number to the right by 1 bit always *divides the number by 2*. 
 5. Similarly, shifting a number to the left (<< 1) by 1 bit *multiplies the number by 2*. 

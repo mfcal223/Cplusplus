@@ -35,7 +35,7 @@ A common observation in C/C++ is that floating-point numbers that look the same 
 ##### The fundamental reason for poor accuracy
 Not every fraction can be represented exactly in binary (just like 1/3 cannot be represented perfectly with a finite number of decimal digits). This means that results are likely to be wrong by at least a little bit due to "roundoff errors".  
 
-![Roundoff errors](/Exercises_task_&_theory/images/binary_fraction28.png)
+![Roundoff errors](/CPP_Exercises_with_explanation/images/binary_fraction28.png)
 
 ---
 
@@ -52,8 +52,8 @@ An IEEE-754 `float (4 bytes)` or `double (8 bytes)` has **3 main parts**:
 * Sign bit `(s)`: A single bit tha determines if the number is positive (0) or negative (1).
 * Exponent `(e)`: Gives the order of magnitude (8 bits for simple float, 11 for double). It determines how large or small it is, by indicating the position of the binary point.  
 
-![Positive Exponent](/Exercises_task_&_theory/images/float_main_represent.png)
-![Negative Exponent](/Exercises_task_&_theory/images/float_main_represent_negative.png)
+![Positive Exponent](/CPP_Exercises_with_explanation/images/float_main_represent.png)
+![Negative Exponent](/CPP_Exercises_with_explanation/images/float_main_represent_negative.png)
 
 * Mantissa `(m)`(or Significand) : Specifies the actual digits of the number (23 bits for float, 52 for double).
   
@@ -92,7 +92,7 @@ Numbers > 0 will be > 127 `(max 127)`. | Numbers < 0 (negative) will be < 127 `(
 * For example, if you write a number in binary and shift the decimal point after the first '1', you only need to store the fractional part (the 'm' bits) and adjust the exponent to reflect the shift.  
 * This means  that even though we're using 23 bits to store the mantissa, we can actually represent  the mantissa with 24 bits of precision.  
 
-![Final Float Representation](/Exercises_task_&_theory/images/float_final_sem.png)
+![Final Float Representation](/CPP_Exercises_with_explanation/images/float_final_sem.png)
 ---
 
 ### EXAMPLES
@@ -184,7 +184,7 @@ IEEE-754 includes special bit patterns for specific values:
     * This allows representing numbers smaller than 2^-126.  
     * However, these "extra-small numbers" sacrifice precision, with the absolute smallest having only a single bit of precision.  
 
-![Special Cases](/Exercises_task_&_theory/images/float_specialcases.png)
+![Special Cases](/CPP_Exercises_with_explanation/images/float_specialcases.png)
 ---
 
 ### Practical Implications for C/C++ Programming:

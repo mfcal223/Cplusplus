@@ -35,7 +35,7 @@ bool bsp(Point const a, Point const b, Point const c, Point const p);
 
 *In computer science, **binary space partitioning (BSP)** is a `method for space partitioning which recursively subdivides a Euclidean space into two` convex sets by using hyperplanes as partitions. This process of subdividing gives rise to a representation of objects within the space in the form of a tree data structure known as a `BSP tree`.*    
 
-![BSP tree](/Exercises_task_&_theory/images/BSP_planes.png)
+![BSP tree](/CPP_Exercises_with_explanation/images/BSP_planes.png)
 
 *The structure of a BSP tree is useful in rendering because it can efficiently give spatial information about the objects in a scene. Other applications of BSP include: performing geometrical operations with shapes (constructive solid geometry) in CAD,[3] collision detection in robotics and 3D video games, ray tracing, virtual landscape simulation,[4] and other applications that involve the handling of complex spatial scenes.*  
 
@@ -91,7 +91,7 @@ cross(AB,AP)=(Bx​−Ax​)(Py​−Ay​)−(By​−Ay​)(Px​−Ax​)
 - If `cross < 0` → P is to the `right`
 - If `cross = 0` → P is `collinear` with AB (on the line)
 
-![Cross side test](/Exercises_task_&_theory/images/cross_side_test.png)
+![Cross side test](/CPP_Exercises_with_explanation/images/cross_side_test.png)
 
 2. For a triangle ABC (3 vectors):
 
@@ -104,7 +104,7 @@ Otherwise → outside (return false).
 
 This avoids division and works beautifully with your Fixed numbers: only +, −, and ×.
 
-![Triangle ABC & sample points](/Exercises_task_&_theory/images/BSP_triangle2.png)
+![Triangle ABC & sample points](/CPP_Exercises_with_explanation/images/BSP_triangle2.png)
 
 <details> <summary> A small numeric example (with coordinates) </summary>
 

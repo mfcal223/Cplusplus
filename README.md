@@ -9,72 +9,58 @@ There will be no external libraries.
 No printf/malloc/free. Instead, it will use C++ alternatives like cout, new, etc.
 Also I will not use namespace or friend, STL containers or algorithms.
 
-## **INTRODUCTION**
+# 📘 C++ Modules – Documentation & Explanations
 
-C++ is a general-purpose programming language that was developed by Bjarne Stroustrup as an enhancement of the C language to add object-oriented paradigm. It is currently used in a wide range of applications from game engines and application software to operating systems and embedded systems.
-
-It is considered as a middle-level language as it combines features of both high-level and low-level languages.  
-It has high level language features like object oriented programming, exception handling and templates along with low-level capabilities, such as direct memory manipulation and system-level programming.  
-It is used to build embedded systems, game engines, web browsers, compilers and operating systems.  
-
-### C versus C++
-
-`C`  
-- C is a basic, structural or procedural programming language (developed in 1972). Being procedural language C does not support Objects or Classes.  
-- C has become popular because of its execution speed, simplicity, and flexibility. It is simple and easy to understand. It became the base for many other programming languages. If a user knows C, then it is easy for them to learn all other programming languages.  
-
-> Procedural or Structural Language means C breaks the code into smaller modules in order to minimize the complexity of the program.  
-
- 
-- C follows a top-down approach 
-
-`C++`  
-- C++ is a general-purpose, object-oriented programming language (OOPs), developed in 1979. It is a multi-paradigm programming language as it supports both procedural and object-oriented programming languages. C++ has the property of the C programming language along with the classes and objects for user-defined data types.
-
-> Object-oriented language means it has properties like classes, objects, polymorphism, inheritance, encapsulation, abstraction, data hiding, etc. The OOPs help in solving problems effectively, prevent data redundancy and ensure the flexibility of the code.
-
-- C++ follows the bottom-up approach.
-- C++ offers security features such as data hiding and encapsulation
-
-`Both languages share similar features:`  
-- Dynamic memory allocation: which helps programmers as they are not aware beforehand of the space or memory required while running the code.
-- Fast and Powerful: they are compiler-based languagues containing many built-in functions and data types. 
-- Portability. They are machine-independent languages. 
-- They are case-sensitive languages which means small letters and capital letters are treated differently. 
-
-🧩 Summary: Key Differences from C
-
-| C                       | C++                                          |
-| ----------------------- | -------------------------------------------- |
-| Procedural              | Object-oriented                              |
-| Struct = data only      | Class = data + behavior                      |
-| `malloc/free`           | `new/delete` (with constructors/destructors) |
-| No encapsulation        | `private`, `protected`, `public`             |
-| No function overloading | Function and operator overloading            |
-| No virtual functions    | Virtual functions for polymorphism           |
+This repository contains **theory notes** and **detailed explanations of the exercises** for the 42 C++ Modules.  
+➡️ The **code** is kept in a separate private repository – this repo is focused only on documentation.
 
 ---
 
-Sources: 
-https://cplusplus.com/
-https://www.mygreatlearning.com/blog/difference-between-c-and-c
-https://www.geeksforgeeks.org/cpp/difference-between-c-and-c/
+## 📚 Index
 
-
-
----
-📌 Namespace Rules in CPP Modules (CPP0–CPP4)
-
-| Case                                             | Allowed?        | Notes                                                                                                     |
-| ------------------------------------------------ | --------------- | --------------------------------------------------------------------------------------------------------- |
-| **`using namespace std;`**                       | ❌ **Forbidden** | Explicitly forbidden in all modules unless subject says otherwise.                                        |
-| **Explicit `std::` prefixes**                    | ✅ **Allowed**   | Always use `std::cout`, `std::string`, `std::cin`, etc.                                                   |
-| **Other `using namespace <name>;`**              | ❌ **Forbidden** | Applies to any namespace, not just `std`.                                                                 |
-| **Custom namespaces (created by you)**           | ✅ **Allowed**   | You may define your own namespaces, but must access with `MyNamespace::function()`.                       |
-| **`using std::cout;` (importing single symbol)** | ⚠️ Risky         | Not explicitly forbidden, but evaluators often consider it same as `using namespace std;`. Best to avoid. |
-| **Qualified calls (e.g., `std::vector<int>`)**   | ✅ **Allowed**   | Always safe. (Note: STL containers allowed only in CPP08–CPP09)                                           |
+### 🔹 CPP Theory
+- [1_Introduction](CPP_Theory/1_Introduction.md)
+- [2_Object Oriented Programming](CPP_Theory/2_OOP.md)
+- [3_C++ Goals](CPP_Theory/3_CPP_goals.md)
+- [4_Access specifiers](CPP_Theory/4_Access_specifiers.md)
+- [5_Basic Concepts](CPP_Theory/5_Basics.md)
+- [6_Constructors](CPP_Theory/6_Constructors.md)
+- [7_Bits on Syntax](CPP_Theory/7_Syntax.md)
+- [8_Cout & Cast](CPP_Theory/8_Cout_Cast.md)
+- [9_Orthodox Canonical Form (OCF)](CPP_Theory/9_OrthodoxCanonicalForm.md)
+- [10_Overloading & Polymorphism](CPP_Theory/10_Overloading%20&%20Polymorphism.md)
 
 ---
+
+### 🔹 CPP Exercises with Explanation
+
+#### 📂 CPP 0
+- [Module 0- Exercise 00 & 01](CPP_Exercises_with_explanation/CPP_0/Exercises_0_00_01.md)
+- [Module 0- Exercise 02](CPP_Exercises_with_explanation/CPP_0/Exercises_0_02.md)
+- [Module 0- Evaluation Guide](CPP_Exercises_with_explanation/CPP_0/Exercises_0_EvalGuide.md)
+
+#### 📂 CPP 1
+- [Exercises_1_00.md](CPP_Exercises_with_explanation/CPP_1/Exercises_1_00.md)
+- [Module 1- Exercise 01](CPP_Exercises_with_explanation/CPP_1/Exercises_1_01.md)
+- [Module 1- Exercise 02](CPP_Exercises_with_explanation/CPP_1/Exercises_1_02.md)
+- [Exercises_1_03.md](CPP_Exercises_with_explanation/CPP_1/Exercises_1_03.md)
+- [Exercises_1_04.md](CPP_Exercises_with_explanation/CPP_1/Exercises_1_04.md)
+- [Exercises_1_05.md](CPP_Exercises_with_explanation/CPP_1/Exercises_1_05.md)
+- [Exercises_1_07_EvalGuide.md](CPP_Exercises_with_explanation/CPP_1/Exercises_1_07_EvalGuide.md)
+
+#### 📂 CPP 2
+- [copy_constructor.md](CPP_Exercises_with_explanation/CPP_2/copy_constructor.md)
+- [cpp_2_0_FixedPointNumbers.md](CPP_Exercises_with_explanation/CPP_2/cpp_2_0_FixedPointNumbers.md)
+- [cpp_2_1_FPN_scale.md](CPP_Exercises_with_explanation/CPP_2/cpp_2_1_FPN_scale.md)
+- [cpp_2_2_floatnumbers.md](CPP_Exercises_with_explanation/CPP_2/cpp_2_2_floatnumbers.md)
+- [cpp_2_EvalGuide.md](CPP_Exercises_with_explanation/CPP_2/cpp_2_EvalGuide.md)
+- [cpp_2_ex00.md](CPP_Exercises_with_explanation/CPP_2/cpp_2_ex00.md)
+- [cpp_2_ex01.md](CPP_Exercises_with_explanation/CPP_2/cpp_2_ex01.md)
+- [cpp_2_ex02.md](CPP_Exercises_with_explanation/CPP_2/cpp_2_ex02.md)
+- [cpp_2_ex03.md](CPP_Exercises_with_explanation/CPP_2/cpp_2_ex03.md)
+
+
+
 
 <details>
 <summary>Click to expand information about file structure </summary>
