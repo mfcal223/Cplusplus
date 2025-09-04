@@ -6,7 +6,7 @@
 /*   By: mcalciat <mcalciat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 12:02:33 by mcalciat          #+#    #+#             */
-/*   Updated: 2025/09/02 12:02:51 by mcalciat         ###   ########.fr       */
+/*   Updated: 2025/09/04 11:11:23 by mcalciat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,36 +15,38 @@
 
 int	main( void ) 
 {
-	std::cout << "-----Create (a)  ------" << std::endl;
+	std::cout << CYAN << "-----Create (a)  ------" << ERASE << std::endl;
 	Fixed a;
 	std::cout << a.getRawBits() << " = a " << std::endl;
 
-	std::cout << "-----New object {b} created as a copy of {a} [b(a)] ----" << std::endl;
+	std::cout << CYAN << "---New object {b} created as a copy of {a} [b(a)] ---" 
+					<< ERASE << std::endl;
 	Fixed b( a );
 	std::cout << b.getRawBits() <<  " = b" << std::endl;
 
-	std::cout << "----- Change value of (b) ------" << std::endl;
+	std::cout << MAGENTA << "----- Change value of (b) ------" << ERASE << std::endl;
 	b.setRawBits(42);
 	std::cout << b.getRawBits() <<  " = b" << std::endl;
 
-	std::cout << "-----Create (c) ------" << std::endl;
+	std::cout << CYAN << "-----Create (c) ------" << ERASE << std::endl;
 	Fixed c;
-    std::cout << "----Assign {c} to be like {b} (c = b) -----" << std::endl;
+	std::cout << c.getRawBits() << " = c " << std::endl;
+    std::cout << CYAN << "----Assign {c} to be like {b} (c = b) -----" << ERASE << std::endl;
 	c = b;
 	std::cout << b.getRawBits() <<  " = b" << std::endl;
 	std::cout << c.getRawBits() <<  " = c" << std::endl;
 
-	std::cout << "----- Change value of (c) (c = a) ------" << std::endl;
+	std::cout << MAGENTA << "----- Change value of (c) (c = a) ------" << ERASE << std::endl;
 	c = a;
 	std::cout << a.getRawBits() << " = a " << std::endl;
 	std::cout << c.getRawBits() <<  " = c" << std::endl;
 
-	std::cout << "-----Final values of a / b / c  ------" << std::endl;
+	std::cout << RED << "-----Final values of a / b / c  ------" << ERASE << std::endl;
 	std::cout << a.getRawBits() << " = a " << std::endl;
 	std::cout << b.getRawBits() << " = b" << std::endl;
 	std::cout << c.getRawBits() << " = c" << std::endl;
 
-	std::cout << "--End of Function - a/b/c go out of scope--" << std::endl;
+	std::cout << YELLOW << "--End of Function - a/b/c go out of scope--" << ERASE << std::endl;
 
 	return 0;
 }

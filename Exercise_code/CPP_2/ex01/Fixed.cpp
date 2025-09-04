@@ -6,7 +6,7 @@
 /*   By: mcalciat <mcalciat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 12:02:11 by mcalciat          #+#    #+#             */
-/*   Updated: 2025/09/02 12:02:14 by mcalciat         ###   ########.fr       */
+/*   Updated: 2025/09/04 11:27:57 by mcalciat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ Fixed::Fixed(float f)
     _raw = static_cast<int>(roundf(f * (1 << _fracBits)));
 };
 
-/* -------------------- New convertion functions -----------------*/
+/* -------------------- **New** convertion functions -----------------*/
 float Fixed::toFloat(void) const
 {
     return static_cast<float>(_raw) / static_cast<float>(1 << _fracBits);

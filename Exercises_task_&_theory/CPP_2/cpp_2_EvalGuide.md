@@ -15,6 +15,8 @@ The same as before.
 1. **Goal:** 
 Build a Fixed class in Orthodox Canonical Form that stores a raw integer _raw and a static const int _fracBits = 8, plus getRawBits() / setRawBits() and all 4 OCF members.
 
+> Explain what the OCF is, what is the main difference between the constructors.
+
 2. **What does _raw represent?**
 The internal fixed-point storage (scaled integer); it’s just the bits you’ll reinterpret as a real number in later exercises.
 
@@ -29,12 +31,17 @@ Initially 0 for default-constructed objects (you only store raw integers in ex00
 - Copy-assignment operator: it replaces the state of an already-existing object with the state of another (“make this existing thing look like that other thing”).  
 - Ad-hoc polymorphism in C++ means overloading: you provide multiple functions (or operators) with the same name but different parameter types/signatures, and the compiler picks the right one at compile time.  
 
+---
+
 ## Ex01 — Fixed behaves like a number (conversions & streaming)
 
-1. **Goal:** Add the following to Fixed
+1. **Goal:** 
+Add the following to Fixed
 - Ctors from int and float that write _raw with scale S = 1 << _fracBits = 256 (use roundf for float).
 - toFloat() / toInt() to read back the value.
 - Non-member operator<< that prints the number (via toFloat()).
+
+> Convert int/float to and from FPN + learn basic about overloading an operator
 
 2. **How do you convert int → Fixed?**
 Multiply by the scale: _raw = n << _fracBits; (with _fracBits = 8, that’s ×256).
@@ -51,6 +58,8 @@ Because the left operand is std::ostream; you can’t add members to it, so you 
 
 6. **What’s the “scale” and the “step”?**
 Scale S = 2^_fracBits = 256; the smallest representable increment is 1/S = 1/256 ≈ 0.00390625.
+
+---
 
 ## Ex02 — Overloading (comparisons, arithmetic, ++/--, min/max)
 
@@ -75,6 +84,8 @@ So you can return a reference that respects the const-ness of the inputs; avoids
 6. **Pre vs post increment: why does post return a value (not ref)?**
 - x++ must return the old value, so you copy to a temp and return by value;  
 - ++x (pre) returns *this by reference.
+
+---
 
 ## Ex03 — Point-in-Triangle (bsp) with Fixed
 

@@ -10,16 +10,7 @@ It is not extremely mandatory to master all the internal float representation de
 
 * https://www.youtube.com/watch?v=bbkcEiUjehk
 
----
 
-The information in this section was obtain from these articles. 
-- [Floating point number representation](https://www.cprogramming.com/tutorial/floating_point/understanding_floating_point_representation.html)
-- [Understanding and Using Floating Point Numbers](https://www.cprogramming.com/tutorial/floating_point/understanding_floating_point.html)
-- [Printing floating point numbers](https://www.cprogramming.com/tutorial/floating_point/understanding_floating_point_printing.html)  
-- [Floating point representation Basic concepts](https://www.geeksforgeeks.org/digital-logic/floating-point-representation-basics/)
-
-`EXCELLENT VIDEO !`
-["How floating-Point Numbers Are Represented"](https://www.youtube.com/watch?v=bbkcEiUjehk)
 ---
 
 ### Key Concepts
@@ -41,7 +32,10 @@ A common observation in C/C++ is that floating-point numbers that look the same 
     * Analogy: Silly putty – good for complex, curved shapes, but struggles to form a precise target shape like a perfect cube.  
 
 
-The fundamental reason for poor accuracy: Not every fraction can be represented exactly in binary (just like 1/3 cannot be represented perfectly with a finite number of decimal digits). This means that results are likely to be wrong by at least a little bit due to "roundoff errors".  
+##### The fundamental reason for poor accuracy
+Not every fraction can be represented exactly in binary (just like 1/3 cannot be represented perfectly with a finite number of decimal digits). This means that results are likely to be wrong by at least a little bit due to "roundoff errors".  
+
+![Roundoff errors](/Exercises_task_&_theory/images/binary_fraction28.png)
 
 ---
 
@@ -57,6 +51,10 @@ An IEEE-754 `float (4 bytes)` or `double (8 bytes)` has **3 main parts**:
 	
 * Sign bit `(s)`: A single bit tha determines if the number is positive (0) or negative (1).
 * Exponent `(e)`: Gives the order of magnitude (8 bits for simple float, 11 for double). It determines how large or small it is, by indicating the position of the binary point.  
+
+![Positive Exponent](/Exercises_task_&_theory/images/float_main_represent.png)
+![Negative Exponent](/Exercises_task_&_theory/images/float_main_represent_negative.png)
+
 * Mantissa `(m)`(or Significand) : Specifies the actual digits of the number (23 bits for float, 52 for double).
   
 > 2. Bit Layout (Single-Precision Float): `seeeeeeeemmmmmmmmmmmmmmmmmmmmmmm`
@@ -67,7 +65,7 @@ An IEEE-754 `float (4 bytes)` or `double (8 bytes)` has **3 main parts**:
 
 > 3. Value Calculation: 
 
-* The number's value is generally (sign ? -1:1) * 2^(exponent) * 1.(mantissa bits).  
+* The number's value is generally obtain like this:
 
 ```
 value = (−1)^sign x (1.fraction) x 2^(exponent−127)
@@ -94,6 +92,7 @@ Numbers > 0 will be > 127 `(max 127)`. | Numbers < 0 (negative) will be < 127 `(
 * For example, if you write a number in binary and shift the decimal point after the first '1', you only need to store the fractional part (the 'm' bits) and adjust the exponent to reflect the shift.  
 * This means  that even though we're using 23 bits to store the mantissa, we can actually represent  the mantissa with 24 bits of precision.  
 
+![Final Float Representation](/Exercises_task_&_theory/images/float_final_sem.png)
 ---
 
 ### EXAMPLES
@@ -135,7 +134,7 @@ Nibble 8: 0000  -> 0x0 -> 0
 Combine: 0x 4 0 9 0 0 0 0 0 → 0x40900000 ✅
 ```
 
-> IMPORTANT: DO NOT CONFUSE THE HEX **FLOAT32** TYPE WITH THE UNSIGNED INT HEXADECIMAL.     
+> IMPORTANT: DO NOT CONFUSE THE **HEX FLOAT32** TYPE WITH THE **UNSIGNED INT HEXADECIMAL**.     
 [IEEE-754 single -> float32 (hex)] ≠  [unsigned int hex (int -> hex)]   
 
 > Example 2: **Decimal 0.1**  
@@ -185,6 +184,7 @@ IEEE-754 includes special bit patterns for specific values:
     * This allows representing numbers smaller than 2^-126.  
     * However, these "extra-small numbers" sacrifice precision, with the absolute smallest having only a single bit of precision.  
 
+![Special Cases](/Exercises_task_&_theory/images/float_specialcases.png)
 ---
 
 ### Practical Implications for C/C++ Programming:
@@ -216,3 +216,14 @@ This matters for:
 * 0.1f (≈ 0.10000000149) vs 0.1 (≈ 0.10000000000000000555)  
 
 `Rule of thumb: use the f suffix in this module when you intend to call the Fixed(float) constructor explicitly.`
+
+---
+
+### The information in this section was obtain from these articles. 
+
+- [Floating point number representation](https://www.cprogramming.com/tutorial/floating_point/understanding_floating_point_representation.html)
+- [Understanding and Using Floating Point Numbers](https://www.cprogramming.com/tutorial/floating_point/understanding_floating_point.html)
+- [Printing floating point numbers](https://www.cprogramming.com/tutorial/floating_point/understanding_floating_point_printing.html)  
+- [Floating point representation Basic concepts](https://www.geeksforgeeks.org/digital-logic/floating-point-representation-basics/)
+
+`EXCELLENT VIDEO !` --> ["How floating-Point Numbers Are Represented"](https://www.youtube.com/watch?v=bbkcEiUjehk)

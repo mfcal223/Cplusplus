@@ -6,7 +6,7 @@
 /*   By: mcalciat <mcalciat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 12:02:59 by mcalciat          #+#    #+#             */
-/*   Updated: 2025/09/02 12:03:00 by mcalciat         ###   ########.fr       */
+/*   Updated: 2025/09/04 11:26:24 by mcalciat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ Fixed::~Fixed()
     std::cout << "Destructor called" << std::endl;
 }
 
-// Get raw value (with trace, as seen in subject)
+// Get raw value 
 int Fixed::getRawBits(void) const
 {
     std::cout << "getRawBits member function called" << std::endl;

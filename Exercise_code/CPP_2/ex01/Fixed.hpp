@@ -6,7 +6,7 @@
 /*   By: mcalciat <mcalciat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 12:02:15 by mcalciat          #+#    #+#             */
-/*   Updated: 2025/09/02 12:02:16 by mcalciat         ###   ########.fr       */
+/*   Updated: 2025/09/04 11:29:38 by mcalciat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ std::ostream& operator<<(std::ostream& os, const Fixed& x);
 
 /*
 And add the following function to the Fixed class files:
-• Anoverload of the insertion («) operator that inserts a floating-point 
+• An overload of the insertion («) operator that inserts a floating-point 
 representation of the fixed-point number into the output stream object
 passed as a parameter.
+As the left operand is ostream, it cannot be included inside the class. 
 */
