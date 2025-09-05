@@ -9,11 +9,10 @@ There will be no external libraries.
 No printf/malloc/free. Instead, it will use C++ alternatives like cout, new, etc.
 Also I will not use namespace or friend, STL containers or algorithms.
 
-# 📘 C++ Modules – Documentation & Explanations
+---
 
-This repository contains **theory notes** and **detailed explanations of the exercises** for the 42 C++ Modules.  
+This repository contains **theory notes** and **detailed explanations** of some exercises on **C++ basic concepts**.    
 ➡️ The **code** is kept in a separate private repository – this repo is focused only on documentation.
-
 ---
 
 ## 📚 Index
@@ -33,6 +32,10 @@ This repository contains **theory notes** and **detailed explanations of the exe
 ---
 
 ### 🔹 CPP Exercises with Explanation
+
+> Each section includes the description of each exercise and offers some explanation on key concepts and theory.  
+Most of the files include links to other educational sources.  
+There will be no actual, completed code on this section (it is part of a different repository which is set as private).  
 
 #### 📂 CPP 0
 - [Module 0- Exercise 00 & 01](CPP_Exercises_with_explanation/CPP_0/Exercises_0_00_01.md)
@@ -59,10 +62,13 @@ This repository contains **theory notes** and **detailed explanations of the exe
 - [cpp_2_ex02.md](CPP_Exercises_with_explanation/CPP_2/cpp_2_ex02.md)
 - [cpp_2_ex03.md](CPP_Exercises_with_explanation/CPP_2/cpp_2_ex03.md)
 
+---
 
-
-
-<details>
-<summary>Click to expand information about file structure </summary>
-
-</details>
+```
+.------------------------------------------------------------------------------------------.
+| If any link is broken, there is an error, a typo, or any other issue, please let me know.|
+'------------------------------------------------------------------------------------------'  
+      ^      (\_/)
+      '----- (O.o)
+             (> <)
+```

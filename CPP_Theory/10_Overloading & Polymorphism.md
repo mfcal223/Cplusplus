@@ -17,7 +17,7 @@ But that would not happen in **C++**.
 Function overloading is authorised in C++ to allow to define two or more function with the same name in the same scope.
 
 You can also overload operators like `=, >=, <=, ==`, just to mentione some of them. 
-![Operators](/Exercises_task_&_theory/images/operator_overloading.png)  
+![Operators](/CPP_Exercises_with_explanation/images/operator_overloading.png)  
 (image from [Laura & Simon Gitbook](https://42-cursus.gitbook.io/guide/4-rank-04/cpp-00-04-doing/cpp02))  
   
 For more information about operator overloading  : [cppreference.com > operators](https://en.cppreference.com/w/cpp/language/operators.html)
