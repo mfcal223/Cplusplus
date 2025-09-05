@@ -1,56 +1,7 @@
-# List of Exercises to fixate OOP core concepts 
+# C++ Module 0 - Exercise 01 - Using old tech to learn C++
 
-## level 0 
 
-### exercise 00
-Create a program called megaphone, along with a corresponding Makefile to compile it.  
-The program must print the uppercase version of all input arguments received.  
-If no arguments are provided, it must instead display a default warning message.  
-
-⚠️ Requirements
-- The Makefile must include the rules: all, clean, fclean, and re. It must not relink if no source files changed.  
-- End every output with a newline character.
-- Use C++98-compatible syntax and standard libraries only.  
-
-💡 Guiding questions  
-- What standard C++ headers should be included to access output streams and character manipulation?  
-- What built-in functions help convert characters to uppercase? What type do they return?  
-- What’s the proper syntax for printing to the standard output?  
-- Do we need to explicitly include a newline "\n" or use std::endl? Why does it matter?  
-
-<details>
-<summary>Click to expand example</summary>
-
-```cpp
-#include <iostream>
-#include <cctype>
-
-int main(int ac, char **av)
-{
-	int	i;
-	int j;
-	
-	if (ac == 1)
-		std::cout << "* I forgot what I was trying to say *" << std::endl;
-	else
-	{
-		for (i = 1; i < ac; i++)
-		{
-			j = 0;
-			while (av[i][j])
-			{
-				std::cout << static_cast<char>(std::toupper(av[i][j]));
-				j++;
-			}
-		}
-		std::cout << std::endl;
-	}
-	return (0);
-}
-```
-</details> 
-
-### exercise 01
+## TASK
 Create a command-line PhoneBook program using C++ classes.
 It must be able to store, search, and display up to `8 contacts`, all managed in memory without dynamic allocation.
 
@@ -85,6 +36,8 @@ Each contact must contain:
 - If not, show an appropriate error or fallback behavior.  
 - After executing any command (except EXIT), the program must wait for another command.  
 
+---
+
 🧠 Guiding questions  
 - How are you going to organize your file structure? (you need *.hpp and *.cpp)
 - How can you format columns to a fixed width using stream manipulators?  
@@ -92,6 +45,12 @@ Each contact must contain:
 - What are the benefits of using classes here?  
 - Why does the contact list have a fixed size?  
 - How can you track which contact to overwrite next?  
+
+---
+
+## First step
+Try thinking about what files you need to create and what will be included in each of them.  
+This is how I organized them:  
 
 <details>
 <summary>Click to expand information about file structure </summary>
@@ -134,6 +93,11 @@ Makefile
 ```
 </details>
 
+---
+
+## Header file
+
+As this is one of the first exercises, I think a bit extra help with the examples is needed, here is a rough sample of the `Contact.hpp`  
 
 <details>
 <summary>Click to expand information class declaration </summary>
@@ -167,51 +131,37 @@ public:
 
 ---
 
-# Phonebook files
+## Phonebook files
 
-## the flow inside addContact()
+### the flow inside addContact()
 
 Right now you have something like:
 
-cpp
-Copiar
-Editar
+```cpp
+
 void PhoneBook::addContact() {
     Contact c;              // 1. Local temporary Contact created
     // ... set all its fields ...
     contacts[nextIndex] = c; // 2. Assign temp to the array slot
     // ...
 } // 3. Local temp `c` goes out of scope here
-2️⃣ Step-by-step
-Step 1: Contact c;
-This creates a local variable c inside the function.
+```
 
+This creates a local variable `c` inside the function.
 It’s a full-fledged Contact object that lives on the stack.
 
-Step 2: contacts[nextIndex] = c;
-contacts is an array of already existing Contact objects.
+`contacts` is an array of already existing Contact objects.  
+Doing *contacts[nextIndex] = c;* does not create a new Contact in that slot. Instead, it calls the `copy assignment operator` to copy the contents of c into the already existing Contact in the array.
 
-Doing contacts[nextIndex] = c; does not create a new Contact in that slot.
+> Key point: The Contact in contacts[nextIndex] is not destroyed or replaced — it’s updated.
 
-Instead, it calls the copy assignment operator to copy the contents of c into the already existing Contact in the array.
-
-Key point: The Contact in contacts[nextIndex] is not destroyed or replaced — it’s updated.
-
-Step 3: End of addContact() scope
-When the function finishes, the local Contact c goes out of scope.
-
-Its destructor is called automatically.
+When the function finishes, the local Contact c goes out of scope. Its destructor is called automatically.  
 
 That’s the "Contact destroyed" message you see immediately after Contact saved.
 
-3️⃣ Why you see one here and many at the end
-During ADD: Only the temporary c is destroyed.
-
-At program exit: The PhoneBook object in main is destroyed, which causes its contacts[8] array to be destroyed — one destructor call for each element (even unused ones).
-
 ---
 
-1. Private members in PhoneBook.hpp  
+### Private members in PhoneBook.hpp  
 ```cpp
 Contact contacts[8];
 int contactCount;
@@ -247,6 +197,7 @@ PhoneBook::PhoneBook() {
 but the initializer list is considered better style for basic types.   
 
 No body logic is needed here, so the braces are empty.  
+
 ---
 
 ## addContact() step-by-step
@@ -256,6 +207,7 @@ void PhoneBook::addContact()
 {
     Contact c;
 ```
+
 Creates a local Contact object called c.  
 This c will be filled with user-provided data and then stored in the contacts[] array.  
 
@@ -267,8 +219,7 @@ This c will be filled with user-provided data and then stored in the contacts[] 
     c.setDarkestSecret(getNonEmptyInput("Enter darkest secret: "));
 
 ```
-Calls our private helper function `getNonEmptyInput()` for each string field.
-
+Calls our private helper function `getNonEmptyInput()` for each string field.  
 `getNonEmptyInput()` ensures the input is not empty before returning it.
 
 ```cpp
@@ -360,7 +311,7 @@ For each contact:
 Example output:
 
 ```yaml
-|         0|      Maria|   Calciati|     FloFlo|
+|         0|      Maria|   Sofia|     FloFlo|
 ```
 
 Prompt for index:
@@ -446,4 +397,13 @@ flowchart TD
     									--> B
 
     B -->|EXIT| --> O [Program End]
+```
+
+```
+.------------------------------------------------------------------------------------------.
+| If any link is broken, there is an error, a typo, or any other issue, please let me know.|
+'------------------------------------------------------------------------------------------'  
+      ^      (\_/)
+      '----- (O.o)
+             (> <)
 ```

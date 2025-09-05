@@ -527,3 +527,12 @@ You implement each function from Account.hpp, using the data members and static 
 Ensure every function that causes output prints lines in the format and sequence the log file shows.
 Step 5: Validate with the Test Code
 Run the tests (tests.cpp). If your output matches the log file (minus timestamp), your implementation is correct.
+
+```
+.------------------------------------------------------------------------------------------.
+| If any link is broken, there is an error, a typo, or any other issue, please let me know.|
+'------------------------------------------------------------------------------------------'  
+      ^      (\_/)
+      '----- (O.o)
+             (> <)
+```

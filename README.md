@@ -38,7 +38,8 @@ Most of the files include links to other educational sources.
 There will be no actual, completed code on this section (it is part of a different repository which is set as private).  
 
 #### 📂 CPP 0
-- [Module 0- Exercise 00 & 01](CPP_Exercises_with_explanation/CPP_0/Exercises_0_00_01.md)
+- [Module 0- Exercise 00](CPP_Exercises_with_explanation/CPP_0/Exercises_0_00.md)
+- [Module 0- Exercise 01](CPP_Exercises_with_explanation/CPP_0/Exercises_0_01.md)
 - [Module 0- Exercise 02](CPP_Exercises_with_explanation/CPP_0/Exercises_0_02.md)
 - [Module 0- Evaluation Guide](CPP_Exercises_with_explanation/CPP_0/Exercises_0_EvalGuide.md)
 
