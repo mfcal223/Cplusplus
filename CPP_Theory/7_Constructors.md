@@ -194,7 +194,7 @@ Car(std::string b, int y) {
 ---
 
 ## What does "explicit" mean?
-Sometimes when declaring the constructor in a header file, you will see the word explicit before the constructor's name:
+Sometimes when declaring the constructor in a header file, you will see the word `explicit` before the constructor's name:
 
 ```cpp
 explicit Weapon(const std::string& type);
