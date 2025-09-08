@@ -41,4 +41,39 @@ Instead, you simulate the action by printing messages and updating the calling C
 
 **Check** : [6_Constructors](CPP_Theory/6_Constructors.md)
 
+## CPP file
 
+### Constructors
+* Prefer initializer lists over assigning inside the body.  
+* Initialize hit points = 10, energy points = 10, attack damage = 0.  
+* Prints a short “constructed” message (subject asks messages for lifecycle + actions).  
+
+### attack()
+* Simulate an attack: cost 1 EP, report <attack damage> to <target>.  
+* Remember conditions: if HP == 0 or EP == 0, do nothing except print a “cannot act” message (subject rule).  
+* Update variables on success: EP decreases by 1, print a clear message.  
+* Keep in mind that there is *No real object-to-object interaction in ex00*: target is just text, not another ClapTrap.
+* Print resulting HP/EP after action to make tests crystal-clear.
+
+### takeDamage()
+* Reduce this ClapTrap’s HP by amount (no EP cost).
+* If already at 0 HP, print that further damage has no effect (defensive clarity).  
+* Clamp HP at 0 (no negative HP).  
+* Print a concise message: how much damage taken and the before → after HP. 
+
+### beRapaired()
+* Restore amount HP and spend 1 EP.  
+* Remember conditions: if HP == 0 or EP == 0, do nothing except print a “cannot act” message (same rule as attack).  
+* Update variables on success: EP decreases by 1, HP increases by amount.  
+* Print a message: how much was repaired and resulting HP/EP.
+
+### Other considerations
+- Consider adding a getter to print the object name.
+- Add extra messages if you think it will make output clearer.
+
+---
+
+## Evaluation TIPS
+1. Be ready to explain that attack damage is 0 in ex00 by design; later exercises change it.
+2. Be ready to explain OCF and the different constructors.
+3. Be ready to explain that no cross-instance damage is applied in ex00 (design choice of the module intro).
