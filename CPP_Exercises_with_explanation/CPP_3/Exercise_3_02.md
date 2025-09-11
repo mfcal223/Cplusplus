@@ -16,3 +16,18 @@ This member function prints a positive high-five request to standard output.
 
 ---
 
+It's amost exactly like `ex01`. Just different names.
+Update the messages so it is easy to spot the chaining and the "new" class features.
+
+```
+             ,       ,
+             |       |
+         _.-.| [  ]  |.-._
+     [_ |"(0) /    \|"(0)"| _]
+       \/=\#/=|`   `|=\#/=|\/
+        :  _  :	    :  _  :
+         \/_\/	     \/_\/ 
+          |=| 	      |=| 
+      ----- `-'	      `-' -----
+
+```
