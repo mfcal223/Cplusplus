@@ -104,3 +104,39 @@ I am DiamondX, and my ClapTrap name is DiamondX_clap_name
 ```
 
 This shows you understand the distinction between the two layers of inheritance.
+
+---
+
+## Summary of robot's stats
+
+ClapTrap (ex00):
+
+HP = 10
+
+EP = 10
+
+AD = 0
+
+ScavTrap (ex01):
+
+HP = 100
+
+EP = 50
+
+AD = 20
+
+FragTrap (ex02):
+
+HP = 100
+
+EP = 100
+
+AD = 30
+
+DiamondTrap (ex03, the mix):
+
+HP = 100 (from FragTrap)
+
+EP = 50 (from ScavTrap)
+
+AD = 30 (from FragTrap)

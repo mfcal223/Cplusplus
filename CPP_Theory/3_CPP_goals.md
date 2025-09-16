@@ -84,6 +84,12 @@ Think of **inheritance** like making **new car models**:
 * `SportsCar` inherits from Car but overrides acceleration.
 * `ElectricCar` inherits from Car but overrides fuel system.
 
+> For a practical explanation of Inheritance, please check: 
+- [Module 03 - ex00](CPP_Exercises_with_explanation/CPP_3/Exercise_3_00.md)
+- [Module 03 - ex01](CPP_Exercises_with_explanation/CPP_3/Exercise_3_01.md)
+- [Module 03 - ex02](CPP_Exercises_with_explanation/CPP_3/Exercise_3_02.md)
+- [Module 03 - ex03](CPP_Exercises_with_explanation/CPP_3/Exercise_3_03.md)
+
 ---
 
 ## **4️⃣ Polymorphism – One interface, multiple behaviors**
