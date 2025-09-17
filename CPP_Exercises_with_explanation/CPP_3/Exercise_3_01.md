@@ -111,27 +111,27 @@ ClapTrap destructor message
 
 🔑 Evaluation Key Concepts – CPP03/ex01 (ScavTrap)
 1. Inheritance basics
-Q: How does ScavTrap relate to ClapTrap?
+Q: **How does ScavTrap relate to ClapTrap?**
 A: ScavTrap inherits from ClapTrap using public inheritance. This means a ScavTrap is-a ClapTrap and reuses its attributes and methods.
 
 Q: Why use inheritance instead of copying code?
 A: Inheritance avoids duplication, keeps base logic centralized, and allows extension/overriding of behavior.
 
 2. Access specifiers (private vs protected)
-Q: Why make _hitPoints, _energyPoints, _attackDamage, and _name protected?
+Q: **Why make _hitPoints, _energyPoints, _attackDamage, and _name protected?**
 A: protected lets derived classes like ScavTrap directly access and modify them. If they were private, we’d need setters/getters in ClapTrap.
 
 3. Constructor/Destructor chaining
-Q: What is constructor chaining?
+Q: **What is constructor chaining?**
 A: When creating a derived object, the base class constructor runs first, then the derived constructor.
 
-Q: And destructor chaining?
+Q: **And destructor chaining?**
 A: Destruction is in reverse: derived destructor runs first, then base destructor. This prevents using destroyed parts.
 
 4. Overriding attack
 
-Q: How is ScavTrap::attack different from ClapTrap::attack?
+Q: **How is ScavTrap::attack different from ClapTrap::attack?**
 A: It prints a different message, but the logic is the same: consumes 1 energy point and only works if HP > 0 and EP > 0.
 
-Q: Why keep the same function signature?
+Q: **Why keep the same function signature?**
 A: To override the base version properly and allow polymorphism if needed later.
