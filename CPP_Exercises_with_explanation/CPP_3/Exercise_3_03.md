@@ -108,35 +108,12 @@ This shows you understand the distinction between the two layers of inheritance.
 ---
 
 ## Summary of robot's stats
+To aid evaluation of the project, here is a cheatsheet regarding the differences between the stats of every class of robot:  
 
-ClapTrap (ex00):
+| 	Class of Robot 		|	HP	|	EP	|	AD	|
+|-----------------------|-------|-------|-------|
+| 	ClapTrap (ex00)		|	10	|	10	|	0	|
+| 	ScavTrap (ex01)		|	100	|	50	|	20	|
+| 	FragTrap (ex02)		|	100	|	100	|	30	|
+| 	DiamondTrap(ex03)	|	100	|	50	|	30	|
 
-HP = 10
-
-EP = 10
-
-AD = 0
-
-ScavTrap (ex01):
-
-HP = 100
-
-EP = 50
-
-AD = 20
-
-FragTrap (ex02):
-
-HP = 100
-
-EP = 100
-
-AD = 30
-
-DiamondTrap (ex03, the mix):
-
-HP = 100 (from FragTrap)
-
-EP = 50 (from ScavTrap)
-
-AD = 30 (from FragTrap)

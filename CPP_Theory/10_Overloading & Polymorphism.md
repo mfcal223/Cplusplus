@@ -1,6 +1,6 @@
 # Ad-hoc polymorphism & operator overloading  
 
-Ad-hoc polymorphism in C++ means `overloading`: 
+Ad-hoc polymorphism (compile-time polymorphism) in C++ means `overloading`: 
 > you provide multiple functions (or operators) with the same name but different parameter types/signatures, and the compiler picks the right one at compile time.
 
 For example:
@@ -30,3 +30,7 @@ In `CPP_2 / ex00`:
 In CPP_2 / ex01, you’ll also overload `operator<<` to stream your Fixed as text (ad-hoc polymorphism on the << operator).  
 
 In CPP_2 / ex02 you’ll overload `comparison (<, >, ==, …) and arithmetic (+, -, *, /)` operators so Fixed “feels” like a number. That’s more ad-hoc polymorphism: the same operator symbol means different code depending on operand types.  
+
+---
+
+> To work on `Runtime Polymorphism` go to [Module 4](/Cplusplus/CPP_Exercises_with_explanation/CPP_4)
