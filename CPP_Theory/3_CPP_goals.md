@@ -94,14 +94,16 @@ Think of **inheritance** like making **new car models**:
 
 ## **4️⃣ Polymorphism – One interface, multiple behaviors**
 
-**Definition**
-Polymorphism means you can **call the same function on different objects**, and each object can respond in its own way.
+The word polymorphism means having many forms. A real-life example of polymorphism is a person who at the same time can have different characteristics. A man at the same time is a father, a husband, and an employee. So, the same person exhibits different behaviour in different situations.  
+In programming, polymorphism means you can **call the same function on different objects**, and each object can respond in its own way.
 
-**In C**
+**In C**  
 
 * You’d simulate this using `switch` statements or function pointers, and manually manage behavior.
 
-**In C++**
+**In C++**  
+
+In C++, polymorphism concept can be applied to functions and operators. A single function can work differently in different situations. Similarly, an operator works different when used in different context.  
 
 * You use **virtual functions** in a base class, and override them in derived classes.
 * You can store different objects in the same collection and call the same method—behavior adapts dynamically.
@@ -134,3 +136,36 @@ Think of **polymorphism** like a **universal remote control**:
 * A TV starts a movie, a DVD player spins a disc, a game console launches a game.
 * **Same interface → different behaviors.**
 
+### Polymorphism in C++ 
+
+It can be classified into two types:  
+1. Compile-time Polymorphism (A.K.A. early binding and static polymorphism)
+- the compiler determines how the function or operator will work depending on the context.  
+- This type of polymorphism is achieved by function overloading or operator overloading.
+
+2.  Runtime Polymorphism (A.K.A. late binding and dynamic polymorphism)
+- It  is resolved at runtime.  
+- It is implemented using function overriding with virtual functions.  
+
+#### Compile-time Polymorphism
+
+1. Function Overloading  
+When two or more functions can have the same name but behave differently for different parameters.  
+Functions can be overloaded either by changing the number of arguments or changing the type of arguments.  
+
+2. Operator Overloading
+It is a feature that allows you to redefine the way operators work for user-defined types (like classes). It enables you to give special meaning to an operator (e.g., +, -, *, etc.) when it is used with objects of a class.  
+For example, we can make use of the addition operator (+) for string to concatenate two strings and for integer to add two integers. The << and >> operator are binary shift operators but are also used with input and output streams.  
+
+//note>  see exercise Cpp 2???? 3???
+
+
+#### Runtime Polymorphism
+
+Function Overriding occurs when a derived class defines one or more member functions of the base class. That base function is said to be overridden. The base class function must be declared as virtual function for runtime polymorphism to happen.
+
+Please check [Module 04](/Cplusplus/CPP_Exercises_with_explanation/CPP_4) for more explanation and examples.
+
+***Read more about this in : ***
+https://www.geeksforgeeks.org/cpp/cpp-polymorphism/
+https://www.geeksforgeeks.org/cpp/operator-overloading-cpp/
