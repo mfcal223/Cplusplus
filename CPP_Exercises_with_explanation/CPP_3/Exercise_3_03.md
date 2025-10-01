@@ -1,5 +1,15 @@
 # CPP Module 3 - Exercise 02 - This gets stranger and stranger
 
+- [CPP Module 3 - Exercise 02 - This gets stranger and stranger](#cpp-module-3---exercise-02---this-gets-stranger-and-stranger)
+  - [TASK](#task)
+  - [MULTIPLE INHERITANCE](#multiple-inheritance)
+      - [Analogy with Fruit 🍊🍌](#analogy-with-fruit-)
+  - [The Diamond Problem](#the-diamond-problem)
+  - [What's with the name ambiguity?](#whats-with-the-name-ambiguity)
+  - [Summary of robot's stats](#summary-of-robots-stats)
+
+---
+
 ## TASK
 1. Files required: all files from earlier exercises, plus DiamondTrap.{h|hpp} and DiamondTrap.cpp
 2. This time, you must design a hybrid robot: a creature that mixes traits from both FragTrap and ScavTrap. Its name will be DiamondTrap, and it must inherit from both of these classes. 
@@ -23,7 +33,7 @@
 ---
 
 ###⚠️ Note: 
-Even though multiple inheritance is involved, the ClapTrap sub-object that DiamondTrap relies on must exist only once. There’s a catch here you’ll nee to solve.
+Even though multiple inheritance is involved, the ClapTrap sub-object that DiamondTrap relies on must exist only once. There’s a catch here you’ll need to solve.
 
 ---
 

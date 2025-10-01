@@ -1,5 +1,17 @@
 # CPP Module 3 - Exercise 01 - ScavTrap
 
+- [CPP Module 3 - Exercise 01 - ScavTrap](#cpp-module-3---exercise-01---scavtrap)
+  - [TASK](#task)
+      - [What needs to be implemented](#what-needs-to-be-implemented)
+      - [⚙️ Initialization values](#️-initialization-values)
+      - [⭐ Special ability](#-special-ability)
+  - [INHERITANCE](#inheritance)
+    - [Access Specifiers private vs protected](#access-specifiers-private-vs-protected)
+    - [Public inheritance](#public-inheritance)
+    - [Constructor/Destructor chaining](#constructordestructor-chaining)
+
+---
+
 ## TASK
 Extend your previous work on ClapTrap by creating a new robot through `inheritance`. 
 
@@ -73,6 +85,8 @@ If you keep ClapTrap’s attributes private, **ScavTrap** won’t be able to set
 Those attributes need a change in the access specifier so ScavTrap can modify them.
 </details>
 
+---
+
 ### Public inheritance
 This means the sub-class "is-a" child of the original one. 
 
@@ -87,6 +101,8 @@ Afterwards, you can extend or override some parts:
 - Add new behaviour (p.e. guardGate())
 - Change messages in the constructors.
 It is possible to add new private attributes too (which is not part of this exercise).
+
+---
 
 ### Constructor/Destructor chaining
 

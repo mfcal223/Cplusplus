@@ -1,5 +1,18 @@
 # CPP Module 3 - Exercise 00 - ClapTrap Basics
 
+- [CPP Module 3 - Exercise 00 - ClapTrap Basics](#cpp-module-3---exercise-00---claptrap-basics)
+  - [TASK](#task)
+  - [Header file](#header-file)
+  - [CPP file](#cpp-file)
+    - [Constructors](#constructors)
+    - [attack()](#attack)
+    - [takeDamage()](#takedamage)
+    - [beRapaired()](#berapaired)
+    - [Other considerations](#other-considerations)
+  - [Evaluation TIPS](#evaluation-tips)
+
+---
+
 ## TASK
 Create a class called ClapTrap.  
 1. It should model a simple robot with health, energy, and attack power.  
