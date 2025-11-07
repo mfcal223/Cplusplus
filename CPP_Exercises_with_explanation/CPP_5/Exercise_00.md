@@ -21,3 +21,32 @@ In summary, this is what the program should do:
 ---
 
 > This module is about Exception Handling. You will find information about that [Here](/CPP_Theory/11_Exceptions.md) 
+
+
+## Considerations for the Exercise Solution
+
+### -1- Constructors
+
+
+### Custom Exception types
+To fulfill the subject's goals, it is necessary to declare 2 custom exception types. They are small classes that `inherit from std::exception`.  
+So instead of throwing a plain integer or string (like throw 20; or throw "Error";), you throw an object that represents a meaningful, typed error.
+
+```cpp
+throw Bureaucrat::GradeTooHighException();
+```
+
+Here, you’re creating an object of type Bureaucrat::GradeTooHighException and throwing it.  
+
+This lets you later catch it by type, like:  
+```cpp
+catch (const Bureaucrat::GradeTooHighException& e)
+```
+
+`std::exception` defines a standard interface for exceptions in C++:  
+```cpp
+virtual const char* what() const throw();
+```
+
+This function (what()) is meant to return a human-readable message describing the error.  
+By inheriting from std::exception and overriding what(), your custom exceptions can integrate seamlessly with the standard exception system.
