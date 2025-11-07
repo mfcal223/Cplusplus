@@ -135,7 +135,7 @@ WITHOUT virtual:            WITH virtual:
 
 Here is a bit more detailed code of the same [EXAMPLE](/Cplusplus/CPP_Exercises_with_explanation/CPP_4/polymorphism_example.cpp) as above and you will obtain an output that should look like this:  
 
-![Polymorphism example Output](/Cplusplus/CPP_Exercises_with_explanation/images/cpp4_polymorphism.png)
+![Polymorphism example Output](/images/cpp4_polymorphism.png)
 
 ---
 
