@@ -69,7 +69,7 @@ int main() {
 ### Custom Exceptions
 
 When the standard exceptions are not enough, we can define our own exception classes.
-It’s recommended to inherit from std::exception so that custom errors integrate smoothly with standard ones.
+It’s recommended to `inherit from std::exception` so that custom errors integrate smoothly with standard ones.
 
 ```cpp
 #include <iostream>
