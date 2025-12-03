@@ -1,21 +1,15 @@
-ex02 – “Abstract Forms & Execution Authority”
+# Module 05 - Exercise 02 – “Abstract Forms & Execution Authority”
 
 ## TASK
 
-In this exercise, the concept of a Form is extended.
-Instead of a simple signable document, a form can now also be executed, but only when:
+In this exercise, the concept of a Form is extended. Instead of a simple signable document, a form can now also be executed, but only when:  
+- it is already signed, and  
+- the Bureaucrat attempting the execution has a high enough grade (i.e., grade <= required execution grade).  
 
-it is already signed, and
-
-the Bureaucrat attempting the execution has a high enough grade (i.e., grade <= required execution grade).
-
-To support multiple kinds of executable forms, the base Form class becomes an abstract class, containing:
-
-its usual attributes (name, signed flag, grade to sign, grade to execute),
-
-an abstract method that derived forms must implement,
-
-and logic to verify whether execution is allowed.
+To support multiple kinds of executable forms, the base Form class becomes an `abstract class`, containing:
+- its usual attributes (name, signed flag, grade to sign, grade to execute),  
+- an abstract method that derived forms must implement,  
+- and logic to verify whether execution is allowed.
 
 Each concrete form created in later exercises will implement its own action when executed.
 
@@ -27,83 +21,69 @@ The Bureaucrat class must also be updated so it can attempt to execute forms and
 
 This exercise trains three major C++ skills:
 
-Goal 1 — Understanding Abstract Classes / Pure Virtual Methods
+### 🎯 1 — Understanding Abstract Classes / Pure Virtual Methods
 
 You convert Form → AForm (name in subject) into an abstract base class:
-
+```cpp
 virtual void execute(Bureaucrat const& executor) const = 0;
-
+```
 
 This means:
+- You cannot instantiate AForm.  
+- All derived forms must implement their own execution behavior.  
 
-You cannot instantiate AForm.
+> This sets up ex03, where the goal is to create real executable forms like.
 
-All derived forms must implement their own execution behavior.
+### 🎯 2 — Introducing Execution Permissions
 
-This sets up ex03, where you’ll create real executable forms like:
+Unlike ex01, signing is no longer enough. Execution requires:
+- The form is signed,  
+- The executor’s grade meets the form’s required execution grade.  
 
-ShrubberyCreationForm
+If either fails → throw an exception.  
 
-RobotomyRequestForm
+This teaches to design `multi-stage permissions` using exceptions.  
 
-PresidentialPardonForm
+### 🎯 3 — Overriding Behavior in Derived Classes
 
-Goal 2 — Introducing Execution Permissions
-
-Unlike ex01, signing is no longer enough.
-
-Execution requires:
-
-The form is signed
-
-The executor’s grade meets the form’s required execution grade
-
-If either fails → throw an exception.
-
-This teaches you to design multi-stage permissions using exceptions.
-
-Goal 3 — Overriding Behavior in Derived Classes
-
-Each concrete form will implement a different “action” when executed.
+Each concrete form will implement a different “action” when executed.  
 
 Example:
-
+```cpp
 virtual void execute(Bureaucrat const& executor) const {
     // do something specific to this form  
 }
-
+```
 
 This is polymorphism in action.
 The base class enforces the interface, and subclasses implement the behavior.
 
+---
 
+## What to do?
 
-3) 🛠 Sample code:
-What must be added in ex02?
-✔ 3.1 Rename Form → AForm
+1) Rename Form → AForm (The subject requires this name.)  
 
-(The subject requires this name.)
-
-✔ 3.2 Add the pure virtual method
+2) Add the pure virtual method 
+```cpp
 virtual void execute(Bureaucrat const& executor) const = 0;
+```
 
-✔ 3.3 Add a new exception type
-
+3) Add a new exception type
+```
 AForm::FormNotSignedException
+```
+Used when someone tries to execute a form that has not been signed.  
 
-Used when someone tries to execute a form that has not been signed.
+4) Add `canExecute()` logic in base class  
+A base helper that checks:  
+- form is signed
+- executor has grade <= gradeToExecute
 
-✔ 3.4 Add canExecute() logic in base class
-
-A base helper that checks:
-
-form is signed
-
-executor has grade <= gradeToExecute
-
-✔ 3.5 Add executeForm() in Bureaucrat
-
+5) Add `executeForm()` in Bureaucrat
 This mirrors signForm() from ex01.
+
+---
 
 📘 AForm.hpp — Example (clean, 42-compliant)
 #ifndef AFORM_HPP
