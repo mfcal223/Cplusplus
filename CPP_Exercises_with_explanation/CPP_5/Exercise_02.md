@@ -2,241 +2,188 @@
 
 ## TASK
 
-In this exercise, the concept of a Form is extended. Instead of a simple signable document, a form can now also be executed, but only when:  
-- it is already signed, and  
-- the Bureaucrat attempting the execution has a high enough grade (i.e., grade <= required execution grade).  
+In this exercise, the concept of a Form is extended.  
+The `base class is now called AForm`, and it becomes an **abstract class**, because **forms without an action are not meaningful**.  
 
-To support multiple kinds of executable forms, the base Form class becomes an `abstract class`, containing:
-- its usual attributes (name, signed flag, grade to sign, grade to execute),  
-- an abstract method that derived forms must implement,  
-- and logic to verify whether execution is allowed.
+It will contain:   
+- its usual private attributes (name, signed flag, grade to sign, grade to execute),    
+- an abstract method that derived forms must implement,   
+- and logic to verify whether execution is allowed:   
 
-Each concrete form created in later exercises will implement its own action when executed.
+```cpp
+execute(Bureaucrat const & executor)
+```
 
-The Bureaucrat class must also be updated so it can attempt to execute forms and report success or failure.
+This will check that form can be executed, but only when:   
+- it is *already signed*, and   
+- the Bureaucrat attempting the execution has a *high enough grade* (i.e., grade <= required execution grade).   
+If either is false, the method must throw an exception.  
+
+You will implement `three new form types`, each of which performs a specific action on a given target, supplied through their constructors. Each of these will take one constructor argument: the form’s target.  
+The concrete form classes should implement their own internal method that performs the action once validation succeeds.  
+
+1. ShrubberyCreationForm :   
+   1. Required grades: signing requires grade 145, execution requires grade 137.
+   2. When executed, it creates a file named <target>_shrubbery in the current directory and writes ASCII trees into it.
+2. RobotomyRequestForm: 
+   1. Required grades: signing requires grade 72, execution requires grade 45.
+   2. When executed, it prints drilling sounds and then — with a 50% probability — reports that the target was robotomized. The other 50% prints a failure.
+3. PresidentialPardonForm:
+   1. Required grades: signing requires grade 25, execution requires grade 5. 
+   2. When executed, it announces that the target has been pardoned by Zaphod Beeblebrox.
+
+The `Bureaucrat class` must also be updated so it can attempt to execute forms and report success or failure.
+```cpp
+void executeForm(AForm const & form) const;
+```
+* It should attempt to execute the form and display:
+  * A success message if the execution worked.
+  * An explicit error message if something went wrong.
+
 
 ---
 
-## GOAL
+## GOALS
 
-This exercise trains three major C++ skills:
+This exercise combines inheritance, polymorphism, and exception handling into a cohesive system.  
 
 ### 🎯 1 — Understanding Abstract Classes / Pure Virtual Methods
 
-You convert Form → AForm (name in subject) into an abstract base class:
-```cpp
-virtual void execute(Bureaucrat const& executor) const = 0;
-```
+AForm must be abstract because a form without an “action” makes no sense.  
+You add a pure virtual function, which forces subclasses to implement their custom behavior.  
 
-This means:
+This means:  
 - You cannot instantiate AForm.  
-- All derived forms must implement their own execution behavior.  
+- All derived forms must implement their own execution behavior.   
 
-> This sets up ex03, where the goal is to create real executable forms like.
+> REMEMBER: "A class becomes abstract because it has at least one pure virtual functioN"
 
-### 🎯 2 — Introducing Execution Permissions
+### 🎯 2 — Separation of concerns
+- The base class checks validity (signed? grade OK?).  
+- The derived classes implement the action.  
+
+This demonstrates clean, maintainable OOP design.  
+
+### 🎯 3 — Introducing Execution Permissions
 
 Unlike ex01, signing is no longer enough. Execution requires:
 - The form is signed,  
 - The executor’s grade meets the form’s required execution grade.  
 
-If either fails → throw an exception.  
-
+If either fails, you catch exceptions in `Bureaucrat::executeForm()` and print readable messages.  
 This teaches to design `multi-stage permissions` using exceptions.  
 
-### 🎯 3 — Overriding Behavior in Derived Classes
+### 🎯 4 — Overriding Behavior in Derived Classes
 
 Each concrete form will implement a different “action” when executed.  
-
-Example:
+Example:  
 ```cpp
 virtual void execute(Bureaucrat const& executor) const {
     // do something specific to this form  
 }
 ```
+This is `polymorphism` in action.  
+The base class enforces the interface, and subclasses implement the behavior.  
 
-This is polymorphism in action.
-The base class enforces the interface, and subclasses implement the behavior.
+### 🎯 5 —  File handling (ShrubberyCreationForm)
+
+You learn basic file output using <fstream>.
+
+### 🎯 6 —  Randomness (RobotomyRequestForm)
+
+You implement a 50% success rate with rand() (C++98 safe).  
 
 ---
 
 ## What to do?
 
-1) Rename Form → AForm (The subject requires this name.)  
-
-2) Add the pure virtual method 
+### 1️⃣ - Rename Form → AForm and make it abstract
+- Add a pure virtual function:
 ```cpp
-virtual void execute(Bureaucrat const& executor) const = 0;
+virtual void executeAction() const = 0;
+```
+- Add method `execute()`:
+
+```cpp
+void execute(Bureaucrat const & executor) const;
 ```
 
-3) Add a new exception type
-```
-AForm::FormNotSignedException
-```
-Used when someone tries to execute a form that has not been signed.  
+Inside this method:  
+- Check if the form is signed.  
+- Check if executor grade ≤ execGrade.  
+- Throw exceptions if not.  
+- Otherwise call executeAction() (the derived class implementation).  
 
-4) Add `canExecute()` logic in base class  
-A base helper that checks:  
-- form is signed
-- executor has grade <= gradeToExecute
+### 2️⃣ Implement the three concrete form classes
+* Implement OCF everywhere.  
+* All take a single constructor parameter: `std::string target`.   ----->>>> **MEANING THIS IS A PRIVATE ATTRIBUTE OF EACH CLASS**  
 
-5) Add `executeForm()` in Bureaucrat
-This mirrors signForm() from ex01.
+In next section there is a more detailed explanation of each class.
+
+### 3️⃣ Update Bureaucrat with executeForm()
+
+```cpp
+void Bureaucrat::executeForm(AForm const & form) const {
+    try {
+        form.execute(*this);
+        std::cout << name << " executed " << form.getName() << std::endl;
+    } catch (std::exception &e) {
+        std::cout << name << " couldn’t execute "
+                  << form.getName() << " because " << e.what() << std::endl;
+    }
+}
+```
+
+### 4️⃣ Write your own tests
+
+Example:
+```cpp
+int main() {
+    Bureaucrat bob("Bob", 1);
+    Bureaucrat jim("Jim", 150);
+
+    ShrubberyCreationForm shrub("home");
+    RobotomyRequestForm robot("Bender");
+    PresidentialPardonForm pardon("Arthur Dent");
+
+    bob.signForm(shrub);
+    bob.executeForm(shrub);
+
+    bob.signForm(robot);
+    bob.executeForm(robot);
+
+    bob.signForm(pardon);
+    bob.executeForm(pardon);
+
+    return 0;
+}
+
+```
 
 ---
 
-📘 AForm.hpp — Example (clean, 42-compliant)
-#ifndef AFORM_HPP
-#define AFORM_HPP
+## Form's Subclass
 
-#include <string>
-#include <exception>
-#include <iostream>
+### ShrubberyCreationForm  
 
-class Bureaucrat;
+> **executeAction() =**   
+>  Creates a file named <target>_shrubbery
+>  Writes ASCII trees into <target>_shrubbery.
 
-class AForm {
-public:
-    // Orthodox Canonical Form
-    AForm();
-    AForm(const std::string& name, int gradeToSign, int gradeToExecute);
-    AForm(const AForm& other);
-    AForm& operator=(const AForm& rhs);
-    virtual ~AForm();
+This is the first time in these serie of exercises that we produce output not in the terminal, but in the filesystem.
 
-    // Getters
-    const std::string& getName() const;
-    bool               isSigned() const;
-    int                getGradeToSign() const;
-    int                getGradeToExecute() const;
 
-    // Sign
-    void beSigned(const Bureaucrat& bureaucrat);
+https://cplusplus.com/reference/string/string/c_str/
 
-    // Execute interface
-    virtual void execute(Bureaucrat const& executor) const = 0;
+const char* c_str() const;
+Get C string equivalent
+Returns a pointer to an array that contains a null-terminated sequence of characters (i.e., a C-string) representing the current value of the string object.
 
-    // Exceptions
-    class GradeTooHighException      : public std::exception { 
-    public: const char* what() const throw(); };
+This array includes the same sequence of characters that make up the value of the string object plus an additional terminating null-character ('\0') at the end.
 
-    class GradeTooLowException       : public std::exception {
-    public: const char* what() const throw(); };
+### RobotomyRequestForm
+  * Print “drilling noises…”
+  * Use rand() % 2 for 50% success.
 
-    class BureaucratGradeTooLowException : public std::exception {
-    public: const char* what() const throw(); };
-
-    class FormNotSignedException     : public std::exception {
-    public: const char* what() const throw(); };
-
-protected:
-    void checkExecutable(Bureaucrat const& executor) const;
-
-private:
-    const std::string _name;
-    bool              _signed;
-    const int         _gradeToSign;
-    const int         _gradeToExecute;
-};
-
-std::ostream& operator<<(std::ostream& os, const AForm& form);
-
-#endif
-
-📗 AForm.cpp — Example logic
-#include "AForm.hpp"
-#include "Bureaucrat.hpp"
-
-AForm::AForm()
-: _name("default form"),
-  _signed(false),
-  _gradeToSign(150),
-  _gradeToExecute(150) {}
-
-AForm::AForm(const std::string& name, int gSign, int gExec)
-: _name(name), _signed(false),
-  _gradeToSign(gSign), _gradeToExecute(gExec) {
-
-    if (gSign < 1 || gExec < 1)
-        throw GradeTooHighException();
-    if (gSign > 150 || gExec > 150)
-        throw GradeTooLowException();
-}
-
-AForm::AForm(const AForm& other)
-: _name(other._name),
-  _signed(other._signed),
-  _gradeToSign(other._gradeToSign),
-  _gradeToExecute(other._gradeToExecute) {}
-
-AForm& AForm::operator=(const AForm& rhs) {
-    if (this != &rhs)
-        _signed = rhs._signed;
-    return *this;
-}
-
-AForm::~AForm() {}
-
-const std::string& AForm::getName() const { return _name; }
-bool AForm::isSigned() const { return _signed; }
-int AForm::getGradeToSign() const { return _gradeToSign; }
-int AForm::getGradeToExecute() const { return _gradeToExecute; }
-
-/*----------------------------------------------------*/
-// Signing
-void AForm::beSigned(const Bureaucrat& bureaucrat) {
-    if (bureaucrat.getGrade() > _gradeToSign)
-        throw BureaucratGradeTooLowException();
-    _signed = true;
-}
-
-/*----------------------------------------------------*/
-// Execution checks
-void AForm::checkExecutable(Bureaucrat const& executor) const {
-    if (!_signed)
-        throw FormNotSignedException();
-    if (executor.getGrade() > _gradeToExecute)
-        throw BureaucratGradeTooLowException();
-}
-
-/*----------------------------------------------------*/
-// Exception messages
-const char* AForm::GradeTooHighException::what() const throw() {
-    return "Form: grade requirement too high (min 1)";
-}
-
-const char* AForm::GradeTooLowException::what() const throw() {
-    return "Form: grade requirement too low (max 150)";
-}
-
-const char* AForm::BureaucratGradeTooLowException::what() const throw() {
-    return "This bureaucrat's grade is too low for this form";
-}
-
-const char* AForm::FormNotSignedException::what() const throw() {
-    return "Cannot execute form: the form is not signed";
-}
-
-📙 What gets added in Bureaucrat
-void Bureaucrat::executeForm(AForm const& form) {
-    try {
-        form.execute(*this);
-        std::cout << _name << " executed " << form.getName() << std::endl;
-    }
-    catch (const std::exception& e) {
-        std::cout << _name << " couldn’t execute "
-                  << form.getName() << " because "
-                  << e.what() << std::endl;
-    }
-}
-
-🎉 Summary
-
-Ex02 introduces 3 major new concepts:
-
-Feature	Description
-Abstract class	AForm is now abstract with a pure virtual execute()
-Execution rules	Form must be signed AND bureaucrat must have sufficient grade
-New exceptions	FormNotSignedException + reuse of previous exceptions
-Polymorphism	Each specific form implements its own action in execute()
-New Bureaucrat ability	executeForm() method mirroring signForm()
+### PresidentialPardonForm
+  * Prints: "target has been pardoned by Zaphod Beeblebrox"
