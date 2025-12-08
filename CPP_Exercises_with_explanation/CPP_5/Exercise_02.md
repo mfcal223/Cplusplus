@@ -170,20 +170,170 @@ int main() {
 >  Creates a file named <target>_shrubbery
 >  Writes ASCII trees into <target>_shrubbery.
 
-This is the first time in these serie of exercises that we produce output not in the terminal, but in the filesystem.
+This is the first time in these serie of exercises that we produce output not in the terminal, but in the filesystem.  
 
+ShrubberyCreationForm::executeAction() creates a file named <target>_shrubbery and writes ASCII art into it.  
+To produce a file, the implementation must use std::ofstream, which is the standard C++ class for writing to files. ofstream behaves similarly to std::cout, but its output goes to a file instead of the console.  
+The filename is built using a std::string.  
 
-https://cplusplus.com/reference/string/string/c_str/
+The thing is, in C++98 -required by the subject- `std::ofstream` does **NOT** have a constructor that accepts a std::string. It only accepts a C-style string (const char*). To provide it, it is necessary to use the string method [`string.c_str()`](https://cplusplus.com/reference/string/string/c_str/)
 
-const char* c_str() const;
-Get C string equivalent
-Returns a pointer to an array that contains a null-terminated sequence of characters (i.e., a C-string) representing the current value of the string object.
+```c++
+std::ofstream ofs(filename.c_str());   // ✅ valid in C++98
 
-This array includes the same sequence of characters that make up the value of the string object plus an additional terminating null-character ('\0') at the end.
+```
+
+This method returns a pointer to an array that contains a null-terminated sequence of characters (a C-string) representing the current value of the string object.  
+This array includes the same sequence of characters that make up the value of the string object plus an additional terminating null-character ('\0') at the end.  
+
+---
 
 ### RobotomyRequestForm
-  * Print “drilling noises…”
-  * Use rand() % 2 for 50% success.
+
+> **executeAction() =**  
+>  Simulates a fictional medical/industrial procedure called robotomization.  
+>  Print “drilling noises…”  
+>  Succeed 50% of the time  
+
+C++98 does not have <random>, so the classical solution is use `rand() % 2` for 50% success.  
+To ensure different outcomes between program runs, we seed it with `std::srand()` to implement pseudo-random behavior. If you do not call `std::srand(std::time(NULL));` then rand() always produces the same sequence each time the program runs, and the robotomy would not appear random.  
+
+<details> <summary> CLICK HERE TO SEE A SAMPLE OF THIS IMPLEMENTATION </summary>
+
+```c++
+void RobotomyRequestForm::executeAction() const {
+    std::cout << "* ..... drilling noises *" << std::endl;
+
+    static bool seeded = false;
+    if (!seeded) {
+        std::srand(static_cast<unsigned int>(std::time(NULL)));
+        seeded = true;
+    }
+
+    if (std::rand() % 2 == 0) {
+        std::cout << this->_target << " has been robotomized successfully!"
+                  << std::endl;
+    } else {
+        std::cout << "Robotomy on " << this->_target << " failed..."
+                  << std::endl;
+    }
+}
+```
+</details>
+
+---
 
 ### PresidentialPardonForm
-  * Prints: "target has been pardoned by Zaphod Beeblebrox"
+
+> **executeAction() =**   
+>  Prints: "[target] has been pardoned by Zaphod Beeblebrox"
+
+<details> <summary> WHO IS Zaphod Beeblebrox? </summary>
+
+
+[Zaphod Beeblebrox - Wikipedia](https://en.wikipedia.org/wiki/Zaphod_Beeblebrox)
+
+```
+Zaphod Beeblebrox is a wildly eccentric, two-headed, three-armed alien from Betelgeuse, famous as the former President of the Galaxy and a galactic con man in The Hitchhiker's Guide to the Galaxy series by Douglas Adams; he's known for his enormous ego, stealing the Heart of Gold spaceship, and embarking on absurd adventures with his semi-cousin Ford Prefect and human friend Arthur Dent, embodying stylish chaos and self-centeredness
+
+```
+
+</details>
+
+---
+
+<details> <summary> CLICK HERE TO SEE HOW THE OUTPUT OF MY MAIN.CPP LOOKS LIKE </summary>
+
+```bash 
+./bureaucrat
+****** Santa's Workshop CEO 🎅 ******
+Santa Claus, bureaucrat grade 1.
+****** Santa's WorkShop : Reindeer 🦌 Bureaucrats******
+Prancer, bureaucrat grade 140.
+Blitzen, bureaucrat grade 50.
+
+****** Creating Gift 🎁 Forms ******
+Form "ShrubberyCreationForm" [sign grade: 145, exec grade: 137, signed: no]
+Form "RobotomyRequestForm" [sign grade: 72, exec grade: 45, signed: no]
+Form "PresidentialPardonForm" [sign grade: 25, exec grade: 5, signed: no]
+
+❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️
+
+****** 🎁 SIGNING FORMS 🎁******
+
+****** Test 1: Prancer 🦌 tries to sign everything ******
+Prancer, bureaucrat grade 140.
+Prancer signed ShrubberyCreationForm
+Prancer couldn’t sign RobotomyRequestForm because this bureaucrat's grade is too low to sign the form
+Prancer couldn’t sign PresidentialPardonForm because this bureaucrat's grade is too low to sign the form
+
+****** Test 2: Blitzen 🦌 tries to sign the remaining ones ******
+Blitzen, bureaucrat grade 50.
+Blitzen signed RobotomyRequestForm
+Blitzen couldn’t sign PresidentialPardonForm because this bureaucrat's grade is too low to sign the form
+
+****** Test 3: Santa Claus 🦌 signs the last one ******
+Santa Claus signed PresidentialPardonForm
+
+❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️
+
+ 
+*** Current forms state: *** 
+Form "ShrubberyCreationForm" [sign grade: 145, exec grade: 137, signed: yes]
+Form "RobotomyRequestForm" [sign grade: 72, exec grade: 45, signed: yes]
+Form "PresidentialPardonForm" [sign grade: 25, exec grade: 5, signed: yes]
+
+❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️
+
+****** EXECUTING FORMS ******
+
+****** Test 4: Execution with insufficient grade ******
+Prancer tries to execute ShrubberyCreationForm
+Prancer couldn’t execute ShrubberyCreationForm because this bureaucrat's grade is too low to sign the form
+
+
+Blitzen tries to execute RobotomyRequestForm
+Blitzen couldn’t execute RobotomyRequestForm because this bureaucrat's grade is too low to sign the form
+
+
+Blitzen tries to execute PresidentialPardonForm
+Blitzen couldn’t execute PresidentialPardonForm because this bureaucrat's grade is too low to sign the form
+
+****** Test 5: Santa Claus 🦌 executes everything successfully ******
+
+ * Robotomy Form * 
+Santa Claus tries to execute RobotomyRequestForm
+* BZZZZZ... DRRRRRR... drilling noises *
+Robotomy on Elf Robot failed...
+Santa Claus executed RobotomyRequestForm
+Santa Claus tries to execute RobotomyRequestForm
+* BZZZZZ... DRRRRRR... drilling noises *
+Robotomy on Elf Robot failed...
+Santa Claus executed RobotomyRequestForm
+
+ * Presidential Pardon Form * 
+Santa Claus tries to execute PresidentialPardonForm
+The Grinch has been pardoned by Zaphod Beeblebrox.
+Santa Claus executed PresidentialPardonForm
+
+ * Schrubbery Form * 
+Santa Claus tries to execute ShrubberyCreationForm
+Santa Claus executed ShrubberyCreationForm
+
+ ** Checking content of home_shrubbery. 
+File My_Garden_Tree_shrubbery content:
+--------------------------------
+       **
+      *  *
+       ## 
+     ######
+   ##o##o####
+  #########o## 
+####o##o########
+  _ -  | |   -_
+      // \\
+--------------------------------
+
+ ⋆꙳•❅*🎄*❆•꙳⋆🎄⋆꙳•❅*🎄*❆•꙳⋆ ☃︎
+```
+</details>
