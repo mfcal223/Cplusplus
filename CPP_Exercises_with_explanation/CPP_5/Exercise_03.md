@@ -62,3 +62,27 @@ You are expected to use a cleaner structure (arrays, parallel lookup tables, fun
 
 ## Execution
 
+There might be many ways to avoid a long if/else statements. 
+The option I choose was using a lookup table. 
+I define an array with pointer to functions that will call the correct constructor. 
+To match which one, I also define an array of valid form names. 
+The function will need to match form choice >>> valid form name >>> matching function pointer >>> correct constructor called.
+
+Here is an brief explanation of the makeForm() I decided to build:
+
+* Parameters: the function receives a string (formName) and the form's target.  
+* Return type: t must create the correct AForm-derived object (*AForm).  
+* Instead of if/else statements, it uses a `lookup table (mapping)` method:  
+    * there is an array of strings "names[3]" = array of valid form names. 
+        * each string corresponds to valid options of formName.
+* There is an array of function pointers "creators[3]" for which a new type (typedef) is defined.
+    * each helper function receives the form's target.
+    * each helper function calls a the constructor that matches the functions name.
+    * each helper function returns the correct AForm* object.
+
+* Workflow:  form name → index → constructor
+	* it uses a for loop to search through the known form names 
+    	* try to match formName with names[i].  
+	* When it finds a match, it uses the function pointer at the same index to create the correct form.  
+    	* match names[i] to creators[i].  
+	* If no match is found, it hits the error message.
