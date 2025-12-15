@@ -309,7 +309,7 @@ These literals represent:
 |---------------|--------------|
 |  "nan"        | "nanf"       |
 |  "+inf"       | "+inff"      |
-|  "-inf"       | "-inf"       |
+|  "-inf"       | "-inff"       |
 
 ---
 
@@ -317,7 +317,8 @@ These literals represent:
 
 ## Conversion for Pseudo-Literals
 
-**No casting is performed** for `char` and `int`, because these conversions do not make sense.
+Pseudo-literals are the only case where no numeric conversion is performed at all.  
+This is intentional and required by the subject. **No casting is performed** for `char` and `int`, because these conversions do not make sense.
 
 | Target type | Result                   |
 | ----------- | ------------------------ |
@@ -325,3 +326,145 @@ These literals represent:
 | `int`       | `impossible`             |
 | `float`     | `nanf`, `+inff`, `-inff` |
 | `double`    | `nan`, `+inf`, `-inf`    |
+
+---
+
+## Conversion from a Chars Literal
+
+**1st** : check - is it a printable character?
+
+```c++
+if (std::isprint(static_cast<unsigned char>(c)))
+```
+
+`isprint()` checks whether a character:
+* has a visible representation
+* can be printed safely to the terminal
+
+`Printable characters` include:
+* letters (A–Z, a–z)
+* digits (0–9)
+* punctuation (!, *, ?, etc.)
+* space
+
+`Non-printable characters` include:
+* control characters (\n, \t, \0, etc.)
+* ASCII values < 32 or 127
+
+**2nd** Actual Printing  
+
+| Printing from | Printing a :  |  How?         |
+|---------------|---------------|---------------|
+|  Char         | char     c    |  std::cout << c |
+|               | int           | static_cast<int>(c) |
+|               | float         | setf() --> static_cast<float>(c) |
+|               | double        | setf() --> static_cast<double>(c)|
+
+### setf() +  setprecision(1) = Enabling fixed-point notation + Decimal precision control 
+To be able to match the subject's printing format for decimal values we need the aid of these 2 methods.
+
+`setf(std::ios::fixed)`
+* Forces floating-point output to use fixed decimal notation.
+* Prevents scientific notation.  
+
+`setf()` sets formatting flags on the output stream, meaning it always print floating-point numbers in fixed-point notation.
+
+```c++
+std::cout.setf(std::ios::fixed);
+```
+
+`setprecision(1)`
+* With fixed, controls the number of digits after the decimal point.
+* setprecision(1) == print exactly 1 digit after the decimal point
+
+```c++
+std::cout << std::setprecision(1)
+```
+
+Afterwards, the stream state needs to be restore, 
+```c++
+std::cout.unsetf(std::ios::floatfield);
+```
+
+--- 
+
+## Conversion from Int Literal
+
+There is a ***big consideration*** for INTs to keep in mind: 
+
+> What happens if there is an invalid char in the middle of the string or for some reason the conversion stopped earlier? How does the code ensure the conversion reach the end of the string?
+
+### Check string parsing is complete
+   * use a `char*` to store the last char that was parsed. (`char *end`)
+   * use `C functions` = `std::strtol()` (integer attempt) or `std::strtod` (floating-point attempt)
+   * Use `c_str()` to be able to pass `std::string` (our input) to C APIs.
+
+#### std::strtol
+
+[std::strtol](https://en.cppreference.com/w/cpp/string/byte/strtol.html) interprets an integer value in a byte string pointed to by `str`.
+
+```c++
+long      strtol( const char* str, char** str_end, int base );
+```
+`str` = our input string
+`str_end` = the `char* end`
+`base` = 10 (as we are working with decimal system)
+Returns a `long` as it must be able to handle ***overflow.***
+
+`strtol()` reads characters from left to right; it stops when it encounters a character that is not valid for a number. `str_end` is set to point to the first character that was NOT parsed.  
+
+This is the key 🔑 : as read in the manual `the function sets the pointer pointed to by str_end to point to the character past the last character interpreted. If str_end is a null pointer, it is ignored`.
+
+```c++
+const char *s = "123abc";
+char *end;
+
+long v = strtol(s, &end, 10);
+
+//v = 123
+//end points to 'a'
+```
+
+#### std::strtod
+
+As part of the method that handle null-terminated byte strings, [std::strtod](https://en.cppreference.com/w/cpp/string/byte/strtof.html), this method interprets a floating point value in a byte string pointed to by str.
+
+```c++
+double      strtod ( const char* str, char** str_end );
+```
+
+`strtod()` converts a string into a double. It works similarly to strotol().  
+It returns a double as it is ***the widest standard floating type***.It is the safest fallback as it may handle *+/-inf*.
+
+#### string.c_str()
+
+[c_str()](https://cplusplus.com/reference/string/string/c_str/) returns a const char* pointing to a null-terminated copy of the string.  
+This is the only correct way to pass a std::string to C APIs.
+
+### Check the Int value if within INT_LIMITS & representable.
+
+* `errno != ERANGE` (error code ).
+
+```c++
+//errrno-base.h
+#define	ERANGE		34	/* Math result not representable */
+```
+* value within `<int>limits`
+
+```c++
+value >= std::numeric_limits<int>::min()
+&& value <= std::numeric_limits<int>::max()
+```
+
+[std::numeric_limits library](https://en.cppreference.com/w/cpp/types/numeric_limits.html) provides a standardized way to query various properties of arithmetic types.
+2 of the methods included in this template are [min()](https://en.cppreference.com/w/cpp/types/numeric_limits/min.html) and [max()](https://en.cppreference.com/w/cpp/types/numeric_limits/max.html)
+
+
+If these checks are succesfull, then we can print the value as an INT.  
+If this checks fails, then the code will try to fit the number as a DOUBLE.  
+---
+
+### Printing from INT
+1) print char from a number: 
+
+
