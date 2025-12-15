@@ -465,6 +465,7 @@ If this checks fails, then the code will try to fit the number as a DOUBLE.
 ---
 
 ### Printing from INT
-1) print char from a number: 
+1) print char from a number.
+
 
 
