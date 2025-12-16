@@ -12,7 +12,7 @@ A Form has:
 The grade rules are the same as before: valid grades are between 1 and 150, where 1 is the best and 150 is the worst. If a form is created with an invalid grade requirement (too high or too low), it must throw an exception.  
 
 The class must provide getters for all attributes and a method that allows a Bureaucrat to sign the form (Bureaucrat::signForm() that calls Form::beSigned() to try to sign the form), only if their grade is high enough. If the bureaucrat’s grade is too low, the method must throw an exception. 
-If it's succesfull it should print somethign like `<bureaucrat> signed <form>`.  Otherwise, it will print something like: ` <bureaucrat> couldn’t sign <form> because <reason>`.  
+If it's succesful it should print somethign like `<bureaucrat> signed <form>`.  Otherwise, it will print something like: ` <bureaucrat> couldn’t sign <form> because <reason>`.  
 
 You must also:
 * Overload operator<< to print out a form’s state (name, signed or not, grades).

@@ -19,7 +19,7 @@ You’ll be given literals in their usual decimal form, for example:
 - chars: `c`, `a`, …  
 - ints: `0`, `-42`, `42`, …  
 - floats: `0.0f`, `-4.2f`, `4.2f`, …  
-- doubles:` 0.0`, `-4.2`, `4.2`, …  
+- doubles: `0.0`, `-4.2`, `4.2`, …
 
 For floats and doubles you also have to support the special values:   
 - float: `-inff`, `+inff`, `nanf`  
@@ -58,9 +58,9 @@ double: 42.0
 ```
 ---
 
-## GOAL's Explanation
+## GOALS Explanation
 
-At first hand the exercise seems simple enough. *What is the point then?*  
+At first glance, the exercise seems simple enough. *What is the point then?*  
 
 1. **Static utility classes**  
 - ScalarConverter has no state, only behavior.   
@@ -80,12 +80,12 @@ Given only a string, you must decide:
 - Once you know the base type, you use static_cast<targetType>(value) to convert it to the others.  
 - The module specifically asks that conversions in each exercise be handled via a precise cast choice (here: static_cast).   
 
-4. **Handle Numeric edge cases such as:**   
+4. **Handle numeric edge cases such as:**   
 - Overflow when converting large double or float to int or char.  
 - Non-displayable ASCII characters.  
 - Special floating values: nan, +inf, -inf.  
 
-> Distinguishing between “impossible” and “Non displayable”.  
+> This includes distinguishing between “impossible” and “Non displayable”.  
 
 5. **Output formatting**  
 - Using std::fixed and std::setprecision to print 0.0f, 42.0, etc.  
@@ -100,18 +100,82 @@ ScalarConverter sc;  // <- this should NOT be allowed
 sc.convert("42");
 ```
 
-`ScalarConverter is stateless`; it only provides a service via a static function.
+`ScalarConverter is stateless; it only provides a service via a static function.`
 
-How do we enforce that in C++98? the usual way is making all constructors (and the destructor, and the assignment operator) `private`. This way we still respect the OCF rule. The members exist, just with restricted access.
+How do we enforce that in C++98? The usual way is making all constructors (and the destructor, and the assignment operator) `private`. This way we still respect the OCF rule. The members exist, just with restricted access.
+
+---
+
+## Representation vs Interpretation (core idea of the exercise)
+
+This exercise is not about converting numbers — it is about understanding the difference
+between **how a value is written** and **what that value actually is at runtime**.
+
+A *literal* is only a **representation**:
+- it is text
+- it follows syntax rules
+- it has no type yet
+
+A *value* is the **interpreted result**:
+- it exists in memory
+- it has a concrete type (`char`, `int`, `float`, `double`)
+- it can be converted safely or not
+
+In this exercise, the input is always a `std::string`.
+Your job is to:
+1. Interpret what kind of C++ literal that string represents
+2. Create the corresponding runtime value
+3. Convert that value explicitly into other scalar types
+
+This is why type detection must happen **before** conversion, and why syntax matters.
+
+## What "literal" means?
+
+A `literal` is a value written directly in source code, not stored in a variable and not computed. These are syntactic forms, not runtime values.  
+
+```c++
+'a'        // char literal
+42         // int literal
+-42        // int literal
+4.2f       // float literal
+4.2        // double literal
+"hello"    // string literal
+```
+
+> This is the premise of this exercise: “Given a string that looks like a C++ literal, determine which kind of literal it is, then convert it.”  
+> All the check-the-type functions will try to answer “Does this string follow the syntax rules of a C++ literal of that type?”
+
+Example:
+```c++
+"42"
+```
+* Is it a char literal? → ❌ no ('4' would be a char literal, "42" is not)
+* Is it convertible to char? → yes ('*')
+
+So...
+```c++
+isCharLiteral("42")  // false
+isIntLiteral("42")   // true
+```
+
+| Input string | Literal type detected | Reason                     |
+| ------------ | --------------------- | -------------------------- |
+| `"a"`        | char literal          | single non-digit character |
+| `"4"`        | int literal           | digit, not `'4'`           |
+| `"42"`       | int literal           | decimal integer syntax     |
+| `"42.0f"`    | float literal         | decimal + `f` suffix       |
+| `"42.0"`     | double literal        | decimal without suffix     |
+| `"nan"`      | pseudo-double literal | special floating literal   |
+| `"nanf"`     | pseudo-float literal  | special floating literal   |
 
 ---
 
 # Work that needs to be done 🔨
 
 1. Create `class ScalarConverter` and its OCF methods (constructors and destructor as private).    
-2. Create main.cpp that should check for `(ac == 2)` and simply call `ScalarConverter::convert()`.  
+2. Create `main.cpp` that should check for `(ac == 2)` and simply call `ScalarConverter::convert()`.  
 3. Create ScalarConverter.cpp. It should include the code to complete these tasks:    
-- `main converter() function`--> receives a string (&string). Checks if it's empty and checks the correct type conversion (+ printing when it is succesfull), or declare it *impossible* if no match is found.  
+- `main converter() function`--> receives a string (&string). Checks if it's empty and checks the correct type conversion (+ printing when it is succesful), or declare the conversion *impossible* if no match is found.    
 - `every Type check function` --> is it a literal digit? a literal char? a literal float or double? is it a pseudo type?  
 - `helper functions`--> is there a decimal point?  
 - `printing functions for each type` --> char, int, float, double, pseudo.  
@@ -142,53 +206,6 @@ How do we enforce that in C++98? the usual way is making all constructors (and t
     +------+-----+
 
 ```
- 
-
----
-
-## What "literal" means ?
-
-> Module 06 is about representation vs interpretation.  
-> A literal is a representation.  
-> A value is a runtime object.  
-> You’re learning to bridge that gap safely.  
-
-A `literal` is a value written directly in source code, not stored in a variable and not computed. These are syntactic forms, not runtime values.  
-
-```c++
-'a'        // char literal
-42         // int literal
--42        // int literal
-4.2f       // float literal
-4.2        // double literal
-"hello"    // string literal
-```
-
-> This is the premise of this exercise: “Given a string that looks like a C++ literal, determine which kind of literal it is, then convert it.”  
-> All the check-the-type functions will try to answer “Does this string follow the syntax rules of a C++ literal of that type?”
-
-Example:
-```c++
-"42"
-```
-* Is it a char literal? → ❌ no ('4' would be a char literal, "42" is not)
-* *s it convertible to char? → yes ('*')
-
-So...
-```c++
-isCharLiteral("42")  // false
-isIntLiteral("42")   // true
-```
-
-| Input string | Literal type detected | Reason                     |
-| ------------ | --------------------- | -------------------------- |
-| `"a"`        | char literal          | single non-digit character |
-| `"4"`        | int literal           | digit, not `'4'`           |
-| `"42"`       | int literal           | decimal integer syntax     |
-| `"42.0f"`    | float literal         | decimal + `f` suffix       |
-| `"42.0"`     | double literal        | decimal without suffix     |
-| `"nan"`      | pseudo-double literal | special floating literal   |
-| `"nanf"`     | pseudo-float literal  | special floating literal   |
 
 ---
 
@@ -232,7 +249,7 @@ If empty (length == 0) returns true. Otherwise == false.
 
 # Detecting each data type
 
-Remember the premise: you have a string, you don't know the content. How would you confirm if its an integer, a char or any of the other literal data types?
+Remember the premise: you have a string, you do not know the content. How would you confirm if its an integer, a char or any of the other literal data types?
 
 I will list here the strategy and methods I used:  
 
@@ -281,11 +298,11 @@ A float literal in this exercise follows this simplified syntax:
 * mandatory suffix `'f'`
 
 **Valid float has these conditions**  :
-- lenght > 2 
+- length > 2 
 - `last character == 'f'`
 - remaining string has to be `valid decimal number` with exactly one dot (like a ***double***)
 
-## Aider function to check valid decimal number
+## Helper function to check valid decimal number
 
 * Accepts an optional sign at position [0] / moves the index past it
 * Rejects strings that are only the sign sign `+` or `-`
@@ -392,7 +409,7 @@ std::cout.unsetf(std::ios::floatfield);
 
 There is a ***big consideration*** for INTs to keep in mind: 
 
-> What happens if there is an invalid char in the middle of the string or for some reason the conversion stopped earlier? How does the code ensure the conversion reach the end of the string?
+> What happens if there is an invalid char in the middle of the string or for some reason the conversion stopped earlier? How does the code ensure the conversion reached the end of the string?
 
 ### Check string parsing is complete
    * use a `char*` to store the last char that was parsed. (`char *end`)
@@ -408,7 +425,7 @@ long      strtol( const char* str, char** str_end, int base );
 ```
 `str` = our input string
 `str_end` = the `char* end`
-`base` = 10 (as we are working with decimal system)
+`base` = 10 (as we are working with the decimal system)
 Returns a `long` as it must be able to handle ***overflow.***
 
 `strtol()` reads characters from left to right; it stops when it encounters a character that is not valid for a number. `str_end` is set to point to the first character that was NOT parsed.  
@@ -433,15 +450,15 @@ As part of the method that handle null-terminated byte strings, [std::strtod](ht
 double      strtod ( const char* str, char** str_end );
 ```
 
-`strtod()` converts a string into a double. It works similarly to strotol().  
-It returns a double as it is ***the widest standard floating type***.It is the safest fallback as it may handle *+/-inf*.
+`strtod()` converts a string into a double. It works similarly to strtol().  
+It returns a double as it is ***the widest standard floating type***.It is the safest fallback as it can represent *+/-inf*.
 
 #### string.c_str()
 
 [c_str()](https://cplusplus.com/reference/string/string/c_str/) returns a const char* pointing to a null-terminated copy of the string.  
 This is the only correct way to pass a std::string to C APIs.
 
-### Check the Int value if within INT_LIMITS & representable.
+### Check whether the integer value is within INT limits and representable.
 
 * `errno != ERANGE` (error code ).
 
@@ -460,12 +477,80 @@ value >= std::numeric_limits<int>::min()
 2 of the methods included in this template are [min()](https://en.cppreference.com/w/cpp/types/numeric_limits/min.html) and [max()](https://en.cppreference.com/w/cpp/types/numeric_limits/max.html)
 
 
-If these checks are succesfull, then we can print the value as an INT.  
-If this checks fails, then the code will try to fit the number as a DOUBLE.  
+If these checks are succesful, then we can print the value as an INT.  
+If these checks fails, then the code will try to fit the number as a DOUBLE.  
 ---
 
-### Printing from INT
-1) print char from a number.
+### Printing from INT  
+Once these validations are finished, we can move on to actual printing the Int and the converted values.  
 
+* `INT` : simply print the int variable with `std::cout`  
+* `FLOAT` & `DOUBLE`:  
+    * declare new long and double variables + use static_cast<>   
+    * use `std::ios::fixed` and `setprecision(1)` to guarantee consistent floating-point with decimal notation.  
+* `CHAR`: as printing a char from a numeric value is something that will happen when converting from an INT, a DOUBLE and a FLOAT, this explanation will be base for all 3.
+The numeric value needs to be check validity and printability.  
 
+---
+
+#### Printing Char from a Number  
+
+1) Check it is a valid finite value.   
+      * this will be true for all INT (always finite numer1ic values) but might NOT be the case for all Float or Double  
+2) Check <char>Limits  
+      *  A char can only store a small range of integer values. This check ensures that the numeric value can actually be represented by a char without overflow (number inside  that range).  
+      *  as mentioned in previous section: [std::numeric_limits library](https://en.cppreference.com/w/cpp/types/numeric_limits.html) provides a standardized way to query various properties of arithmetic types. 2 of the methods included in this template are [min()](https://en.cppreference.com/w/cpp/types/numeric_limits/min.html) and [max()](https://en.cppreference.com/w/cpp/types/numeric_limits/max.html)  
+      *  the signedness of char is implementation-defined  
+            *  on some systems: char is signed → range `-128 … 127`  
+            *  on others: char is unsigned → range `0 … 255`  
+3) Check printability : `int isprint(unsigned char ch)`  
+      * [std::isprint()](https://en.cppreference.com/w/cpp/string/byte/isprint)    
+          * Checks if ch is a printable character as classified by the currently installed C locale.    
+               * digits (0123456789)  
+               * uppercase letters (ABCDEFGHIJKLMNOPQRSTUVWXYZ)  
+               * lowercase letters (abcdefghijklmnopqrstuvwxyz)  
+               * punctuation characters (!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~)  
+               * space ( )  
+           * `ch` must be `unsigned char` and `!= EOF`.  
+           * Return = Non-zero value if the character can be printed, zero otherwise.  
+4) Char gets printed with `std::cout`.  
+
+---
+
+### Printing from Float & Double
+
+A float cannot always be converted meaningfully to a char. If the float is nan or +inf, it is meaningless, or if it stores very large values it will be outside char range.  
+
+**Printing** :  
+
+* print `CHAR` from Float
+      * needs casting to `LONG`: this truncates the fractional part.  
+          * The Print-char-from-number function will check limits and printability (as mentioned in previous section).  
+      * checking `!std::isnan(f) && !std::isinf(f)`.  
+
+* print `INT` from Float: (will also become a helper function)  
+      * calling the helper function, will send the value as a parameter == double.   
+          * in the float case, it needs casting to `DOUBLE`.  
+          * I decided to make it a double so I can easily reused the helper when printing from a Double.  
+      * also check `!std::isnan(f) && !std::isinf(f)` before calling the helper function.  
+      * Helper function will `check INT limits` to avoid overflow issues.  
+      * `re-cast` the value to INT to be printed with `std::cout`.  
+
+* print `Float` or `Double`
+      * needs setf() and setprecision() to keep a consistent format.  
+      * static_cast will be call to go from float -> double, and double-> float.  
+      * suffix f is added manually.  
+      * no extra checks needed.  
+
+### Printing from Pseudo-Literals
+
+These are the simplest printing functions.
+
+* for `INT` and `CHAR`: print "not possible" or "impossible"
+* Pseudo-Double -> will need to append "f" to print pseudo-float
+* Pseudo-Float -> will need to erase the "f" when printing pseudo-double
+
+```c++
+string.substr(0, string.length() - 1)
+```
 
