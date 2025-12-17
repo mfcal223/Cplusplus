@@ -77,4 +77,47 @@ Whenever a class contains a virtual function, the compiler creates a Vtable for 
    1. Create generate() function that randomly instantiates one of the derived classes and returns it as a Base*.
    2. overloaded identify() functions:
       1. One that receives a Base* and determines the real type of the object using pointer-based dynamic_cast.
-      2. One that receives a Base& and determines the real type using reference-based dynamic_cast, without using pointers.
+      2. One that receives a Base& and determines the real type using reference-based dynamic_cast, without using pointers..
+
+Identify() functions will use dynamic_cast() to check which class the Base object corresponds to:
+
+```yaml
+“dynamic_cast<A*>(p) 
+asks: ‘Is the object behind p really an A?’”
+
+If the answer is ...
+... Yes → you get a valid pointer/reference
+
+... No → you get NULL (pointer) or an exception (reference)
+
+>>> Nothing is converted.
+>>> Nothing changes in memory.
+```
+
+```c
+
+[create an object +  vTable ] ------> I do not know which type of object is!
+            |
+   [I will use my identify() functions]
+[I dont know what I am sending as parameter]
+   |
+   |__ [identify() asks] --> is it A ? --> yes == prints "A"
+                                 | 
+                                 NO 
+                                 |
+                                 is it B? --> yes = prints "B"
+                                          |
+                                          NO
+                                          |
+                                          is it C? --> yes = prints "C"
+                                                   |
+                                                   NO = prints "Unknown"
+```
+The big difference between the 2 overloaded identify() is the way the handle the miss-matchs.   
+* On the pointer version, a pointer CAN be null. So there is no need to complicate things.
+* On the reference version, a reference cannot be NULL. So when the subclass doesn't match the alias (reference), the function catches the exception.
+
+| You cast…             | If it fails…           | How you detect                               |
+| --------------------- | ---------------------- | -------------------------------------------- |
+| `dynamic_cast<A*>(p)` | returns `NULL`         | `if (dynamic_cast<A*>(p))`                   |
+| `dynamic_cast<A&>(p)` | throws `std::bad_cast` | `try { dynamic_cast<A&>(p); } catch(...) {}` |
