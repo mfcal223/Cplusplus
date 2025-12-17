@@ -1,3 +1,10 @@
+- [C++ Module 6 - Exercise 01 - Pointer representation](#c-module-6---exercise-01---pointer-representation)
+  - [TASK](#task)
+  - [GOALS](#goals)
+  - [Workflow](#workflow)
+  - [How does reinterpret\_cast() works?](#how-does-reinterpret_cast-works)
+
+
 # C++ Module 6 - Exercise 01 - Pointer representation
 
 ## TASK
@@ -55,28 +62,29 @@ You'll be learning that the same bits can be seens as different types using rein
     * return [uintptr_t] 
 * Create deserialize() public method.
     * takes (uintptr_t) as parameter
-    * returns [Data *] 
+    * returns [Data *]   
 * Both serialize() and deserialize() uses reinterpret_cast()
-3) Create main.cpp 
-* create a `Data object "original"` providing the corresponding values of the chosen attributes.
+3) Create main.cpp   
+* create a `Data object "original"` providing the corresponding values of the chosen attributes.  
 * create a `uintptr_t variable "raw"`, and initilize it using `serialize(original)`
-* create a `2nd Data object "is_a_copy`, and use `deserialize(raw)` to get a Data* to initialize it.
-* use `std::cout` to print each variable and any other necessary message to explain the goal of the exercise. 
+* create a `2nd Data object "is_a_copy`, and use `deserialize(raw)` to get a Data* to initialize it.  
+* use `std::cout` to print each variable and any other necessary message to explain the goal of the exercise.  
 
 ---
 
 ## How does reinterpret_cast() works?
 
-At the lowest level, memory is just bits:
+At the lowest level, memory is just bits:  
 ```text
 01001110 10100101 00001011 ...
 ```
-Those bits have no type by themselves. A type only exists in the **compiler’s head**.
-When you declare a variable with a certain data type (p.e. INT), you are telling the compiler *“Please interpret the next N bytes as an INT.”*
-If then you declare another variable (p.e. a DOUBLE), you are telling the compiler *“Please interpret the next N bytes as an DOUBLE.”*
-`The bits don’t change — only the rules used to read them do.`
+Those bits have no type by themselves. A type only exists in the **compiler’s head**.  
+When you declare a variable with a certain data type (p.e. INT), you are telling the compiler *“Please interpret the next N bytes as an INT.”*  
+If then you declare another variable (p.e. a DOUBLE), you are telling the compiler *“Please interpret the next N bytes as an DOUBLE.”*   
 
-A pointer is just a number that represents a memory address.
+`The bits don’t change — only the rules used to read them do.`  
+
+A pointer is just a number that represents a memory address.  
 
 ```css
 Data* ptr = &d;
@@ -85,29 +93,26 @@ Data* ptr = &d;
 
 ```
 
-What reinterpret_cast does is tell the compiler:
+What `reinterpret_cast` does is tell the compiler:
 
+```yaml
 “Do NOT transform the value.
 Just reinterpret these bits as another type.”
 No adjustment.
 Just: same bits, new meaning.
-
-Your serialize() explained in plain English
+```
+```c++
+// in code
 uintptr_t Serializer::serialize(Data* ptr)
 {
     return reinterpret_cast<uintptr_t>(ptr);
 }
+`//“Take the bits that represent this pointer
+//and treat them as an unsigned integer.”
 
 
-What this really says:
-
-“Take the bits that represent this pointer
-and treat them as an unsigned integer.”
-
-So:
-
-Data* ptr  →  0x7ffd05887008
+Data* ptr  →  0x7ffd05887008  
 uintptr_t →  140724696281096
 
-
-Same bits. Different label.
+> Same bits. Different label.
+```
