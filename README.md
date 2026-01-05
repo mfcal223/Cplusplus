@@ -28,6 +28,9 @@ This repository contains **theory notes** and **detailed explanations** of some 
 - [8_Cout & Cast](CPP_Theory/8_Cout_Cast.md)
 - [9_Orthodox Canonical Form (OCF)](CPP_Theory/9_OrthodoxCanonicalForm.md)
 - [10_Overloading & Polymorphism](CPP_Theory/10_Overloading%20&%20Polymorphism.md)
+- [11_Exceptions](CPP_Theory/11_Exceptions.md)
+- [12_Serialization](CPP_Theory/12_Serialization.md)
+- [13_Templates](CPP_Theory/13_Templates.md)
 
 ---
 
@@ -63,6 +66,31 @@ There will be no actual, completed code on this section (it is part of a differe
 - [cpp_2_ex02.md](CPP_Exercises_with_explanation/CPP_2/cpp_2_ex02.md)
 - [cpp_2_ex03.md](CPP_Exercises_with_explanation/CPP_2/cpp_2_ex03.md)
 
+#### 📂 [CPP 3](CPP_Exercises_with_explanation/CPP_3)
+- [Exercises_3_00.md](CPP_Exercises_with_explanation/CPP_3/Exercises_3_00.md)
+- [Exercises_3_01.md](CPP_Exercises_with_explanation/CPP_3/Exercises_3_01.md)
+- [Exercises_3_02.md](CPP_Exercises_with_explanation/CPP_3/Exercises_3_02.md)
+- [Exercises_3_03.md](CPP_Exercises_with_explanation/CPP_3/Exercises_3_03.md)
+
+#### 📂 [CPP 4](CPP_Exercises_with_explanation/CPP_4)
+- [Exercises_4_00.md](CPP_Exercises_with_explanation/CPP_4/Exercises_4_00.md)
+- [Exercises_4_01.md](CPP_Exercises_with_explanation/CPP_4/Exercises_4_01.md)
+- [Exercises_4_02.md](CPP_Exercises_with_explanation/CPP_4/Exercises_4_02.md)
+- [Exercises_4_summary.md](CPP_Exercises_with_explanation/CPP_4/Exercises_4_summary.md)
+
+#### 📂 [CPP 5](CPP_Exercises_with_explanation/CPP_5)
+- [Exercises_5_00.md](CPP_Exercises_with_explanation/CPP_5/Exercises_00.md)
+- [Exercises_5_01.md](CPP_Exercises_with_explanation/CPP_5/Exercises_01.md)
+- [Exercises_5_02.md](CPP_Exercises_with_explanation/CPP_5/Exercises_02.md)
+- [Exercises_5_03.md](CPP_Exercises_with_explanation/CPP_5/Exercises_03.md)
+
+#### 📂 [CPP 6](CPP_Exercises_with_explanation/CPP_6)
+- [Exercises_6_00.md](CPP_Exercises_with_explanation/CPP_6/Exercises_00.md)
+- [Exercises_6_01.md](CPP_Exercises_with_explanation/CPP_6/Exercises_01.md)
+- [Exercises_6_02.md](CPP_Exercises_with_explanation/CPP_6/Exercises_02.md)
+
+#### 📂 [CPP 7](CPP_Exercises_with_explanation/CPP_7)
+- [Exercises_7_00.md](CPP_Exercises_with_explanation/CPP_7/Exercises_00.md)
 ---
 
 ```
