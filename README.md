@@ -94,9 +94,10 @@ There will be no actual, completed code on this section (it is part of a differe
 ---
 
 ```
-.------------------------------------------------------------------------------------------.
-| If any link is broken, there is an error, a typo, or any other issue, please let me know.|
-'------------------------------------------------------------------------------------------'  
+.--------------------------------------------------------.
+| If any link is broken, if there is an error, a typo,   |
+| or any other issue, please let me know.                |
+'--------------------------------------------------------'  
       ^      (\_/)
       '----- (O.o)
              (> <)
