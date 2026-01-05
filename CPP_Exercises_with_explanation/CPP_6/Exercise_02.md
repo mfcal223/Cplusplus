@@ -1,5 +1,15 @@
 # C++ Module 06 - Exercise 02 - "Identify yourself!"
 
+- [C++ Module 06 - Exercise 02 - "Identify yourself!"](#c-module-06---exercise-02---identify-yourself)
+- [TASK](#task)
+    - [Requirements](#requirements)
+      - [Functions to implement](#functions-to-implement)
+    - [Restrictions](#restrictions)
+- [GOALS](#goals)
+    - [vTable](#vtable)
+- [Workflow of the exercise](#workflow-of-the-exercise)
+
+
 # TASK
 Create a small class hierarchy with a base class and three derived classes.  
 The program must be able to determine the real (dynamic) type of an object at runtime, even when it is accessed through a base class pointer or reference.
