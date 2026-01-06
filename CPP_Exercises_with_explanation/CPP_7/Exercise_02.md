@@ -4,6 +4,8 @@
   - [TASK](#task)
   - [GOALs](#goals)
   - [Exercise summary](#exercise-summary)
+  - [WORKFLOW](#workflow)
+    - [Creating Array.hpp and the class template](#creating-arrayhpp-and-the-class-template)
 
 ## TASK
 
@@ -69,6 +71,7 @@ The use of `operator new[]` is mandatory. It should have a `matching delete[]`.
 As defined in the subject's prompt: *"size() takes no parameters and must not modify the current instance"*.
 const-propagation must be considered.  
 
+---
 
 ## Exercise summary
 
@@ -82,7 +85,98 @@ This exercise seemed a bit overwhelming. It is the combination of several topics
 5. Const correctness (CPP01 + ex01 of this module)
 6. Exception safety (CPP05)
 
-The key here is 
+---
+
+## WORKFLOW
+
+### Creating Array.hpp and the class template
+
+> The class Array<T> owns a dynamically allocated array of elements of type T.  
+> The class manages two things: a pointer to heap-allocated memory and the number of elements.  
+
+You will need to private attributes to store data and the size (max number of elements in the array).  
+
+1. **Default Constructor**
+
+The `default constructor` creates an empty array with no allocation.
+
+```c++
+Array<int> a;
+
+//memory layout
+STACK                           HEAP
+─────────────────────────       ───────────────
+a                               (nothing)
+┌──────────────┐
+│ _data = NULL │
+│ _size = 0    │
+└──────────────┘
+
+```
+* a lives on the stack  
+* No allocation happened  
+* Destructor will do delete[] NULL → safe
+
+2. **Size constructor**
+
+The `size constructor` allocates exactly **n elements** using **new[]**, with default initialization depending on the type.   
+
+```c++
+Array<int> a(3);
+
+//memory layout
+STACK                           HEAP
+─────────────────────────       ─────────────────────────
+a                               new int[3]
+┌──────────────┐                ┌───────┬───────┬───────┐
+│ _data ───────┼──────────────▶ │  ?    │  ?    │  ?    │
+│ _size = 3    │                └───────┴───────┴───────┘
+└──────────────┘
+
+```
+* `a` still lives on the stack. 
+* Elements live on the heap. 
+* `?` = default-initialized (for int, undefined).  
+
+>  `a` is the only owner of that heap memory
+
+3. **Copy Constructor & operator=** 
+
+The copy construtor will create a deep copy of the array on initialization. To ensure a DEEP COPY of the information inside data, an overload of the operator= (assignment operator) is needed.
+
+```c++
+Array<int> b = a;
+
+STACK                           HEAP
+─────────────────────────       ─────────────────────────
+a                               new int[3]
+┌──────────────┐                ┌───────┬───────┬───────┐
+│ _data ───────┼──────────────▶ │  ?    │  ?    │  ?    │
+│ _size = 3    │                └───────┴───────┴───────┘
+└──────────────┘
+
+b                               new int[3]
+┌──────────────┐                ┌───────┬───────┬───────┐
+│ _data ───────┼──────────────▶ │  ?    │  ?    │  ?    │
+│ _size = 3    │                └───────┴───────┴───────┘
+└──────────────┘
+```
+* a._data != b._data  
+* Modifying one does not affect the other  
+* Each destructor deletes its own memory
+
+> This is the core requirement of ex02
+
+
+
+> The destructor releases the allocated memory using **delete[]**.
+
+```c++
+data = new T[_size];
+```
+```c++
+delete[] _data;
+```
 
 ---
 
