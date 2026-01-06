@@ -1,4 +1,11 @@
-# C++ Module 07 - Exercise 01 - Iteration
+# C++ Module 07 - Exercise 01 - Function Templates
+
+- [C++ Module 07 - Exercise 01 - Function Templates](#c-module-07---exercise-01---function-templates)
+  - [TASK](#task)
+  - [What is the exercise REALLY about?](#what-is-the-exercise-really-about)
+    - [Const vs Non-Const](#const-vs-non-const)
+  - [Designing Iter.hpp](#designing-iterhpp)
+  - [Const / non-const flow diagram (mental model)](#const--non-const-flow-diagram-mental-model)
 
 ## TASK  
 
