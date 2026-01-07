@@ -376,7 +376,7 @@ truncate("Maria")        → "Maria"
 --- 
 ##  📊 Program Flowchart
 
-```mermaid
+```text
 flowchart TD
 	A [Program Start] --> B [Display Menu: ADD / SEARCH / EXIT]
 	B |ADD| --> C[Create Temp Contact]
