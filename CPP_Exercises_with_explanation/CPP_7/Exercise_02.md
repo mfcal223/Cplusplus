@@ -6,6 +6,10 @@
   - [Exercise summary](#exercise-summary)
   - [WORKFLOW](#workflow)
     - [Creating Array.hpp and the class template](#creating-arrayhpp-and-the-class-template)
+      - [1. **Default Constructor**](#1-default-constructor)
+      - [2. **Size constructor**](#2-size-constructor)
+      - [3. **Copy Constructor \& operator=**](#3-copy-constructor--operator)
+      - [4. **Destructor \& Cleaning**](#4-destructor--cleaning)
 
 ## TASK
 
@@ -96,7 +100,7 @@ This exercise seemed a bit overwhelming. It is the combination of several topics
 
 You will need to private attributes to store data and the size (max number of elements in the array).  
 
-1. **Default Constructor**
+#### 1. **Default Constructor**
 
 The `default constructor` creates an empty array with no allocation.
 
@@ -117,7 +121,7 @@ a                               (nothing)
 * No allocation happened  
 * Destructor will do delete[] NULL → safe
 
-2. **Size constructor**
+#### 2. **Size constructor**
 
 The `size constructor` allocates exactly **n elements** using **new[]**, with default initialization depending on the type.   
 
@@ -140,7 +144,8 @@ a                               new int[3]
 
 >  `a` is the only owner of that heap memory
 
-3. **Copy Constructor & operator=** 
+
+#### 3. **Copy Constructor & operator=** 
 
 The copy construtor will create a deep copy of the array on initialization. To ensure a DEEP COPY of the information inside data, an overload of the operator= (assignment operator) is needed.
 
@@ -151,13 +156,13 @@ STACK                           HEAP
 ─────────────────────────       ─────────────────────────
 a                               new int[3]
 ┌──────────────┐                ┌───────┬───────┬───────┐
-│ _data ───────┼──────────────▶ │  ?    │  ?    │  ?    │
+│ _data ───────┼──────────────▶ │  1    │  2    │  3    │
 │ _size = 3    │                └───────┴───────┴───────┘
 └──────────────┘
 
 b                               new int[3]
 ┌──────────────┐                ┌───────┬───────┬───────┐
-│ _data ───────┼──────────────▶ │  ?    │  ?    │  ?    │
+│ _data ───────┼──────────────▶ │  1    │  2    │  3    │
 │ _size = 3    │                └───────┴───────┴───────┘
 └──────────────┘
 ```
@@ -167,15 +172,79 @@ b                               new int[3]
 
 > This is the core requirement of ex02
 
-
-
-> The destructor releases the allocated memory using **delete[]**.
+`Inside operator=`
+* delete[] b._data;  
+    * → heap B₀ is freed  
+* Allocate new memory of size 3  
+    * → new heap address B₁
+* Copy elements from a
 
 ```c++
-data = new T[_size];
+STACK                           HEAP
+a                               A
+┌──────────────┐                ┌───┬───┬───┐
+│ _data ───────┼──────────────▶ │ 1 │ 2 │ 3 │
+│ _size = 3    │                └───┴───┴───┘
+└──────────────┘
+
+b                               B₁
+┌──────────────┐                ┌───┬───┬───┐
+│ _data ───────┼──────────────▶ │ 1 │ 2 │ 3 │
+│ _size = 3    │                └───┴───┴───┘
+└──────────────┘
+
 ```
+
+> The copy constructor is `deep` because it uses the assignment operator, which is `deep`.
+
+**What would be a shallow copy?**  
 ```c++
-delete[] _data;
+Array(Array const &other)
+{
+    _data = other._data;
+    _size = other._size;
+}
+```
+Following the example, if you would then do:
+```c++
+a[0] = 42;
+b[1] = 96;
+```
+Those changes will be independent of each other.
+
+```c++
+STACK                           HEAP
+a                               A
+┌──────────────┐                ┌───┬───┬───┐
+│ _data ───────┼──────────────▶ │42 │ 2 │ 3 │
+│ _size = 3    │                └───┴───┴───┘
+└──────────────┘
+
+b                               B₁
+┌──────────────┐                ┌───┬───┬───┐
+│ _data ───────┼──────────────▶ │ 1 │96 │ 3 │
+│ _size = 3    │                └───┴───┴───┘
+└──────────────┘
+
+```
+
+#### 4. **Destructor & Cleaning**  
+The destructor releases the allocated memory using **delete[]**.  
+There will be a `delete[]` used inside *operator= overload* too: when copying "b = a", the initialized data in `b` needs to be deleted, so the data from `a` can be copied
+
+```c++
+delete[] _data;                     // original b._data
+    _data = NULL;
+
+(...)
+
+_data = new T[_size];               // reallocating "data" for b
+i = 0;
+while (i < _size)
+{
+    _data[i] = other._data[i];      // b._data = a._data
+    i++;
+}
 ```
 
 ---
