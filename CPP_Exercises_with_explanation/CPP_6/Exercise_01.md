@@ -9,7 +9,7 @@
 
 ## TASK
 
-You must implement a `Serializer` class that **cannot be instantiated by the user and exposes two static functions:
+You must implement a `Serializer` class that **cannot be instantiated by the user** and exposes two static functions:
 ```c++
 serialize(Data* ptr)
 //Takes a Data* pointer and converts it into an unsigned integer type uintptr_t.
