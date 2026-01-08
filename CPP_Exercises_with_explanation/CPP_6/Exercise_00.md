@@ -432,30 +432,49 @@ std::cout.unsetf(std::ios::floatfield);
 
 There is a ***big consideration*** for INTs to keep in mind: 
 
-> What happens if there is an invalid char in the middle of the string or for some reason the conversion stopped earlier? How does the code ensure the conversion reached the end of the string?
+`What happens if there is an invalid char in the middle of the string or for some reason the conversion stopped earlier? How does the code ensure the conversion reached the end of the string?`
 
 #### Check string parsing is complete
-   * use a `char*` to store the last char that was parsed. (`char *end`)
-   * use `C functions` = `std::strtol()` (integer attempt) or `std::strtod` (floating-point attempt)
+
+**How?**  
+   * use a char* to store the *last char that was parsed*. (`char *end`).  
+   * use functions like `std::strtol()` (integer attempt) or `std::strtod` (floating-point attempt) to check the chars in the string.  
    * Use `c_str()` to be able to pass `std::string` (our input) to C APIs.
 
 #### std::strtol
 
 [std::strtol](https://en.cppreference.com/w/cpp/string/byte/strtol.html) interprets an integer value in a byte string pointed to by `str`.
 
+`strtol()` reads characters from left to right; it stops when it encounters a character that is not valid for a number. `str_end` is set to point to the first character that was NOT parsed. 
+
 ```c++
 long      strtol( const char* str, char** str_end, int base );
 ```
-`str` = our input string
-`str_end` = the `char* end`
-`base` = 10 (as we are working with the decimal system)
-Returns a `long` as it must be able to handle ***overflow.***
+`str` = our input string  
+`str_end` = the last char that was parsed (`char* end`)  
+`base` = 10 digits (as we are working with the decimal system)  
+Returns a `long` value as it must be able to handle ***overflow.***  
 
-`strtol()` reads characters from left to right; it stops when it encounters a character that is not valid for a number. `str_end` is set to point to the first character that was NOT parsed.  
+This is the key 🔑 : as read in the manual `the function sets the pointer, pointed to by str_end, to point to the character past the last character interpreted. If str_end is a null pointer, it is ignored` (if it is not null, then the parsing stopped mid-string).
 
-This is the key 🔑 : as read in the manual `the function sets the pointer pointed to by str_end to point to the character past the last character interpreted. If str_end is a null pointer, it is ignored`.
+`end == literal.c_str()` means that strtol() could not parse even a single character, so the string does not start with a valid integer representation. **If no conversion can be performed, `strtol()` returns 0 and sets endptr to the value of str.**    
+
+> When the input is "abc", strtol returns 0 and sets end equal to the start of the string, meaning no characters were parsed at all; this is why checking `end == literal.c_str()` is necessary to detect completely invalid inputs.
+
+`*end != '\0'` means parsing stopped before the end, so the string contains invalid trailing characters.  
 
 ```c++
+//example 1
+const char *s = "abc";
+char *end;
+
+long v = strtol(s, &end, 10);
+
+//v = 0
+//end points to 'a'
+
+/*--------------------*/
+//example 2
 const char *s = "123abc";
 char *end;
 
