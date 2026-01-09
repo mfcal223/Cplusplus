@@ -1,4 +1,5 @@
 # Cplusplus
+
 Introduction to the use of C++, following simple exercises. The goal is to learn about Basics of Object-Oriented Programming (OOP). 
 
 This repository will contain key concepts for c++ beginners. 
@@ -67,32 +68,37 @@ There will be no actual, completed code on this section (it is part of a differe
 - [cpp_2_ex03.md](CPP_Exercises_with_explanation/CPP_2/cpp_2_ex03.md)
 
 #### 📂 [CPP 3](CPP_Exercises_with_explanation/CPP_3)
-- [Exercises_3_00.md](CPP_Exercises_with_explanation/CPP_3/Exercises_3_00.md)
-- [Exercises_3_01.md](CPP_Exercises_with_explanation/CPP_3/Exercises_3_01.md)
-- [Exercises_3_02.md](CPP_Exercises_with_explanation/CPP_3/Exercises_3_02.md)
-- [Exercises_3_03.md](CPP_Exercises_with_explanation/CPP_3/Exercises_3_03.md)
+- [Exercises_3_00.md](CPP_Exercises_with_explanation/CPP_3/Exercise_3_00.md)
+- [Exercises_3_01.md](CPP_Exercises_with_explanation/CPP_3/Exercise_3_01.md)
+- [Exercises_3_02.md](CPP_Exercises_with_explanation/CPP_3/Exercise_3_02.md)
+- [Exercises_3_03.md](CPP_Exercises_with_explanation/CPP_3/Exercise_3_03.md)
 
 #### 📂 [CPP 4](CPP_Exercises_with_explanation/CPP_4)
-- [Exercises_4_00.md](CPP_Exercises_with_explanation/CPP_4/Exercises_4_00.md)
-- [Exercises_4_01.md](CPP_Exercises_with_explanation/CPP_4/Exercises_4_01.md)
-- [Exercises_4_02.md](CPP_Exercises_with_explanation/CPP_4/Exercises_4_02.md)
-- [Exercises_4_summary.md](CPP_Exercises_with_explanation/CPP_4/Exercises_4_summary.md)
+- [Exercises_4_00.md](CPP_Exercises_with_explanation/CPP_4/Exercise_4_00.md)
+- [Exercises_4_01.md](CPP_Exercises_with_explanation/CPP_4/Exercise_4_01.md)
+- [Exercises_4_02.md](CPP_Exercises_with_explanation/CPP_4/Exercise_4_02.md)
+- [Exercises_4_summary.md](CPP_Exercises_with_explanation/CPP_4/Exercise_4_summary.md)
 
 #### 📂 [CPP 5](CPP_Exercises_with_explanation/CPP_5)
-- [Exercises_5_00.md](CPP_Exercises_with_explanation/CPP_5/Exercises_00.md)
-- [Exercises_5_01.md](CPP_Exercises_with_explanation/CPP_5/Exercises_01.md)
-- [Exercises_5_02.md](CPP_Exercises_with_explanation/CPP_5/Exercises_02.md)
-- [Exercises_5_03.md](CPP_Exercises_with_explanation/CPP_5/Exercises_03.md)
+- [Exercises_5_00.md](CPP_Exercises_with_explanation/CPP_5/Exercise_00.md)
+- [Exercises_5_01.md](CPP_Exercises_with_explanation/CPP_5/Exercise_01.md)
+- [Exercises_5_02.md](CPP_Exercises_with_explanation/CPP_5/Exercise_02.md)
+- [Exercises_5_03.md](CPP_Exercises_with_explanation/CPP_5/Exercise_03.md)
 
 #### 📂 [CPP 6](CPP_Exercises_with_explanation/CPP_6)
-- [Exercises_6_00.md](CPP_Exercises_with_explanation/CPP_6/Exercises_00.md)
-- [Exercises_6_01.md](CPP_Exercises_with_explanation/CPP_6/Exercises_01.md)
-- [Exercises_6_02.md](CPP_Exercises_with_explanation/CPP_6/Exercises_02.md)
+- [Exercises_6_00.md](CPP_Exercises_with_explanation/CPP_6/Exercise_00.md)
+- [Exercises_6_01.md](CPP_Exercises_with_explanation/CPP_6/Exercise_01.md)
+- [Exercise 02 - RTTI with dynamic cast](/CPP_Exercises_with_explanation/CPP_6/Exercise_02.md)
 
 #### 📂 [CPP 7](CPP_Exercises_with_explanation/CPP_7)
-- [Exercises_7_00.md](CPP_Exercises_with_explanation/CPP_7/Exercises_00.md)
+- [Exercise 00 - Templates](CPP_Exercises_with_explanation/CPP_7/Exercises_00.md)
+- [Exercise 01 - Function Templates](/CPP_Exercises_with_explanation/CPP_7/Exercise_01.md) 
 ---
+ 
+   
 
+🔝 [TOP OF PAGE](#cplusplus)
+⏩ [ CPP Theory - Introduction](CPP_Theory/1_Introduction.md)
 ```
 .--------------------------------------------------------.
 | If any link is broken, if there is an error, a typo,   |

@@ -171,4 +171,7 @@ void (*f)(T const&)
 ```
 
 ---
-
+🔝 [TOP OF PAGE](#c-module-07---exercise-01---function-templates) 
+⏪ [CPP 7 - ex00 - Function templates ](/CPP_Exercises_with_explanation/CPP_7/Exercise_00.md)  
+⏩ [CPP 7 - ex02 - ](/CPP_Exercises_with_explanation/CPP_7/Exercise_02.md)  
+🔙 [INDEX](/README.md)  

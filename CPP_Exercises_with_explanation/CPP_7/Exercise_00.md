@@ -95,3 +95,13 @@ min(c, d) = chaine1
 max(c, d) = chaine2
 ```
 4. Create Makefile to compile main.cpp 
+
+---
+
+🔝 [TOP OF PAGE](#c-module-07---exercise-00---first-steps-with-templates)  
+⏪ [CPP 6 - ex02 - RTTI with dynamic cast](/CPP_Exercises_with_explanation/CPP_6/Exercise_02.md)  
+⏩ [CPP 7 - ex01 - Function Templates](/CPP_Exercises_with_explanation/CPP_7/Exercise_01.md)  
+🔙 [INDEX](/README.md)   
+
+
+---
