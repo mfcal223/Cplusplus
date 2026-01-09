@@ -248,7 +248,7 @@ while (i < _size)
 ```
 
 ---
-🔝 [TOP OF PAGE](#c-module-07---exercise-02---class-templates) 
+🔝 [TOP OF PAGE](#c-module-07---exercise-02---class-templates)   
 ⏪ [CPP 7 - ex01 - Function Templates](/CPP_Exercises_with_explanation/CPP_7/Exercise_01.md)  
 ⏩ --  
 🔙 [INDEX](/README.md)  

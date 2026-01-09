@@ -5,6 +5,9 @@
   - [🔍 What is the exercise REALLY about?](#-what-is-the-exercise-really-about)
     - [📍 Const vs Non-Const](#-const-vs-non-const)
   - [Designing Iter.hpp](#designing-iterhpp)
+    - [❓ What iter must do?](#-what-iter-must-do)
+    - [📑 Overloading iter function templates](#-overloading-iter-function-templates)
+    - [📑 The callback type](#-the-callback-type)
   - [🔮 Const / non-const flow diagram (mental model)](#-const--non-const-flow-diagram-mental-model)
 
 ## 📬 TASK  
@@ -83,7 +86,7 @@ This means:
 
 ## Designing Iter.hpp
 
-❓ `What iter must do?`
+### ❓ What iter must do?
 
 - Work for any element type **>>> it has to be a template**
 - Receive a pointer to the first element of an array
@@ -94,20 +97,20 @@ This means:
         - T& (modifiable)
         - T const& (read-only)
 
-📑 `Overloading iter function templates`
+### 📑 Overloading iter function templates
 
 Use what was learned in preivous modules! Overloading! 
 
 ```
-iter(T* array, ...) → gives elements as T&
+iter(T* array, ...) → 🔎 gives elements as [T&]
 
-iter(T const* array, ...) → gives elements as T const&
+iter(T const* array, ...) → 🔎 gives elements as [T const&]
 ```
 This automatically enforces:
-* const arrays can’t be modified
-* non-const arrays can
+* **const arrays can’t be modified**
+* **non-const arrays** ***can***
 
-📑 `The callback type`
+### 📑 The callback type
 
 We’ll accept a function pointer:
 * For non-const:
@@ -121,11 +124,13 @@ void (*f)(T const&) (also allowed)
 void (*f)(T const&)
 ```
 
-⚠️ **Why 3 overloads (and not 2 or 4)?**
-Because you need to cover the `3 possible combinations`: 
-✳️ Non const array - non const function
-✳️ Non const array - const function
-✳️ Const array - const function
+⚠️ **Why 3 overloads (and not 2 or 4)?**  
+Because you need to cover the `3 possible combinations`:   
+✳️ Non const array - non const function  
+✳️ Non const array - const function  
+✳️ Const array - const function  
+
+🛟 Consider if `Const array - non const function` is possible ... ☠️
 
 
 ---
@@ -170,6 +175,6 @@ Because you need to cover the `3 possible combinations`:
 
 ---
 🔝 [TOP OF PAGE](#c-module-07---exercise-01---function-templates--const-correctness)   
-⏪ [CPP 7 - ex00 - Function templates ](/CPP_Exercises_with_explanation/CPP_7/Exercise_00.md)  
-⏩ [CPP 7 - ex02 - ](/CPP_Exercises_with_explanation/CPP_7/Exercise_02.md)  
+⏪ [CPP 7 - ex00 - Function templates ](/CPP_Exercises_with_explanation/CPP_7/Exercise_00.md)   
+⏩ [CPP 7 - ex02 - Class Template](/CPP_Exercises_with_explanation/CPP_7/Exercise_02.md)  
 🔙 [INDEX](/README.md)  
