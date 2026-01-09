@@ -130,4 +130,4 @@ The big difference between the 2 overloaded identify() is the way the handle the
 | You cast…             | If it fails…           | How you detect                               |
 | --------------------- | ---------------------- | -------------------------------------------- |
 | `dynamic_cast<A*>(p)` | returns `NULL`         | `if (dynamic_cast<A*>(p))`                   |
-| `dynamic_cast<A&>(p)` | throws `std::bad_cast` | `try { dynamic_cast<A&>(p); } catch(...) {}` |
+| `dynamic_cast<A&>(p)` | throws an exception | `try { dynamic_cast<A&>(p); } catch(...) {}` |
