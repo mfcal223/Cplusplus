@@ -91,8 +91,8 @@ There will be no actual, completed code on this section (it is part of a differe
 - [Exercise 02 - RTTI with dynamic cast](/CPP_Exercises_with_explanation/CPP_6/Exercise_02.md)
 
 #### 📂 [CPP 7](CPP_Exercises_with_explanation/CPP_7)
-- [Exercise 00 - Templates](CPP_Exercises_with_explanation/CPP_7/Exercises_00.md)
-- [Exercise 01 - Function Templates](/CPP_Exercises_with_explanation/CPP_7/Exercise_01.md) 
+- [Exercise 00 - Templates ](CPP_Exercises_with_explanation/CPP_7/Exercises_00.md)
+- [Exercise 01 - Function Templates & Const-correctness](/CPP_Exercises_with_explanation/CPP_7/Exercise_01.md) 
 ---
  
    

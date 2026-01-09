@@ -1,12 +1,12 @@
 # C++ Module 07 - Exercise 00 - First steps with templates
 
 - [C++ Module 07 - Exercise 00 - First steps with templates](#c-module-07---exercise-00---first-steps-with-templates)
-  - [TASK](#task)
-  - [Key concepts for evaluation](#key-concepts-for-evaluation)
-  - [WORKFLOW](#workflow)
+  - [📬 TASK](#-task)
+  - [⚠️ Key concepts for evaluation](#️-key-concepts-for-evaluation)
+  - [⚙️ WORKFLOW](#️-workflow)
 
 
-## TASK
+## 📬 TASK
 
 * Create three generic utility functions using C++ templates.  
 
@@ -26,22 +26,22 @@ You must implement the following function templates:
 - Takes two values and returns the larger one.
 - If both values are equal, the function must return the second argument.
 
-- Requirements
+-` Requirements`
     * Both parameters must be of the same type.  
     * The type must support comparison operators (<, >, etc.).  
     * These functions must be written as templates, not duplicated for each type.  
     * All template implementations must be placed in header files.  
     * No forbidden functions are listed.  
 
-- Expected behavior  
+- `Expected behavior`  
     * Your functions must work correctly with built-in types (like int) and user-defined types such as std::string, producing exactly the same output shown in the subject.  
     * This exercise demonstrates how templates allow you to write one single implementation that adapts automatically to different data types.
 
 ---
 
-> Please chech [Template](/CPP_Theory/13_Templates.md) for theory background on this subject.
+> 💡 Please chech [Template](/CPP_Theory/13_Templates.md) for theory background on this subject.💡
 
-## Key concepts for evaluation 
+## ⚠️ Key concepts for evaluation 
 
 1. What is a template?
 2. Why it avoids duplication?
@@ -50,7 +50,7 @@ You must implement the following function templates:
 
 ---
 
-## WORKFLOW
+## ⚙️ WORKFLOW
 
 1. Create  `whatever.hpp` 
 2. Create the 3 function templates
