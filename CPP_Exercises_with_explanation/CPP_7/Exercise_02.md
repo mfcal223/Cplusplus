@@ -65,10 +65,10 @@ Consider this crucial instruction:
 ```c++
 this->_data = other._data;
 ```
+Doing that will only make 2 objects reference the same HEAP location. Modifying "only 1" will lead to undefined or disasterous situations.
+To avoid that, a `deep` copy needs to be done, where the object is not just copied but allocates a similar memory size where the elements are copied dynamically (same mem size, same values but different location). 
 
-`The deep copy needs to allocate new memory and copy each element.`  
-The thing is the type is unknown and the size is dynamic.  
-The use of `operator new[]` is mandatory. It should have a `matching delete[]`.
+As `the deep copy needs to allocate new memory and copy each element.` BUT the type is unknown and the size is dynamic, then the use of `operator new[]` is mandatory. It should have a `matching delete[]`.
 
 3. **size() and const-correctness**
 
