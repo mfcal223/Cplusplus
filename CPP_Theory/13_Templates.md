@@ -14,7 +14,7 @@ return_type function_name(T parameter) {
 } 
 ```
 `T` is a placeholder for a data type (like int, float, etc.).  
-You can use any name instead of T, but T is common. The compiler replaces T with the actual type when the function is used.   
+You can use any name instead of `T`, but T is common. The compiler replaces T with the actual type when the function is used.   
 
 ## Function Templates 
 Templates allow us to write generic code for functions that can be used with different data types, and this can be achieved by `function templates`. For example, we can write a function that adds or that gives you the maximum of two numbers, but it can accept any number whether it is int, float, or double.
@@ -70,6 +70,10 @@ int main () {
 [W3Schools - Templates](https://www.w3schools.com/cpp/cpp_templates.asp)  
 [Cplusplus - Templates](https://cplusplus.com/doc/oldtutorial/templates/)  
 [Compile-Time Polymorphism](https://aticleworld.com/compile-time-polymorphism-with-templates-in-cplusplus/)
+
+---
+
+**BACK TO** [CPP 7 - ex00 - Function templates ](/CPP_Exercises_with_explanation/CPP_7/Exercise_00.md) 
 
 ---   
 🔝 [TOP OF PAGE](#templates)  

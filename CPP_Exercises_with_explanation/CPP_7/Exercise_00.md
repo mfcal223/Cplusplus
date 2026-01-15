@@ -39,7 +39,7 @@ You must implement the following function templates:
 
 ---
 
-> 💡 Please chech [Template](/CPP_Theory/13_Templates.md) for theory background on this subject.💡
+> 💡 Please check [Template](/CPP_Theory/13_Templates.md) for theory background on this subject.💡
 
 ## ⚠️ Key concepts for evaluation 
 
