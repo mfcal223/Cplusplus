@@ -32,6 +32,11 @@ This repository contains **theory notes** and **detailed explanations** of some 
 - [11_Exceptions](CPP_Theory/11_Exceptions.md)
 - [12_Serialization](CPP_Theory/12_Serialization.md)
 - [13_Templates](CPP_Theory/13_Templates.md)
+- [14_Templates](CPP_Theory/13_Templates.md)
+- [15_STL - Standard Template Library](CPP_Theory/14_STL.md)
+    - Containers
+    - Algorithm
+    - Iterators
 
 ---
 
@@ -86,13 +91,20 @@ There will be no actual, completed code on this section (it is part of a differe
 - [Exercises_5_03.md](CPP_Exercises_with_explanation/CPP_5/Exercise_03.md)
 
 #### 📂 [CPP 6](CPP_Exercises_with_explanation/CPP_6)
-- [Exercises_6_00.md](CPP_Exercises_with_explanation/CPP_6/Exercise_00.md)
-- [Exercises_6_01.md](CPP_Exercises_with_explanation/CPP_6/Exercise_01.md)
+- [Exercises_6_00.md](/CPP_Exercises_with_explanation/CPP_6/Exercise_00.md)
+- [Exercises_6_01.md](/CPP_Exercises_with_explanation/CPP_6/Exercise_01.md)
 - [Exercise 02 - RTTI with dynamic cast](/CPP_Exercises_with_explanation/CPP_6/Exercise_02.md)
 
 #### 📂 [CPP 7](CPP_Exercises_with_explanation/CPP_7)
-- [Exercise 00 - Templates ](CPP_Exercises_with_explanation/CPP_7/Exercises_00.md)
-- [Exercise 01 - Function Templates & Const-correctness](/CPP_Exercises_with_explanation/CPP_7/Exercise_01.md) 
+- [Exercise 00 - Templates ](/CPP_Exercises_with_explanation/CPP_7/Exercise_00.md)
+- [Exercise 01 - Function Templates & Const-correctness](/CPP_Exercises_with_explanation/CPP_7/Exercise_01.md)
+- [Exercise 02 - Class Template & const-correctness](CPP_Exercises_with_explanation/CPP_7/Exercise_02.md)
+
+#### 📂 [CPP 8](CPP_Exercises_with_explanation/CPP_8)
+- [Exercise 00 - Containers](CPP_Exercises_with_explanation/CPP_8/Exercise_00.md)
+
+
+
 ---
  
    

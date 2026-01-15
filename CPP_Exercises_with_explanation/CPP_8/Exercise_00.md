@@ -1,6 +1,6 @@
-# C++ Module 08 - Containers
+# C++ Module 08 - Containers and resizing
 
-- [C++ Module 08 - Containers](#c-module-08---containers)
+- [C++ Module 08 - Containers and resizing](#c-module-08---containers-and-resizing)
   - [TASK](#task)
   - [Goal Explanation : std::find()](#goal-explanation--stdfind)
   - [Creating Containers and adding elements](#creating-containers-and-adding-elements)
