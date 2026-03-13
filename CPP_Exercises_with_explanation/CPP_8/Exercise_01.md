@@ -50,7 +50,7 @@ This exercise is not primarily about computing distances between numbers.
 Its real purpose is to introduce how modern C++ code is designed around the Standard Template Library (STL), and more specifically around iterators and generic algorithms.  
 
 1️⃣ **Containers are implementation details, not contracts**
-Internally, `Span` stores numbers using a specific STL container (typically std::vector).
+Internally, `Span` stores numbers using a specific STL container (typically `std::vector`).
 However, *the public interface of the class must not depend on that choice*.  
 
 This is why the exercise encourages inserting elements using iterator ranges instead of container-specific functions.  
@@ -76,11 +76,6 @@ By guiding the student toward sorting and range-based algorithms, the exercise t
 - choosing appropriate STL tools.  
 - writing clearer and more expressive code.  
 
----
-
-## Why is my example only using vector and avoiding list or deque?
-Span internally uses a vector because we need efficient sorting and random access.
-The range-insertion function accepts generic iterators, which allows the user to insert data coming from any STL container without coupling Span to a specific container type
 
 ---
 
@@ -89,8 +84,8 @@ The range-insertion function accepts generic iterators, which allows the user to
 1. Create Span.hpp and Span.cpp
 2. Create OCF for Span, including 1 constructor that receives an uint as parameter.
 3. Internally, the object tracks:
-* _maxSize (capacity limit)
-* _numbers (stored integers)
+* _maxSize (capacity limit) --> type uint
+* _numbers (stored integers)  --> `vector`
 4. Fill the Span
 * Single insertion with addNumber(int)
       * Pushes one value into _numbers
@@ -122,3 +117,54 @@ The range-insertion function accepts generic iterators, which allows the user to
     * Range overflow: inserting a range larger than capacity throws (current behavior: partial insert may have happened before the throw)
 * Large dataset / performance sanity: insert 10,000 random values (compute both spans without printing all elements)
 
+---
+
+### Some interesting points about this design
+
+1️⃣ **Why vector is the best internal choice for SPAN class?**  
+Because the algorithm requires sorting and random access.  
+There is a performance reason, as `std::vector` provides contiguous storage and better cache locality, making sorting more efficient than with a linked list (list requires its own method: list.sort()). So for numerical data processing it is usually the best choice.
+
+So, your program starts with any container... But the SPAN object works with a `vector`.
+```
+external container (vector/list/deque)
+            ↓
+        iterators
+            ↓
+        addRange()
+            ↓
+     stored in Span::_numbers (vector)
+```
+
+2️⃣ **Why do you need sorting a copy of the span to compute the shortest span?**  
+The shortest difference between any two numbers must occur between two adjacent values once the numbers are sorted. Elements need to be adjacent.  
+Sorting reduces the problem from comparing every pair O(n²) to sorting once and scanning O(n log n).
+The `copy` is sort for the simple reason that the function is `const` and should not modify the internal container. Sorting the original vector would change the stored order and violate the expected behavior of a read-only method.  
+
+3️⃣ **Why does addRange() use iterators instead of accepting a vector?**  
+As discussed above, using a "normal" function would limit the container you should use.
+```
+void addRange(std::vector<int> &v);
+```
+This only accepts vectors.
+
+But with iterators, it can work with any container (vector, list, deque, set, array,..) 
+```
+std::sort(begin, end)
+std::find(begin, end, value)
+std::copy(begin, end, dest)
+```
+They operate on `ranges`, not containers.
+
+`Using iterator ranges makes the function generic and container-independent.`
+
+---
+
+## Summary
+
+The goal of this exercise is to practice working with STL containers, iterators, and algorithms.  
+The `Span` class stores up to `N` integers using a `std::vector`.  
+Numbers can be added individually with `addNumber()` or in bulk using an `iterator range with addRange()`, which allows inserting values from any STL container like list or deque.  
+To compute the spans, `shortestSpan()` sorts a copy of the stored values and checks adjacent differences, while `longestSpan()` computes the difference between the minimum and maximum values.  
+The class throws `exceptions` when trying to insert more than the capacity or when computing spans with fewer than two elements.
+I also `tested edge cases` such as duplicates, negative numbers, overflow attempts, iterator insertion, and a stress test with 10,000 numbers.
