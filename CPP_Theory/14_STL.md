@@ -8,6 +8,7 @@
     - [Comparison between different containers](#comparison-between-different-containers)
   - [Algorithms](#algorithms)
   - [Iterators](#iterators)
+- [Choosing the right container](#choosing-the-right-container)
   - [Sources](#sources)
 
 STL is a collection of pre-built classes and functions that make it easy to manage data using common data structures like vectors, stacks, and maps. It saves time and effort by providing ready-to-use, efficient algorithms and containers.
@@ -155,21 +156,33 @@ On the other hand, you can insert and remove items anywhere in a `list` efficien
 ## Algorithms
 STL algorithms offer a wide range of functions to perform common operations on data (mainly containers). These functions implement the most efficient version of the algorithm for tasks such as sorting, searching, modifying and manipulating data in containers, etc. All STL algorithms are defined inside the <algorithm> and <numeric> header file. Some of the most frequently used algorithms are:
 
-Sort : Arranges elements in ascending order (default).
-Binary Search : Checks whether a value exists in a sorted range.
-Find : Searches for the first occurrence of a given value.
-Count : Counts how many times a value appears in the given range.
-Reverse : Reverses the order of elements in the given range.
-Accumulate : Computes the sum of all elements in the range.
-Unique : Removes consecutive duplicate elements.
-Lower bound : Returns iterator to the first element ≥ value in a sorted range.
-Upper bound : Returns iterator to the first element > value in a sorted range.
-Replace : Replaces all occurrences of old value with new value in the given range.
+`Sort` : Arranges elements in ascending order (default).
+`Binary Search` : Checks whether a value exists in a sorted range.
+`Find` : Searches for the first occurrence of a given value.
+`Count` : Counts how many times a value appears in the given range.
+`Reverse` : Reverses the order of elements in the given range.
+`Accumulate` : Computes the sum of all elements in the range.
+`Unique` : Removes consecutive duplicate elements.
+`Lower bound` : Returns iterator to the first element ≥ value in a sorted range.
+`Upper bound` : Returns iterator to the first element > value in a sorted range.
+`Replace` : Replaces all occurrences of old value with new value in the given range.
 
 ---
 
 ## Iterators
 Iterators are the pointer like objects that are used to point to the memory addresses of STL containers. They are one of the most important components that contributes the most in connecting the STL algorithms with the containers. Iterators are defined inside the <iterator> header file.
+
+---
+
+# Choosing the right container
+
+When in need of a container, it is necessary to consider these questions"
+Do I need fast ordered lookup by key?
+Do I need push/pop behavior?
+Do I need sequential storage?
+Do I need two containers to compare behavior/performance?
+
+
 
 ---
 ## Sources
