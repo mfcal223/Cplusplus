@@ -69,7 +69,7 @@ When adapting the test to another container, use the appropriate member function
 
 ## Educational Goal
 
-This exercise is mainly about understanding that std::stack is not a real standalone container. It is a `container adapter` that uses another container internally but it exposes only a restricted interface: instead of giving you full access to the stored data, it only lets you interact with it in a stack-shaped way:
+This exercise is mainly about understanding that `std::stack` is not a real standalone container. It is a `container adapter` that uses another container internally but it exposes only a restricted interface: instead of giving you full access to the stored data, it only lets you interact with it in a stack-shaped way:
 1. push at the top  
 2. pop from the top  
 3. read the top  
@@ -99,3 +99,52 @@ That is why MutantStack remains:
 
 ## Important NOTE
 Because MutantStack is a template class, its implementation must be visible in the header at compile time. That is why declarations go in `.hpp` and definitions in `MutantStack.tpp`, included at the end of the header.  
+
+---
+
+## Notes regarding building the class template
+
+A stack needs:
+* Fast insertion/removal at one end (LIFO)  
+* No need for random access  
+* No need for insertion in the middle  
+
+These factors are important to define which container will be the inside the stack (container adapter) which needs an underlying container that supports:
+- push_back()
+- pop_back()
+- back()  
+
+`std::deque` is chosen because it provides stable and efficient insertion/removal at the back without the reallocation cost of `vector`, while being more memory-efficient and cache-friendly than `std::list`. It satisfies all requirements of a stack with stable performance.
+
+At the beginning of the template definition, there should be a default container type defined as default 
+```cpp
+template <typename T, typename Container = std::deque<T> >
+```
+
+This is providing a default container == `deque`. 
+If the type of container is not specify in main() (or other function), the class will use deque because the class INHERITS from stack,
+So the Container MUST be compatible with:
+- push_back
+- pop_back
+- back
+If there is nothing set as default, and main tries to use a container not compatible, it will fail at compile time.
+
+An example to ilustrate this idea:  
+```cpp
+template <typename Drink = Coffee>
+👉 If you don’t choose → you get coffee
+👉 But you can still order tea 😄
+```
+
+To show that the template can support other data types, I have added a test that uses `std::string` and program compiles.
+You can try using 
+```cpp
+MutantStack<int, std::set<int> > s;
+```
+And see what happens...
+
+<details><summary> Spolier </summary>
+
+`std::set` doesn’t support those operations.
+Program will fail at compile time.
+</details>

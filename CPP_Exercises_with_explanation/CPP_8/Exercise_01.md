@@ -47,7 +47,7 @@ $>
 ## What is this exercise teaching ?
 
 This exercise is not primarily about computing distances between numbers.   
-Its real purpose is to introduce how modern C++ code is designed around the Standard Template Library (STL), and more specifically around iterators and generic algorithms.  
+Its real purpose is to introduce how modern C++ code is designed around the Standard Template Library (STL), and more specifically around `iterators` and generic `algorithms`.  
 
 1️⃣ **Containers are implementation details, not contracts**
 Internally, `Span` stores numbers using a specific STL container (typically `std::vector`).
@@ -167,4 +167,4 @@ The `Span` class stores up to `N` integers using a `std::vector`.
 Numbers can be added individually with `addNumber()` or in bulk using an `iterator range with addRange()`, which allows inserting values from any STL container like list or deque.  
 To compute the spans, `shortestSpan()` sorts a copy of the stored values and checks adjacent differences, while `longestSpan()` computes the difference between the minimum and maximum values.  
 The class throws `exceptions` when trying to insert more than the capacity or when computing spans with fewer than two elements.
-I also `tested edge cases` such as duplicates, negative numbers, overflow attempts, iterator insertion, and a stress test with 10,000 numbers.
+Some `tested edge cases` have been added to main.cpp, such as duplicates, negative numbers, overflow attempts, iterator insertion, and a stress test with 10,000 numbers.

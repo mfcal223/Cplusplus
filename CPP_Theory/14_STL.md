@@ -76,7 +76,7 @@ int main()
 }
 ```
 
-When it runs out of space, it has to allocate a bigger block, copy elements there and free the old block.  
+When it runs out of space, it has to *allocate a bigger block*, copy elements there and free the old block.  
 
 ---
 
@@ -99,7 +99,8 @@ int main()
 }
 ```
 
-Random access is slightly slower than std::vector due to the segmented memory layout. Insertions or deletions in the middle are still relatively expensive.  
+Random access is slightly slower than `std::vector` due to the segmented memory layout.  
+Insertions or deletions in the middle are still relatively expensive.  
 
 ---
 
@@ -146,7 +147,7 @@ Choosing the right sequence container depends on your application's performance 
 `deque` and `vector` provide random access, `list` provides only linear accesses. So if you need to be able to do container[i], that rules out `list`.  
 On the other hand, you can insert and remove items anywhere in a `list` efficiently, and operations in the middle of `vector` and `deque` are slow.  
 
-`deque` and `vector` are very similar, and are basically interchangeable for most purposes. There are only two differences worth mentioning. **First**, `vector` can only efficiently add new items at the end, while `deque` can add items at either end efficiently. *So why would you ever use a vector then?* Unlike `deque`, `vector` guarantee that all items will be stored in contiguous memory locations, which makes iterating through them faster in some situations.
+`deque` and `vector` are very similar, and are basically interchangeable for most purposes. There is a difference worth mentioning: `vector` can only efficiently add new items at the end, while `deque` can add items at either end efficiently. *So why would you ever use a vector then?* Unlike `deque`, `vector` guarantee that all items will be stored in contiguous memory locations, which makes iterating through them faster in some situations.
 
 > Rule of thumb:  
 > If no strong reason → use std::vector
