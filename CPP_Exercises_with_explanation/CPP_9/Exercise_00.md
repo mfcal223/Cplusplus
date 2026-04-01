@@ -74,6 +74,8 @@ Create BitcoinExchange class that includes
         - get rate for date
     - Method to print specific errors
 
+----
+
 ### Step 1: Understand the two files
 
 You have two inputs:
@@ -109,6 +111,8 @@ Why this is such a good fit:
 - dates written as YYYY-MM-DD sort correctly as strings
 - you can efficiently find exact matches and nearest lower dates
 
+---
+
 ### Step 3: Load the CSV database first
 
 You need a function that:
@@ -128,6 +132,10 @@ db["2011-01-03"] = 0.3
 
 This create the searchable historical database.
 
+Consider using helper functions to trim spaces or any other parsing dependency.
+
+---
+
 ### Step 4: Open the input file given as argument
 
 The program name must be `btc`, and it must take a file as argument. 
@@ -140,244 +148,180 @@ So your main() should first check:
 ### Step 5: Read the input file line by line
 
 Each line is expected to look like:
-
+```
 date | value
+```
 
-Usually the first line is a header such as:
+Usually the first line is a header such as that, and it can be skipped if it matches exactly.
 
-date | value
+For every other line:  
+1. parse it  
+2. validate it  
+3. compute if valid  
+4. print error if invalid  
 
-You can skip that header if it matches exactly.
 
-For every other line:
 
-parse it
+### Step 6: Validate the line format
 
-validate it
+Before thinking about dates and numbers, first check the structure itself.  
 
-compute if valid
+You need to verify that the line contains:  
+- a date part  
+- the separator `|`  
+- a value part  
 
-print error if invalid
+Typical malformed examples:  
+`2001-42-42`  
+`2011-01-03|3` if your parser requires spaces strictly  
+`2011-01-03 |`   
+`| 42`   
 
-Step 6: Validate the line format
+For malformed input, the program should print an error: `Error: bad input => ...`  
 
-Before thinking about dates and numbers, first check the structure itself.
+#### Step 7: Validate the date  
+Check:    
+* length is 10    
+* positions 4 and 7 are `-`  
+* year/month/day are numeric  
+* month is 1 to 12  
+* day is valid for that month  
+* February must respect leap years  
 
-You need to verify that the line contains:
+> 💡 the subject says a valid date is in format `Year-Month-Day`, but for robust evaluation it should validate the actual calendar too, not just the shape.  
 
-a date part
+Examples:  
+`valid: 2011-01-03`  
+`invalid: 2001-42-42`  
+`invalid: 2011-02-30`  
 
-the separator `|`
+Because `YYYY-MM-DD` is lexicographically sortable, there is no need to convert dates into integers to use them as ordered keys. For this specific subject, storing dates as strings is often the cleanest solution.  
 
-a value part
-
-Typical malformed examples:
-
-`2001-42-42`
-
-`2011-01-03|3` if your parser requires spaces strictly
-
-`2011-01-03 |`
-
-`| 42`
-
-For malformed input, print something like the subject example:
-
-`Error: bad input => ...`
-Step 7: Validate the date
-
-A date is not valid just because it “looks like” YYYY-MM-DD.
-
-You should check at least:
-
-length is 10
-
-positions 4 and 7 are -
-
-year/month/day are numeric
-
-month is 1 to 12
-
-day is valid for that month
-
-February must respect leap years
-
-Important detail:
-the subject says a valid date is in format Year-Month-Day, but for robust evaluation you should validate the actual calendar too, not just the shape.
-
-Examples:
-
-valid: 2011-01-03
-
-invalid: 2001-42-42
-
-invalid: 2011-02-30
-
-Step 8: Validate the value
+### Step 8: Validate the value
 
 The value must be:
+* a float or positive integer  
+* between 0 and 1000 inclusive  
 
-a float or positive integer
+So the programm should reject:   
+- negative values  
+- values larger than 1000  
+- malformed numbers  
+- empty value  
 
-between 0 and 1000 inclusive
+Typical error policy from subject examples:  
+* negative -> `Error: not a positive number.`  
+* too large -> `Error: too large a number.`  
 
-So you should reject:
-
-negative values
-
-values larger than 1000
-
-malformed numbers
-
-empty value
-
-Typical error policy from subject examples:
-
-negative -> Error: not a positive number.
-
-too large -> Error: too large a number.
-
-Also be careful with conversion:
-in C++98, common choices are std::stringstream or C functions, but since you’re in C++ land and want cleaner style, std::stringstream fits well.
-
-Step 9: Find the exchange rate
-
-This is the most important algorithmic step.
-
-You have a validated date from the input file.
+### Step 9: Find the exchange rate
 
 There are two cases:
-
-Case 1: exact date exists
-
+* Case 1: exact date exists
 Use that rate directly.
-
-Case 2: exact date does not exist
-
+* Case 2: exact date does not exist
 Use the closest lower date, never the upper one. The subject is very explicit about that.
 
-With a sorted container like std::map, this becomes manageable.
-
 Conceptually:
-
-ask the map for the first key that is not less than the input date
-
-if it matches exactly, use it
-
-otherwise move one step back to get the previous date
-
-if there is no previous date, that means the input date is earlier than the whole database, so that should be treated as an error or handled safely
+- ask the map for the first key that is not less than the input date  
+- if it matches exactly, use it  
+- otherwise move one step back to get the previous date  
+- if there is no previous date, that means the input date is earlier than the whole database, so that should be treated as an error or handled safely
 
 This is the core reason std::map is so suitable here.
 
-Step 10: Compute and print
-
-Once you have:
-
-valid date
-
-valid numeric value
-
-matching exchange rate
+### Step 10: Compute and print
+Once you have:  
+- valid date
+- valid numeric value
+- matching exchange rate
 
 you do:
-
+```
 result = value * rate
-
+```
 and print:
-
+```
 date => value = result
-
+```
 as in the subject examples.
 
-Step 11: Keep processing even if one line is bad
+### Step 11: Keep processing even if one line is bad
 
 Very important behavior:
 one bad line should not kill the whole program.
 
 For each line:
-
 either print the computed result
-
 or print the relevant error
-
 then continue to the next line.
 
 That is exactly how the example output behaves.
 
+---
+
+### Suggested edge cases to test
+1. File handling
+      1. no argument
+      2. wrong filename
+      3. empty file
+
+2. Header / format
+      1. correct header  
+      2. wrong header  
+      3. missing |
+
+3. Date validation
+      1. valid exact date  
+      2. valid date not in DB, but lower date exists  
+      3. date earlier than first DB entry  
+      4. invalid month  
+      5. invalid day  
+      6. leap year and non-leap year cases
+
+4. Value validation  
+      1. integer  
+      2. float  
+      3. 0  
+      4. 1000  
+      5. negative value  
+      6. value > 1000  
+      7. malformed numeric text
+
+5. Behavior
+      1. several valid lines  
+      2. one bad line in the middle of good lines  
+      3. spaces around date/value
 
 ---
 
-Suggested edge cases to test
+## Libraries and utilities used in MY code
 
-You did not ask for tests yet, but these are the ones I would absolutely prepare:
+### ifstream
+`input file stream` --> object used to read from files.
 
-File handling
+> `std::cin` reads from keyboard input. `std::ifstream` reads from a file
 
-no argument
+ifstream commonly expects `const char *` string. Therefore, it becomes mandatory to use `c_str()` to provide the correct argument (considering we need to use C++98). 
 
-wrong filename
+For example:
+```
+std::string name = "data.csv";
+name.c_str();
+```
+Returns :
+```
+"data.csv"
+```
 
-empty file
+### stringstream
 
-Header / format
+This is used to convert text into numeric values.  
 
-correct header
+`string rateStr = "0.3";` >>>> `double rate = 0.3;`
+```
+ss.str(rateStr);
+ss >> rate;
+```
+load the string "0.3" into the stream, then extract a double from it  
 
-wrong header
-
-missing |
-
-Date validation
-
-valid exact date
-
-valid date not in DB, but lower date exists
-
-date earlier than first DB entry
-
-invalid month
-
-invalid day
-
-leap year and non-leap year cases
-
-Value validation
-
-integer
-
-float
-
-0
-
-1000
-
-negative value
-
-value > 1000
-
-malformed numeric text
-
-Behavior
-
-several valid lines
-
-one bad line in the middle of good lines
-
-spaces around date/value
-
-Common mistakes students make in this exercise
-
-The usual traps are:
-
-using an unordered structure, which makes nearest-lower lookup awkward
-
-validating only the format YYYY-MM-DD but not real calendar correctness
-
-crashing on malformed input
-
-using the next higher date instead of the previous lower one
-
-stopping the whole program after the first bad line
-
-mixing parsing, validation, and printing in one giant function
+### std::string::size_type  
