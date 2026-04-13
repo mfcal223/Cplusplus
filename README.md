@@ -102,7 +102,13 @@ There will be no actual, completed code on this section (it is part of a differe
 
 #### 📂 [CPP 8](CPP_Exercises_with_explanation/CPP_8)
 - [Exercise 00 - Containers](CPP_Exercises_with_explanation/CPP_8/Exercise_00.md)
+- [Exercise 01 - Distance](CPP_Exercises_with_explanation/CPP_8/Exercise_01.md)
+- [Exercise 02 - Container Adapter](CPP_Exercises_with_explanation/CPP_8/Exercise_02.md)
 
+#### 📂 [CPP 9](CPP_Exercises_with_explanation/CPP_9)
+- [Exercise 00 - Bitcoin Exchange](CPP_Exercises_with_explanation/CPP_9/Exercise_00.md)
+- [Exercise 01 - Reverse Polish Notation](CPP_Exercises_with_explanation/CPP_9/Exercise_01.md)
+- [Exercise 02 - Ford-Johnson algorithm + Jacobsthal sequence + Binary search](CPP_Exercises_with_explanation/CPP_9/Exercise_02 .md)
 
 
 ---

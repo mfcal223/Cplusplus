@@ -279,7 +279,7 @@ mid = (0 + 3) / 2 = 1
 value at mid = [1] = 22
 
 Compare: 75 > 22 → go right
----
+
 ```
 
 3. Compare again
